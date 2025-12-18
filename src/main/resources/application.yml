@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: MyAsset
+
+  profiles:
+    active: local # local / prod
+
+  config:
+    import:
+      - application-security.yml
+      - application-jwt.yml
+      - application-db.yml
+
+  #redis
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
+
+
