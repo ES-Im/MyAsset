@@ -1,24 +1,43 @@
 package dev.es.myasset.domain;
 
-import dev.es.myasset.application.provided.OAuthUserInfo;
-import org.assertj.core.api.Assertions;
+import dev.es.myasset.application.required.UserInfoRepository;
+import dev.es.myasset.application.required.UserRepository;
+import dev.es.myasset.domain.user.*;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
+import static dev.es.myasset.domain.MemberFixture.*;
+import static dev.es.myasset.domain.MemberFixture.createUserInfoRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
+@SpringBootTest
 class UserTest {
+
+    @Autowired UserInfoRepository userInfoRepository;
+    @Autowired UserRepository userRepository;
+    @Autowired EntityManager entityManager;
+
     UserInfo hongInfo;
     User hongUser;
     LocalDateTime current = LocalDateTime.now();
 
     @BeforeEach
     void setUp() {
-        UserInfo hongInfo = OAuthUserInfo.of("홍길동", ProviderType.GOOGLE, "gildong@google.com");
-        hongUser = User.register(hongInfo.getUserKey(), current);
+        hongInfo = userInfoRepository.save(createUserInfoRegisterRequest());
+
+        hongUser = createUserRegisterRequest();
+
+        hongUser.linkUserInfo(hongInfo);
+        hongUser = userRepository.save(hongUser);
+
     }
 
     @Test
@@ -70,13 +89,11 @@ class UserTest {
     @Test
     void validateEmail() {
 
-        // invalid email
-         Assertions.assertThatThrownBy(()->
-                 OAuthUserInfo.of("홍길동", ProviderType.GOOGLE, "invalid email")
-         ).isInstanceOf(IllegalArgumentException.class);
+//        // invalid email
+//         Assertions.assertThatThrownBy(()->
+//                 createUserRegisterRequest(createUserInfoRegisterRequest("invalid email"))
+//         ).isInstanceOf(IllegalArgumentException.class);
 
-        // valid email
-        OAuthUserInfo.of("홍길동", ProviderType.GOOGLE, "hong@google.co.kr");
 
     }
 

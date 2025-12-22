@@ -13,6 +13,7 @@ spring:
       - application-security.yml
       - application-jwt.yml
       - application-db.yml
+      - env.yml
 
   #redis
   data:

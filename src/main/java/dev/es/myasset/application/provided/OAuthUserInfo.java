@@ -1,39 +1,24 @@
 package dev.es.myasset.application.provided;
 
-import dev.es.myasset.domain.ProviderType;
-import dev.es.myasset.domain.UserInfo;
-
-import java.util.UUID;
-import java.util.regex.Pattern;
+import dev.es.myasset.domain.user.ProviderType;
+import dev.es.myasset.domain.user.UserInfo;
 
 import static java.util.Objects.*;
 
-// interface -> kakao, google, naver -> UserInfo DTO -> UserInfo & User
-public record OAuthUserInfo(
-        String userKey,
+// 소셜 서버로부터 전달받는 회원 정보 데이터를 매핑하기 위한 DTO
+public record OAuthUserInfo (
         String username,
         ProviderType providerType,
         String email
 ) {
     public static UserInfo of(String username,
-                                           ProviderType providerType,
-                                           String email) {
-
-        validateEmail(email);
+                           ProviderType providerType,
+                           String email) {
 
         return UserInfo.registerFromOAuth(
-                UUID.randomUUID().toString(),
-                requireNonNull(username),
-                requireNonNull(providerType),
-                requireNonNull(email)
+                            requireNonNull(username),
+                            requireNonNull(providerType),
+                            requireNonNull(email)
         );
-    }
-
-    private static void validateEmail(String email) {
-        Pattern EMAIL_PATTERN =
-                Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
-        if(!EMAIL_PATTERN.matcher(email).matches()) {
-            throw new IllegalArgumentException("invalid email");
-        }
     }
 }

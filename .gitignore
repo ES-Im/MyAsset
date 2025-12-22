@@ -38,3 +38,4 @@ out/
 
 # Configuration variables
 .env
+/src/main/resources/env.yml
