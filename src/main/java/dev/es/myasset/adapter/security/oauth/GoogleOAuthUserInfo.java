@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.oauth;
+package dev.es.myasset.adapter.security.oauth;
 
 import dev.es.myasset.application.required.OAuth2UserInfo;
 
@@ -8,7 +8,7 @@ public record GoogleOAuthUserInfo(
     Map<String, Object> attribute
 ) implements OAuth2UserInfo {
     @Override
-    public String getProvider() {
+    public String getProviderType() {
         return "GOOGLE";
     }
 
@@ -23,7 +23,7 @@ public record GoogleOAuthUserInfo(
     }
 
     @Override
-    public String getName() {
+    public String getUsername() {
         return this.attribute.get("name").toString();
     }
 }

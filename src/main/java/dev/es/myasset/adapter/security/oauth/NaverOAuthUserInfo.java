@@ -1,8 +1,6 @@
-package dev.es.myasset.adapter.oauth;
+package dev.es.myasset.adapter.security.oauth;
 
 import dev.es.myasset.application.required.OAuth2UserInfo;
-import dev.es.myasset.domain.shared.Email;
-import dev.es.myasset.domain.user.ProviderType;
 
 import java.util.Map;
 
@@ -10,7 +8,7 @@ public record NaverOAuthUserInfo(
     Map<String, Object> attribute
 ) implements OAuth2UserInfo {
     @Override
-    public String getProvider() {
+    public String getProviderType() {
         return "NAVER";
     }
 
@@ -25,7 +23,7 @@ public record NaverOAuthUserInfo(
     }
 
     @Override
-    public String getName() {
+    public String getUsername() {
         return ((Map<String, Object>) attribute.get("response")).get("name").toString();
     }
 }

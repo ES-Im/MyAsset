@@ -6,17 +6,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NaturalIdCache;
 
 import java.util.UUID;
+
+import static java.util.Objects.*;
 
 @Entity
 @Table
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@NaturalIdCache
 public class UserInfo {
 
     @Id
@@ -33,15 +32,17 @@ public class UserInfo {
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
 
-    public static UserInfo registerFromOAuth(String username,
-                                             ProviderType providerType,
-                                             String email) {
+    public static UserInfo registerUserInfo(String providerType,
+                                            String providerId,
+                                            String email,
+                                            String username) {
         UserInfo userInfo = new UserInfo();
 
         userInfo.userKey = UUID.randomUUID().toString();
-        userInfo.username = username;
-        userInfo.providerType = providerType;
+        userInfo.providerType = requireNonNull(ProviderType.from(providerType));
+        userInfo.providerId = requireNonNull(providerId);
         userInfo.email = new Email(email);
+        userInfo.username = requireNonNull(username);
 
         return userInfo;
     }

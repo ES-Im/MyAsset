@@ -1,8 +1,8 @@
 package dev.es.myasset.application.required;
 
 public interface OAuth2UserInfo {
-    String getProvider();
+    String getProviderType();
     String getProviderId();
     String getEmail();
-    String getName();
+    String getUsername();
 }

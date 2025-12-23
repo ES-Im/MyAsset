@@ -1,7 +1,6 @@
 package dev.es.myasset.application.required;
 
 import dev.es.myasset.domain.user.User;
-import dev.es.myasset.domain.user.UserInfo;
 import org.springframework.data.repository.Repository;
 
 /*
@@ -13,4 +12,5 @@ public interface UserRepository extends Repository<User, String> {
 
     User findById(String userKey);
 
+    User findByProviderId(String providedId);
 }

@@ -1,7 +1,8 @@
 package dev.es.myasset.application.provided;
 
+import dev.es.myasset.adapter.security.oauth.GoogleOAuthUserInfo;
 import dev.es.myasset.application.UserService;
-import dev.es.myasset.application.required.OAuthUserInfo;
+import dev.es.myasset.application.required.OAuth2UserInfo;
 import dev.es.myasset.application.required.UserRepository;
 import dev.es.myasset.domain.user.*;
 import jakarta.persistence.EntityManager;
@@ -10,6 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
@@ -26,10 +31,13 @@ class UserRegisterTest {
     @BeforeEach
     void register() {
         UserRegister register = new UserService(userRepository);
+        Map<String, Object> attribute =  new HashMap<>();
+        attribute.put("sub", "1231");
+        attribute.put("email", "kim@gmail.com");
+        attribute.put("name", "kim");
 
-        user = register.registerFromOAuth(
-                new OAuthUserInfo("yeongjin", ProviderType.NAVER, "meotjdayeonjinah@naver.com")
-        );
+        OAuth2UserInfo providedInfo = new GoogleOAuthUserInfo(attribute);
+        user = register.registerFromOAuth(providedInfo);
 
         System.out.println(user.toString());
 
