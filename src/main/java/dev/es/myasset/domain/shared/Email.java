@@ -1,11 +1,13 @@
 package dev.es.myasset.domain.shared;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.util.regex.Pattern;
 
 @Embeddable
 public record Email(
+        @Column(nullable = true, unique = true)
         String email
 ) {
 
@@ -13,7 +15,7 @@ public record Email(
             Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
 
     public Email {
-        if(!EMAIL_PATTERN.matcher(email).matches()) {
+        if(email != null && !EMAIL_PATTERN.matcher(email).matches()) {
             throw new IllegalArgumentException("invalid email");
         }
     }

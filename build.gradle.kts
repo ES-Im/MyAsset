@@ -50,7 +50,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // devtool
-    "developmentOnly"("org.springframework.boot:spring-boot-devtools")
+//    "developmentOnly"("org.springframework.boot:spring-boot-devtools")
 
 }
 

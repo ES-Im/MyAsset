@@ -1,5 +1,6 @@
 package dev.es.myasset.application.required;
 
+import dev.es.myasset.domain.shared.Email;
 import dev.es.myasset.domain.user.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -9,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static dev.es.myasset.domain.MemberFixture.*;
-import static dev.es.myasset.domain.MemberFixture.createUserInfoRegisterRequest;
+import static dev.es.myasset.domain.UserFixture.*;
+import static dev.es.myasset.domain.UserFixture.createUserInfoRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional

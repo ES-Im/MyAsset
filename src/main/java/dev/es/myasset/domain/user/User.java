@@ -18,10 +18,11 @@ import static org.springframework.util.Assert.*;
 public class User {
 
     @Id
+    @Column(name="user_key")
     private String userKey;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name="user_key")
     private UserInfo userInfo;
 

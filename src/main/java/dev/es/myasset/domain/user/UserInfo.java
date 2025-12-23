@@ -9,6 +9,8 @@ import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
+import java.util.UUID;
+
 @Entity
 @Table
 @Getter
@@ -17,13 +19,15 @@ import org.hibernate.annotations.NaturalIdCache;
 @NaturalIdCache
 public class UserInfo {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    @Column(name="user_key")
     private String userKey;
+
+    private String providerId;
 
     private String username;
 
     @Embedded
-    @NaturalId
     private Email email;
 
     @Enumerated(EnumType.STRING)
@@ -34,11 +38,20 @@ public class UserInfo {
                                              String email) {
         UserInfo userInfo = new UserInfo();
 
+        userInfo.userKey = UUID.randomUUID().toString();
         userInfo.username = username;
         userInfo.providerType = providerType;
         userInfo.email = new Email(email);
 
         return userInfo;
     }
+
+//    public static UserInfo nullifyUserInfo(UserInfo userInfo) {
+//        userInfo.username = null;
+//        userInfo.email = null;
+//        userInfo.providerType = null;
+//
+//        return  userInfo;
+//    }
 
 }

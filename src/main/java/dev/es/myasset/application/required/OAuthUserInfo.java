@@ -1,4 +1,4 @@
-package dev.es.myasset.application.provided;
+package dev.es.myasset.application.required;
 
 import dev.es.myasset.domain.user.ProviderType;
 import dev.es.myasset.domain.user.UserInfo;
@@ -11,14 +11,12 @@ public record OAuthUserInfo (
         ProviderType providerType,
         String email
 ) {
-    public static UserInfo of(String username,
-                           ProviderType providerType,
-                           String email) {
+    public static UserInfo of(OAuthUserInfo oAuthUserInfo) {
 
         return UserInfo.registerFromOAuth(
-                            requireNonNull(username),
-                            requireNonNull(providerType),
-                            requireNonNull(email)
+                            requireNonNull(oAuthUserInfo.username),
+                            requireNonNull(oAuthUserInfo.providerType),
+                            requireNonNull(oAuthUserInfo.email)
         );
     }
 }

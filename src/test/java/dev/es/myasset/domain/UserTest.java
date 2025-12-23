@@ -13,8 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
-import static dev.es.myasset.domain.MemberFixture.*;
-import static dev.es.myasset.domain.MemberFixture.createUserInfoRegisterRequest;
+import static dev.es.myasset.domain.UserFixture.*;
+import static dev.es.myasset.domain.UserFixture.createUserInfoRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
@@ -86,16 +86,7 @@ class UserTest {
         assertThat(hongUser.getStatus()).isEqualTo(UserStatus.WITHDRAWN);
     }
     
-    @Test
-    void validateEmail() {
 
-//        // invalid email
-//         Assertions.assertThatThrownBy(()->
-//                 createUserRegisterRequest(createUserInfoRegisterRequest("invalid email"))
-//         ).isInstanceOf(IllegalArgumentException.class);
-
-
-    }
 
     // to-do : WITHDRAW_PENDING → USER, USERINFO 개인정보 물리적 삭제
 }
