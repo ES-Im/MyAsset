@@ -1,8 +1,8 @@
 package dev.es.myasset.adapter.security.token;
 
 
-import dev.es.myasset.adapter.security.exception.ExpiredRegisterTokenException;
-import dev.es.myasset.adapter.security.exception.InvalidTokenException;
+import dev.es.myasset.adapter.exception.oauth.ExpiredRegisterTokenException;
+import dev.es.myasset.adapter.exception.oauth.InvalidTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +45,10 @@ public class JwtTokenManager {
                 .setExpiration(expirationDate)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public void validateToken(String token) {
+        tokenParser(token);
     }
 
     public String getProviderTypeFromRegisterToken(String token) {

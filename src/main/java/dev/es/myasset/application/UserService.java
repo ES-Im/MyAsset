@@ -1,8 +1,9 @@
 package dev.es.myasset.application;
 
 import dev.es.myasset.application.provided.UserRegister;
-import dev.es.myasset.application.required.OAuth2UserInfo;
+import dev.es.myasset.application.required.RegisterTokenParser;
 import dev.es.myasset.application.required.UserRepository;
+import dev.es.myasset.adapter.exception.user.AgreementRequiredException;
 import dev.es.myasset.domain.user.User;
 import dev.es.myasset.domain.user.UserInfo;
 import jakarta.transaction.Transactional;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static dev.es.myasset.domain.user.UserInfo.registerUserInfo;
-
 @Slf4j
 @Transactional
 @Service
@@ -22,16 +21,17 @@ public class UserService implements UserRegister {
 
     private final UserRepository userRepository;
 
-
+    private final RegisterTokenParser registerTokenParser;
 
     @Override
-    public User registerFromOAuth(OAuth2UserInfo oAuthUserInfo) {
+    public User registerFromOAuth(String registerToken, boolean agreement) {
+        if(!agreement){
+            throw new AgreementRequiredException();
+        }
+
+        UserInfo userInfo = registerTokenParser.parse(registerToken);
 
         LocalDateTime now =  LocalDateTime.now();
-        UserInfo userInfo = registerUserInfo(oAuthUserInfo.getProviderType()
-                                , oAuthUserInfo.getProviderId()
-                                , oAuthUserInfo.getEmail()
-                                , oAuthUserInfo.getUsername());
 
         log.info("userKey = {}",  userInfo.getUserKey());
 
@@ -43,4 +43,5 @@ public class UserService implements UserRegister {
 
         return user;
     }
+
 }

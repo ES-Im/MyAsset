@@ -5,7 +5,6 @@ import dev.es.myasset.application.required.UserRepository;
 import dev.es.myasset.domain.user.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ class UserTest {
     User hongUser;
     LocalDateTime current = LocalDateTime.now();
 
-    @BeforeEach
+    @Test
     void setUp() {
         hongInfo = userInfoRepository.save(createUserInfoRegisterRequest());
 

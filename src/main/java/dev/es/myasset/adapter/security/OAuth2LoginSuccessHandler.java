@@ -36,7 +36,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private String REDIRECT_URI_BASE;
 
     private OAuth2UserInfo oAuth2UserInfo = null;
-    private JwtExpirationProperties expire = new JwtExpirationProperties();
+    private final JwtExpirationProperties expire = new JwtExpirationProperties();
     private final UserRepository userRepository;
     private final JwtTokenManager jwtTokenManager;
 
@@ -59,18 +59,24 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String username = oAuth2UserInfo.getUsername();
 
         User existUser = userRepository.findByProviderId(providerId);
+
         if(existUser == null){
             log.info("신규유저");
+
             String registerToken = jwtTokenManager.generateRegisterToken(providerType, providerId, email, username);
+
             JwtCookieManager.setCookie(response, "register_token", registerToken, (int) expire.registerTokenExpirationTimeToMillis()/1000);
+
             getRedirectStrategy().sendRedirect(request, response, REDIRECT_URI_ONBOARDING);
         } else {
             log.info("기존유저");
+
             String accessToken = jwtTokenManager.generateRegisterToken(providerType, providerId, email, username);
             String refreshToken = jwtTokenManager.generateRegisterToken(providerType, providerId, email, username);
 
             JwtCookieManager.setCookie(response, "access_token", accessToken, (int) (expire.accessTokenExpirationTimeToMillis() * 1.5) /1000);
             JwtCookieManager.setCookie(response, "refresh_token", refreshToken, (int) expire.refreshTokenExpirationTimeToMillis()/1000);
+
             getRedirectStrategy().sendRedirect(request, response, REDIRECT_URI_BASE);
         }
 
