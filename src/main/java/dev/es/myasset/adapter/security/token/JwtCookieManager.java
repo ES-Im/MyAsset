@@ -1,10 +1,12 @@
 package dev.es.myasset.adapter.security.token;
 
-import dev.es.myasset.adapter.exception.oauth.MissingTokenException;
+import dev.es.myasset.application.exception.oauth.MissingTokenException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtCookieManager {
 
     public static void setCookie(HttpServletResponse response, String cookieName, String cookieValue, int maxAge) {

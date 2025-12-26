@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.exception.user;
+package dev.es.myasset.application.exception.user;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

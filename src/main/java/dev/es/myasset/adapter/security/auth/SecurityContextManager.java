@@ -1,6 +1,6 @@
-package dev.es.myasset.adapter.security;
+package dev.es.myasset.adapter.security.auth;
 
-import dev.es.myasset.adapter.exception.oauth.UnauthenticatedContextException;
+import dev.es.myasset.application.exception.oauth.UnauthenticatedContextException;
 import dev.es.myasset.application.required.CurrentProviderId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

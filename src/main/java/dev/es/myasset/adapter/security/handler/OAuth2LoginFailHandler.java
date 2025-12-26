@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.security;
+package dev.es.myasset.adapter.security.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

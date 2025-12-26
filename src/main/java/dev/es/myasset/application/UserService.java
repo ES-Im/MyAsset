@@ -1,9 +1,9 @@
 package dev.es.myasset.application;
 
 import dev.es.myasset.application.provided.UserRegister;
-import dev.es.myasset.application.required.RegisterTokenParser;
+import dev.es.myasset.application.required.UserInfoAssembler;
 import dev.es.myasset.application.required.UserRepository;
-import dev.es.myasset.adapter.exception.user.AgreementRequiredException;
+import dev.es.myasset.application.exception.user.AgreementRequiredException;
 import dev.es.myasset.domain.user.User;
 import dev.es.myasset.domain.user.UserInfo;
 import jakarta.transaction.Transactional;
@@ -20,8 +20,7 @@ import java.time.LocalDateTime;
 public class UserService implements UserRegister {
 
     private final UserRepository userRepository;
-
-    private final RegisterTokenParser registerTokenParser;
+    private final UserInfoAssembler userInfoAssembler;
 
     @Override
     public User registerFromOAuth(String registerToken, boolean agreement) {
@@ -29,7 +28,7 @@ public class UserService implements UserRegister {
             throw new AgreementRequiredException();
         }
 
-        UserInfo userInfo = registerTokenParser.parse(registerToken);
+        UserInfo userInfo = userInfoAssembler.assembleUserInfo(registerToken);
 
         LocalDateTime now =  LocalDateTime.now();
 
@@ -43,5 +42,6 @@ public class UserService implements UserRegister {
 
         return user;
     }
+
 
 }

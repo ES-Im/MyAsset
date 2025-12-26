@@ -1,6 +1,7 @@
-package dev.es.myasset.adapter.security;
+package dev.es.myasset.adapter.security.filter;
 
-import dev.es.myasset.adapter.exception.oauth.InvalidTokenException;
+import dev.es.myasset.adapter.security.auth.UserAuthentication;
+import dev.es.myasset.application.exception.oauth.InvalidTokenException;
 import dev.es.myasset.adapter.security.token.JwtCookieManager;
 import dev.es.myasset.adapter.security.token.JwtTokenManager;
 import jakarta.servlet.FilterChain;
@@ -26,7 +27,7 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             String accessToken = JwtCookieManager.getAccessTokenFromCookie(request);
             jwtTokenManager.validateToken(accessToken);
-            String providerId = jwtTokenManager.getProviderIdFromRegisterToken(accessToken);
+            String providerId = jwtTokenManager.getProviderIdFromToken(accessToken);
             setAuthentication(request, providerId);
         } catch (InvalidTokenException e) {
             throw new InvalidTokenException();
@@ -38,10 +39,7 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
-        return path.equals("/") || path.startsWith("/login") || path.startsWith("/demo")
-                || path.equals("/api/v1/test-error") || path.equals("api/v1/health-check")
-                || path.equals("/onboarding") || path.equals("base")
-                || path.equals("/api/v1/signup") || path.equals("/api/v1/token/re-issue");
+        return path.equals("/") || path.startsWith("/login");
     }
 
     private void setAuthentication(HttpServletRequest request, String providerId) {

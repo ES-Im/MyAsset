@@ -1,5 +1,6 @@
-package dev.es.myasset.adapter.security;
+package dev.es.myasset.adapter.security.handler;
 
+import dev.es.myasset.adapter.security.auth.RedisManager;
 import dev.es.myasset.adapter.security.token.JwtCookieManager;
 import dev.es.myasset.adapter.security.token.JwtExpirationProperties;
 import dev.es.myasset.adapter.security.token.JwtTokenManager;
@@ -36,9 +37,11 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private String REDIRECT_URI_BASE;
 
     private OAuth2UserInfo oAuth2UserInfo = null;
-    private final JwtExpirationProperties expire = new JwtExpirationProperties();
-    private final UserRepository userRepository;
+    private final JwtExpirationProperties expire;
     private final JwtTokenManager jwtTokenManager;
+    private final JwtExpirationProperties jwtExpirationProperties;
+    private final RedisManager redisManager;
+    private final UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
@@ -63,19 +66,28 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if(existUser == null){
             log.info("신규유저");
 
-            String registerToken = jwtTokenManager.generateRegisterToken(providerType, providerId, email, username);
+            String registerToken = jwtTokenManager.generateToken(providerType, providerId, email, username, jwtExpirationProperties.registerTokenExpirationTimeToMillis());
 
-            JwtCookieManager.setCookie(response, "register_token", registerToken, (int) expire.registerTokenExpirationTimeToMillis()/1000);
+            JwtCookieManager.setCookie(
+                    response, "register_token",
+                    registerToken, expire.registerCookieExpirationTimeToSecond()
+                    );
 
             getRedirectStrategy().sendRedirect(request, response, REDIRECT_URI_ONBOARDING);
         } else {
             log.info("기존유저");
 
-            String accessToken = jwtTokenManager.generateRegisterToken(providerType, providerId, email, username);
-            String refreshToken = jwtTokenManager.generateRegisterToken(providerType, providerId, email, username);
+            String accessToken = jwtTokenManager.generateToken(providerType, providerId, email, username, jwtExpirationProperties.accessTokenExpirationTimeToMillis());
+            String refreshToken = jwtTokenManager.generateToken(providerType, providerId, email, username, jwtExpirationProperties.refreshTokenExpirationTimeToMillis());
 
-            JwtCookieManager.setCookie(response, "access_token", accessToken, (int) (expire.accessTokenExpirationTimeToMillis() * 1.5) /1000);
-            JwtCookieManager.setCookie(response, "refresh_token", refreshToken, (int) expire.refreshTokenExpirationTimeToMillis()/1000);
+            JwtCookieManager.setCookie(
+                    response, "access_token",
+                    accessToken, expire.accessCookieExpirationTimeToSecond());
+            JwtCookieManager.setCookie(
+                    response, "refresh_token",
+                    refreshToken, expire.refreshCookieExpirationTimeToSecond());
+
+            redisManager.saveRefreshToken(providerId, refreshToken);
 
             getRedirectStrategy().sendRedirect(request, response, REDIRECT_URI_BASE);
         }

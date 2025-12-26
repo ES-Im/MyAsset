@@ -1,7 +1,7 @@
-package dev.es.myasset.adapter.exception;
+package dev.es.myasset.application.exception;
 
-import dev.es.myasset.adapter.exception.oauth.AbstractAuthException;
-import dev.es.myasset.adapter.exception.user.AbstractUserException;
+import dev.es.myasset.application.exception.oauth.AbstractAuthException;
+import dev.es.myasset.application.exception.user.AbstractUserException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,6 @@ public class ErrorResponseWriter {
         response.getWriter().write(jsonResponse);  // JSON 형식으로 예외 응답
     }
 
-    // Auth 예외
     public void handleAuthCustomException(HttpServletResponse response, AbstractAuthException e) throws IOException {
         log.error("[JWT 예외 발생] 예외 발생 클래스: {}, 예외 발생Code: {}",
                 e.getClass().getName(),
@@ -36,7 +35,6 @@ public class ErrorResponseWriter {
         handleCustomException(response, errorName, httpStatus, message);
     }
 
-    // User 예외
     public void handleUserCustomException(HttpServletResponse response, AbstractUserException e) throws IOException {
         log.error("[User 예외 발생] 예외 발생 클래스: {}, 예외 발생Code: {}",
                 e.getClass().getName(),

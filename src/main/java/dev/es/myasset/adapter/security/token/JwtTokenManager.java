@@ -1,8 +1,8 @@
 package dev.es.myasset.adapter.security.token;
 
 
-import dev.es.myasset.adapter.exception.oauth.ExpiredRegisterTokenException;
-import dev.es.myasset.adapter.exception.oauth.InvalidTokenException;
+import dev.es.myasset.application.exception.oauth.ExpiredRegisterTokenException;
+import dev.es.myasset.application.exception.oauth.InvalidTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class JwtTokenManager {
         this.jwtExpirationProperties = new JwtExpirationProperties();
     }
 
-    public String generateRegisterToken(String providerType, String providerId, String email, String username) {
+    public String generateToken(String providerType, String providerId, String email, String username, long expriedMillis) {
         long now = System.currentTimeMillis();
         Date currentDate = new Date(now);
         Date expirationDate = new Date(now + jwtExpirationProperties.registerTokenExpirationTimeToMillis());
@@ -51,19 +51,19 @@ public class JwtTokenManager {
         tokenParser(token);
     }
 
-    public String getProviderTypeFromRegisterToken(String token) {
+    public String getProviderTypeFromToken(String token) {
         return tokenParser(token).get("providerType").toString();
     }
 
-    public String getProviderIdFromRegisterToken(String token) {
+    public String getProviderIdFromToken(String token) {
         return tokenParser(token).get("providerId").toString();
     }
 
-    public String getProviderUsernameFromRegisterToken(String token) {
+    public String getProviderUsernameFromToken(String token) {
         return tokenParser(token).get("username").toString();
     }
 
-    public String getProviderEmailFromRegisterToken(String token) {
+    public String getProviderEmailFromToken(String token) {
         return tokenParser(token).get("email").toString();
     }
 

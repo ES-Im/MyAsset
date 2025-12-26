@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.exception.user;
+package dev.es.myasset.application.exception.user;
 
 public class AgreementRequiredException extends AbstractUserException {
     public AgreementRequiredException() {

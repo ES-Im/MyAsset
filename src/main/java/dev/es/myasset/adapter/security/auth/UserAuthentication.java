@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.security;
+package dev.es.myasset.adapter.security.auth;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.exception.oauth;
+package dev.es.myasset.application.exception.oauth;
 
 public class UnauthenticatedContextException extends AbstractAuthException {
     public UnauthenticatedContextException() {

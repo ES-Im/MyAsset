@@ -1,8 +1,11 @@
 package dev.es.myasset.adapter.security.token;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.time.Duration;
 
+@Component
 public class JwtExpirationProperties {
     @Value("${JWT_REGISTER_TOKEN_EXPIRATION_TIME}")
     private Duration registerTokenExpirationTime;
@@ -23,5 +26,16 @@ public class JwtExpirationProperties {
 
     public long refreshTokenExpirationTimeToMillis() {
         return this.refreshTokenExpirationTime.toMillis();
+    }
+
+    public int registerCookieExpirationTimeToSecond() {
+        return (int) this.registerTokenExpirationTimeToMillis() / 1000;
+    }
+    public int accessCookieExpirationTimeToSecond() {
+        return (int) (this.accessTokenExpirationTimeToMillis() * 1.5) / 1000;
+    }
+
+    public int refreshCookieExpirationTimeToSecond() {
+        return (int) (this.refreshTokenExpirationTimeToMillis()) / 1000;
     }
 }
