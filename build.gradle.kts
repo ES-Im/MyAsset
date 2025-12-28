@@ -25,6 +25,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+    // thymeleaf
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
@@ -35,6 +39,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.security:spring-security-test")
+
     // json web token (jwt)
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -46,9 +51,6 @@ dependencies {
     // mysql
     runtimeOnly("com.mysql:mysql-connector-j")
 
-    // h2
-//    runtimeOnly("com.h2database:h2")
-
     // docker
     runtimeOnly("org.springframework.boot:spring-boot-docker-compose")
 
@@ -59,8 +61,6 @@ dependencies {
     // test
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    // devtool
-//    "developmentOnly"("org.springframework.boot:spring-boot-devtools")
 
 }
 

@@ -1,10 +1,12 @@
 
 package dev.es.myasset.application.exception.oauth;
 
+import dev.es.myasset.application.exception.ErrorCode;
+
 public class ExpiredRefreshTokenException extends AbstractAuthException {
 
     public ExpiredRefreshTokenException() {
-        super(AuthErrorCode.EXPIRED_REFRESH_TOKEN);
+        super(ErrorCode.EXPIRED_REFRESH_TOKEN);
 
     }
 

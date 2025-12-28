@@ -1,7 +1,9 @@
 package dev.es.myasset.application.exception.redis;
 
+import dev.es.myasset.application.exception.ErrorCode;
+
 public class FailSaveRedisException extends AbstractRedisException {
     public FailSaveRedisException() {
-        super(RedisErrorCode.FAIL_SAVE_REDIS);
+        super(ErrorCode.FAIL_SAVE_REDIS);
     }
 }

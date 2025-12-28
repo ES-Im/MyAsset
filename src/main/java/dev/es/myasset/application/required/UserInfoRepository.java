@@ -1,10 +1,7 @@
 package dev.es.myasset.application.required;
 
 import dev.es.myasset.domain.user.UserInfo;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.query.Param;
 
 /*
  * 회원 개인정보 정책과 관련하여 Null 처리를 위한 인터페이스 (batch/정책 처리에서 이용)
@@ -12,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 public interface UserInfoRepository extends Repository<UserInfo, String> {
 
     UserInfo save(UserInfo userInfo);
+
+    UserInfo findByProviderId(String providedId);
 
 //    @Query("""
 //        update user_info (username, email, providerType)

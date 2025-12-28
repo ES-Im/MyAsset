@@ -1,6 +1,7 @@
 package dev.es.myasset.adapter.security;
 
 
+import dev.es.myasset.adapter.security.filter.JWTFilter;
 import dev.es.myasset.adapter.security.handler.OAuth2LoginFailHandler;
 import dev.es.myasset.adapter.security.handler.OAuth2LoginSuccessHandler;
 import dev.es.myasset.adapter.security.token.JwtTokenManager;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,7 +29,7 @@ public class SecurityConfig {
     private final JwtTokenManager jwtTokenManager;
 
     @Bean
-    public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(corsCustomizer ->
                             corsCustomizer.configurationSource(corsConfigurationSource())
@@ -38,15 +40,25 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 ->
                             oauth2
                                 .successHandler(oAuth2LoginSuccessHandler)
-                                .failureHandler(oAuth2LoginFailHandler))
+                                .failureHandler(oAuth2LoginFailHandler)
+                )
 
-                .authorizeHttpRequests(auth ->
-                            auth
+                .addFilterBefore(new JWTFilter(jwtTokenManager), UsernamePasswordAuthenticationFilter.class)
+
+                .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(
-                                "/", "/login"
+                                        "/login",
+                                        "/oauth2/**",
+                                        "/onboarding",
+                                        "/api/onboarding/**",
+                                        "/css/**",
+                                        "/js/**",
+                                        "/images/**",
+                                        "/favicon.ico",
+                                        "/error"
                                 ).permitAll()
-                                .anyRequest().authenticated())
 
+                                .anyRequest().authenticated())
                 .sessionManagement(session ->
                             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

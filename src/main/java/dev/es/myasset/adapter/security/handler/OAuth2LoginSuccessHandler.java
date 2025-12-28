@@ -8,12 +8,12 @@ import dev.es.myasset.adapter.security.oauth.GoogleOAuthUserInfo;
 import dev.es.myasset.adapter.security.oauth.KakaoOAuthUserInfo;
 import dev.es.myasset.adapter.security.oauth.NaverOAuthUserInfo;
 import dev.es.myasset.application.required.OAuth2UserInfo;
-import dev.es.myasset.application.required.UserRepository;
-import dev.es.myasset.domain.user.User;
-import jakarta.servlet.FilterChain;
+import dev.es.myasset.application.required.UserInfoRepository;
+import dev.es.myasset.domain.user.UserInfo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,10 +41,11 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private final JwtTokenManager jwtTokenManager;
     private final JwtExpirationProperties jwtExpirationProperties;
     private final RedisManager redisManager;
-    private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    @Transactional
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
 
         final String provider = token.getAuthorizedClientRegistrationId();
@@ -61,7 +62,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String email =  oAuth2UserInfo.getEmail();
         String username = oAuth2UserInfo.getUsername();
 
-        User existUser = userRepository.findByProviderId(providerId);
+        UserInfo existUser = userInfoRepository.findByProviderId(providerId);
 
         if(existUser == null){
             log.info("신규유저");
@@ -72,7 +73,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                     response, "register_token",
                     registerToken, expire.registerCookieExpirationTimeToSecond()
                     );
+            log.info("register token 발행 및 쿠키설정 - providerType = {}, providerId = {}", providerType, providerId);
 
+            log.info("REDIRECT_URI_ONBOARDING으로 redirect");
             getRedirectStrategy().sendRedirect(request, response, REDIRECT_URI_ONBOARDING);
         } else {
             log.info("기존유저");
@@ -86,12 +89,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             JwtCookieManager.setCookie(
                     response, "refresh_token",
                     refreshToken, expire.refreshCookieExpirationTimeToSecond());
+            log.info("access, refresh token 발행 및 쿠키설정 - providerType = {}, providerId = {}", providerType, providerId);
 
             redisManager.saveRefreshToken(providerId, refreshToken);
 
+            log.info("refresh token, redis 설정 완료 REDIRECT_URI_BASE으로 redirect");
             getRedirectStrategy().sendRedirect(request, response, REDIRECT_URI_BASE);
         }
 
-        super.onAuthenticationSuccess(request, response, chain, authentication);
     }
 }

@@ -15,11 +15,19 @@ spring:
       - application-db.yml
       - env.yml
 
-  #redis
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
+  thymeleaf:
+    enabled: true
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
 
 
 

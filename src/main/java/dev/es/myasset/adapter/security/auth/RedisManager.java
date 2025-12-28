@@ -19,7 +19,9 @@ public class RedisManager {
     public void saveRefreshToken(String providerId, String refreshToken) {
         try {
             redisTemplate.opsForValue().set(providerId, refreshToken, 14, TimeUnit.DAYS);
+            log.info("redis 저장완료");
         } catch (Exception e) {
+            log.error("redis 저장실패");
             throw new FailSaveRedisException();
         }
     }

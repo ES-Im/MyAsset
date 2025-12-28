@@ -20,17 +20,15 @@ import java.util.Map;
 public class JwtTokenManager {
 
     private final SecretKey secretKey;
-    private final JwtExpirationProperties jwtExpirationProperties;
 
     public JwtTokenManager(@Value("${spring.jwt.secret}") String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        this.jwtExpirationProperties = new JwtExpirationProperties();
     }
 
     public String generateToken(String providerType, String providerId, String email, String username, long expriedMillis) {
         long now = System.currentTimeMillis();
         Date currentDate = new Date(now);
-        Date expirationDate = new Date(now + jwtExpirationProperties.registerTokenExpirationTimeToMillis());
+        Date expirationDate = new Date(now + expriedMillis);
 
         // payload
         Map<String, Object> claims = new HashMap<>();

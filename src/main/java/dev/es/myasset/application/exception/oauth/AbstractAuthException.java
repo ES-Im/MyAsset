@@ -1,15 +1,11 @@
 package dev.es.myasset.application.exception.oauth;
 
-import lombok.Getter;
+import dev.es.myasset.application.exception.AbstractErrorException;
+import dev.es.myasset.application.exception.ErrorCode;
 
-@Getter
-public abstract class AbstractAuthException extends RuntimeException {
+public abstract class AbstractAuthException extends AbstractErrorException {
 
-    private final AuthErrorCode authErrorCode;
-
-    public AbstractAuthException(AuthErrorCode authErrorCode) {
-        super(authErrorCode.getMessage());
-        this.authErrorCode = authErrorCode;
+    public AbstractAuthException(ErrorCode errorCode) {
+        super(errorCode);
     }
-
 }

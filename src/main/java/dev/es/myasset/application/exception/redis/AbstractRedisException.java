@@ -1,14 +1,11 @@
 package dev.es.myasset.application.exception.redis;
 
-import lombok.Getter;
+import dev.es.myasset.application.exception.AbstractErrorException;
+import dev.es.myasset.application.exception.ErrorCode;
 
-@Getter
-public class AbstractRedisException extends RuntimeException {
+public abstract class AbstractRedisException extends AbstractErrorException {
 
-    private final RedisErrorCode userErrorCode;
-
-    public AbstractRedisException(RedisErrorCode redisErrorCode) {
-        super(redisErrorCode.getMessage());
-        this.userErrorCode = redisErrorCode;
+    public AbstractRedisException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

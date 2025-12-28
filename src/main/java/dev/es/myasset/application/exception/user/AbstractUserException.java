@@ -1,14 +1,11 @@
 package dev.es.myasset.application.exception.user;
 
-import lombok.Getter;
+import dev.es.myasset.application.exception.AbstractErrorException;
+import dev.es.myasset.application.exception.ErrorCode;
 
-@Getter
-public class AbstractUserException extends RuntimeException {
+public abstract class AbstractUserException extends AbstractErrorException {
 
-    private final UserErrorCode userErrorCode;
-
-    public AbstractUserException(UserErrorCode userErrorCode) {
-        super(userErrorCode.getMessage());
-        this.userErrorCode = userErrorCode;
+    public AbstractUserException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

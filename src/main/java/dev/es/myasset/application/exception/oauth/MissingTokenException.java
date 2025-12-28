@@ -1,7 +1,9 @@
 package dev.es.myasset.application.exception.oauth;
 
+import dev.es.myasset.application.exception.ErrorCode;
+
 public class MissingTokenException extends AbstractAuthException {
     public MissingTokenException() {
-        super(AuthErrorCode.MISSING_TOKEN);
+        super(ErrorCode.MISSING_TOKEN);
     }
 }

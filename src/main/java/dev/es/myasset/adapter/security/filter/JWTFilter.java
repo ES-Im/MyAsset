@@ -21,15 +21,21 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private final JwtTokenManager jwtTokenManager;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String accessToken = JwtCookieManager.getAccessTokenFromCookie(request);
+        log.info("Access Token: {}", accessToken);
+
+        if (accessToken == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
-            String accessToken = JwtCookieManager.getAccessTokenFromCookie(request);
             jwtTokenManager.validateToken(accessToken);
             String providerId = jwtTokenManager.getProviderIdFromToken(accessToken);
             setAuthentication(request, providerId);
-        } catch (InvalidTokenException e) {
+        } catch (Exception e) {
             throw new InvalidTokenException();
         }
 
@@ -37,9 +43,14 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String path = request.getServletPath();
-        return path.equals("/") || path.startsWith("/login");
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.equals("/")
+                || path.startsWith("/login")
+                || path.startsWith("/oauth2")
+                || path.startsWith("/onboarding")
+                || path.startsWith("/public")
+                || path.startsWith("/api/re-issue");
     }
 
     private void setAuthentication(HttpServletRequest request, String providerId) {

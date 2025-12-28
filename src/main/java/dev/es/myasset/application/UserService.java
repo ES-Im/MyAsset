@@ -25,6 +25,7 @@ public class UserService implements UserRegister {
     @Override
     public User registerFromOAuth(String registerToken, boolean agreement) {
         if(!agreement){
+            log.info("회원등록이 실패하였습니다 - 가입미동의");
             throw new AgreementRequiredException();
         }
 
@@ -37,8 +38,11 @@ public class UserService implements UserRegister {
         User user = User.register(now);
         user.linkUserInfo(userInfo);
 
-        userRepository.save(user);
+            userRepository.save(user);
+
         log.info("user = {}",  user.getUserKey());
+
+        log.info("회원등록이 성공하였습니다.");
 
         return user;
     }

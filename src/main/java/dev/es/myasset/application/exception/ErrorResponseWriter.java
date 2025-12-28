@@ -1,7 +1,5 @@
 package dev.es.myasset.application.exception;
 
-import dev.es.myasset.application.exception.oauth.AbstractAuthException;
-import dev.es.myasset.application.exception.user.AbstractUserException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,29 +21,26 @@ public class ErrorResponseWriter {
         response.getWriter().write(jsonResponse);  // JSON 형식으로 예외 응답
     }
 
-    public void handleAuthCustomException(HttpServletResponse response, AbstractAuthException e) throws IOException {
+    // 예외 정보 반환
+    public void errorResponseWriter(HttpServletResponse response, AbstractErrorException e) throws IOException {
         log.error("[JWT 예외 발생] 예외 발생 클래스: {}, 예외 발생Code: {}",
                 e.getClass().getName(),
-                e.getAuthErrorCode().name());
+                e.getErrorCode().name());
 
-        String errorName = e.getAuthErrorCode().name();
-        HttpStatus httpStatus = e.getAuthErrorCode().getHttpStatus();
-        String message = e.getAuthErrorCode().getMessage();
+        String errorName = e.getErrorCode().name();
+        HttpStatus httpStatus = e.getErrorCode().getHttpStatus();
+        String message = e.getErrorCode().getMessage();
 
-        handleCustomException(response, errorName, httpStatus, message);
+        response.setStatus(httpStatus.value());  // 상태 코드 설정
+
+        String jsonResponse =
+                String.format("{\"name\": \"%s\", \"httpStatus\": \"%s\", \"message\": \"%s\"}", errorName, httpStatus, message);
+
+        response.setContentType("application/json");
+        response.getWriter().write(jsonResponse);  // JSON 형식으로 예외 응답
     }
 
-    public void handleUserCustomException(HttpServletResponse response, AbstractUserException e) throws IOException {
-        log.error("[User 예외 발생] 예외 발생 클래스: {}, 예외 발생Code: {}",
-                e.getClass().getName(),
-                e.getUserErrorCode().name());
 
-        String errorName = e.getUserErrorCode().name();
-        HttpStatus httpStatus = e.getUserErrorCode().getHttpStatus();
-        String message = e.getUserErrorCode().getMessage();
-
-        handleCustomException(response, errorName, httpStatus, message);
-    }
 
 
 }

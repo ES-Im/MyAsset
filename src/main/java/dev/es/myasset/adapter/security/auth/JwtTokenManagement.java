@@ -8,12 +8,13 @@ import dev.es.myasset.application.exception.oauth.InvalidRefreshTokenException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenManagement {
@@ -30,11 +31,13 @@ public class JwtTokenManagement {
         tokenInfo.put("email", jwtTokenManager.getProviderEmailFromToken(token));
         tokenInfo.put("username", jwtTokenManager.getProviderUsernameFromToken(token));
 
+        log.info("token -> userInfo parsing이 성공하였습니다");
         return tokenInfo;
     }
 
     @Transactional
     public void reIssueToken(String refreshToken, HttpServletResponse response) {
+
         if(refreshToken == null){
             throw new ExpiredRefreshTokenException();
         }
@@ -73,6 +76,8 @@ public class JwtTokenManagement {
                 response, "fresh_token",
                 newRefreshToken, expire.refreshCookieExpirationTimeToSecond()
         );
+
+        log.info("access, refresh token 재발행 성공 - ProviderType = {}, ProviderId = {}",  refreshTokenMap.get("providerType"), refreshTokenMap.get("providerId"));
     }
 
 }
