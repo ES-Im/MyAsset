@@ -31,7 +31,5 @@ public enum ErrorCode {
         this.code = code;
         this.message = message;
     }
-
 }
 
-// https://silver-w.tistory.com/260 이거보고 예외핸들러 ㅈ작성

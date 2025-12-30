@@ -1,7 +1,8 @@
-package dev.es.myasset.adapter.security.filter;
+package dev.es.myasset.adapter.security;
 
 import dev.es.myasset.adapter.security.auth.UserAuthentication;
-import dev.es.myasset.application.exception.oauth.InvalidTokenException;
+import dev.es.myasset.application.exception.GlobalSecurityException;
+import dev.es.myasset.application.exception.ErrorCode;
 import dev.es.myasset.adapter.security.token.JwtCookieManager;
 import dev.es.myasset.adapter.security.token.JwtTokenManager;
 import jakarta.servlet.FilterChain;
@@ -22,7 +23,7 @@ public class JWTFilter extends OncePerRequestFilter {
     private final JwtTokenManager jwtTokenManager;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, GlobalSecurityException {
         String accessToken = JwtCookieManager.getAccessTokenFromCookie(request);
         log.info("Access Token: {}", accessToken);
 
@@ -34,9 +35,9 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             jwtTokenManager.validateToken(accessToken);
             String providerId = jwtTokenManager.getProviderIdFromToken(accessToken);
-            setAuthentication(request, providerId);
+            setAuthentication(providerId);
         } catch (Exception e) {
-            throw new InvalidTokenException();
+            request.setAttribute("exception", ErrorCode.INVALID_REGISTER_TOKEN);
         }
 
         filterChain.doFilter(request, response);
@@ -53,7 +54,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 || path.startsWith("/api/re-issue");
     }
 
-    private void setAuthentication(HttpServletRequest request, String providerId) {
+    private void setAuthentication(String providerId) {
         UserAuthentication userAuth = new UserAuthentication(providerId, null, null);
         SecurityContextHolder.getContext().setAuthentication(userAuth);
     }

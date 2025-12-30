@@ -3,12 +3,13 @@ package dev.es.myasset.application.exception;
 import lombok.Getter;
 
 @Getter
-public abstract class AbstractErrorException extends RuntimeException {
+public class GlobalApplicationException extends RuntimeException implements ErrorCodeCarrier {
 
     private final ErrorCode errorCode;
 
-    public AbstractErrorException(ErrorCode errorCode) {
+    public GlobalApplicationException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
+
 }
