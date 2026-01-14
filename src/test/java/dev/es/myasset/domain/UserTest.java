@@ -2,7 +2,6 @@ package dev.es.myasset.domain;
 
 import dev.es.myasset.application.IntegrationTestSupport;
 import dev.es.myasset.domain.user.*;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;

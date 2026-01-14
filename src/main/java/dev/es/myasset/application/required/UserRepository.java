@@ -2,7 +2,6 @@ package dev.es.myasset.application.required;
 
 import dev.es.myasset.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.Repository;
 
 /*
  * 회원 계정 정보를 저장하거나 조회
