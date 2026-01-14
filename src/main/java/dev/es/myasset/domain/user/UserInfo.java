@@ -47,12 +47,4 @@ public class UserInfo {
         return userInfo;
     }
 
-//    public static UserInfo nullifyUserInfo(UserInfo userInfo) {
-//        userInfo.username = null;
-//        userInfo.email = null;
-//        userInfo.providerType = null;
-//
-//        return  userInfo;
-//    }
-
 }

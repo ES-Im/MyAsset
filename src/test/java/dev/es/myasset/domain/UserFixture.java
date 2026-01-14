@@ -18,9 +18,5 @@ public class UserFixture {
         return UserInfo.registerUserInfo("google", "12422", "hong@gmail.com", "홍길동");
     }
 
-    // 정상적인 유저 계정정보 엔티티 생성
-    public static User createUserRegisterRequest() {
-        return User.register(LocalDateTime.now());
-    }
 
 }

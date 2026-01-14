@@ -11,7 +11,7 @@ import static java.util.Objects.*;
 import static org.springframework.util.Assert.*;
 
 @Entity
-@Table
+@Table(name = "user")
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -98,10 +98,10 @@ public class User {
                     , LocalDateTime baseDate
                     , LocalDateTime current
                     , long dateDiff) {
-        state(this.status == status, "Status condition not met");
+        state(this.status == status, "status 변환 조건이 맞지 않습니다. 현재 상태값 = " + this.status);
 
-        state(baseDate != null, "Base date is null");
-        state(baseDate.isBefore(current.minusDays(dateDiff)), "Date difference condition not met");
+        state(baseDate != null, "비교 날짜가 Null 입니다.");
+        state(baseDate.isBefore(current.minusDays(dateDiff)), "경과 기간 조건이 맞지 않습니다");
     }
 }
 
