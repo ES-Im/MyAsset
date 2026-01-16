@@ -29,16 +29,16 @@ public class UserService implements UserRegister {
             throw new AgreementRequiredException();
         }
 
-        UserInfo userInfo = userInfoAssembler.assembleUserInfo(registerToken);
-
         LocalDateTime now =  LocalDateTime.now();
+        User user = User.register(now);
+
+        UserInfo userInfo = userInfoAssembler.assembleUserInfo(registerToken);
+        userInfo.linkUser(user);
+
 
         log.info("userKey = {}",  userInfo.getUserKey());
 
-        User user = User.register(now);
-        user.linkUserInfo(userInfo);
-
-            userRepository.save(user);
+        userRepository.save(user);
 
         log.info("user = {}",  user.getUserKey());
 

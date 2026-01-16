@@ -21,11 +21,6 @@ public class User {
     @Column(name="user_key")
     private String userKey;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name="user_key")
-    private UserInfo userInfo;
-
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
@@ -37,10 +32,6 @@ public class User {
     private LocalDateTime lastLoginAt;
 
     private LocalDateTime withdrawReqAt;
-
-    public void linkUserInfo(UserInfo userInfo) {
-        this.userInfo = requireNonNull(userInfo);
-    }
 
     public static User register(LocalDateTime current) {
         User user = new User();
@@ -85,8 +76,9 @@ public class User {
     }
 
     //to-do : Domain Service scheduling
-    public void validateDelete(LocalDateTime current) {
+    public boolean checkDeleteProperty(LocalDateTime current) {
         checkProperty(UserStatus.WITHDRAWN, this.withdrawReqAt, requireNonNull(current), 90);
+        return true;
     }
 
     public boolean isActive() {

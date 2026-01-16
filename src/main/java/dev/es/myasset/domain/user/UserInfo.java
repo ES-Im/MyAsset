@@ -12,7 +12,7 @@ import java.util.UUID;
 import static java.util.Objects.*;
 
 @Entity
-@Table
+@Table(name = "user_info")
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,6 +21,11 @@ public class UserInfo {
     @Id
     @Column(name="user_key")
     private String userKey;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name="user_key")
+    private User user;
 
     private String providerId;
 
@@ -31,6 +36,11 @@ public class UserInfo {
 
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
+
+    public void linkUser(User user) {
+        this.user = requireNonNull(user);
+    }
+
 
     public static UserInfo registerUserInfo(String providerType,
                                             String providerId,

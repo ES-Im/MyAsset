@@ -1,7 +1,6 @@
-package dev.es.myasset.domain;
+package dev.es.myasset.domain.user;
 
 import dev.es.myasset.application.IntegrationTestSupport;
-import dev.es.myasset.domain.user.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest extends IntegrationTestSupport {
 
-    public User createUser() {
+    private User createUser() {
         return User.register(LocalDateTime.of(2026,1,1,6,0,0));
     }
 
@@ -78,7 +77,7 @@ class UserTest extends IntegrationTestSupport {
                 }),
                 DynamicTest.dynamicTest("사용자 탈퇴 요청 후 30일이 지나지않으면, WITHDRAW 상태가 되지 않는다", () -> {
                     // when
-                     assertThatThrownBy(() -> hongUser.markWithdraw(hongUser.getWithdrawReqAt().plusDays(29)))
+                     assertThatThrownBy(() -> hongUser.markWithdraw(hongUser.getWithdrawReqAt().plusDays(30)))
                              .isInstanceOf(IllegalStateException.class);
                 }),
                 DynamicTest.dynamicTest("사용자 탈퇴 요청 후 30일이 지나면, WITHDRAW 상태가 된다.", () -> {
@@ -87,6 +86,16 @@ class UserTest extends IntegrationTestSupport {
 
                     // then
                     assertThat(hongUser.getStatus()).isEqualTo(WITHDRAWN);
+                }),
+                DynamicTest.dynamicTest("WITHDRAW 상태 후 90일이 지나지 않으면 회원정보가 삭제되지 않는다.", () -> {
+                     assertThatThrownBy(() -> hongUser.checkDeleteProperty(
+                             hongUser.getWithdrawReqAt().plusDays(90))
+                     ).isInstanceOf(IllegalStateException.class);
+                }),
+                DynamicTest.dynamicTest("WITHDRAW 상태 후 90일이 지나면 회원정보가 삭제된다.", () -> {
+                    assertThat(hongUser.checkDeleteProperty(
+                             hongUser.getWithdrawReqAt().plusDays(91)
+                    )).isTrue();
                 })
         );
     }
@@ -132,5 +141,7 @@ class UserTest extends IntegrationTestSupport {
          assertThatThrownBy(() -> hongUser.requestActive(now))
                  .isInstanceOf(IllegalStateException.class);
     }
+
+
 
 }
