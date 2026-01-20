@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.UUID;
-
 import static java.util.Objects.*;
 
 @Entity
@@ -19,12 +17,12 @@ import static java.util.Objects.*;
 public class UserInfo {
 
     @Id
-    @Column(name="user_key")
+    @Column(name = "user_key")
     private String userKey;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name="user_key")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_key")
     private User user;
 
     private String providerId;
@@ -37,18 +35,14 @@ public class UserInfo {
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
 
-    public void linkUser(User user) {
-        this.user = requireNonNull(user);
-    }
-
-
-    public static UserInfo registerUserInfo(String providerType,
+    public static UserInfo registerUserInfo(User user,
+                                            String providerType,
                                             String providerId,
                                             String email,
                                             String username) {
         UserInfo userInfo = new UserInfo();
 
-        userInfo.userKey = UUID.randomUUID().toString();
+        userInfo.userKey = user.getUserKey();
         userInfo.providerType = requireNonNull(ProviderType.from(providerType));
         userInfo.providerId = requireNonNull(providerId);
         userInfo.email = new Email(email);

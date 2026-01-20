@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.*;
+import static jakarta.persistence.EnumType.*;
+import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.GenerationType.*;
 
 @Entity
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
@@ -19,18 +22,15 @@ import static jakarta.persistence.CascadeType.*;
 public class Asset extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long assetId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_key")
     private User user;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private AssetType assetType;
-
-    @OneToMany(mappedBy = "asset", cascade = {PERSIST, REMOVE})
-    private List<StockAccount> stockAccounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "asset", cascade = {PERSIST, REMOVE})
     private List<Card> cards = new ArrayList<>();
@@ -40,4 +40,7 @@ public class Asset extends BaseEntity {
 
     @OneToOne(mappedBy = "asset", cascade = {PERSIST, REMOVE})
     private Cash cash;
+
+//    @OneToMany(mappedBy = "asset", cascade = {PERSIST, REMOVE})
+//    private List<StockAccount> stockAccounts = new ArrayList<>(); // to-do : 관련 entity 구성 
 }

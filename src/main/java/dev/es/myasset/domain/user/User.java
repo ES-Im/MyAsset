@@ -1,12 +1,19 @@
 package dev.es.myasset.domain.user;
 
+import dev.es.myasset.domain.category.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.CascadeType.REMOVE;
+import static jakarta.persistence.TemporalType.TIMESTAMP;
 import static java.util.Objects.*;
 import static org.springframework.util.Assert.*;
 
@@ -21,21 +28,33 @@ public class User {
     @Column(name="user_key")
     private String userKey;
 
+    @MapsId
+    @OneToOne(mappedBy = "user", cascade = PERSIST, orphanRemoval = true)
+    private UserInfo userInfo;
+
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Temporal(value = TIMESTAMP)
     private LocalDateTime createdAt;
 
+    @Temporal(value = TIMESTAMP)
     private LocalDateTime lastLoginAt;
 
+    @Temporal(value = TIMESTAMP)
     private LocalDateTime withdrawReqAt;
+
+    @OneToMany(mappedBy = "user", cascade = {REMOVE})
+    private List<Category> categories = new ArrayList<>();
+
 
     public static User register(LocalDateTime current) {
         User user = new User();
 
+        user.userKey = UUID.randomUUID().toString();
         user.status = UserStatus.ACTIVE;
         user.role = UserRole.USER;
         user.createdAt = requireNonNull(current);

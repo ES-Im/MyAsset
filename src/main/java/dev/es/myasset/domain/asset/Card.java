@@ -7,6 +7,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.EnumType.*;
+import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.GenerationType.*;
+
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,23 +19,23 @@ import lombok.NoArgsConstructor;
 public class Card extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long cardId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "asset_id", nullable = false)
     private Asset asset;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = STRING)
     private CardCode cardCode;  // Mock("000") → 테스트용
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private CardType cardType;
 
     private Integer billingDay;
 
     @Nullable
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "bank_acct_id")
     private BankAccount bankAccount;
 
