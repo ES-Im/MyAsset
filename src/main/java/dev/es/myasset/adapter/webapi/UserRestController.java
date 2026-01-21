@@ -23,14 +23,14 @@ public class UserRestController {
 
 
     @PostMapping("/onboarding/success")
-    public ResponseEntity<Object> onboardingsuccess(@CookieValue("register_token") String registerToken,
+    public ResponseEntity<Object> onboardingSuccess(@CookieValue("register_token") String registerToken,
                                                     @Validated @ModelAttribute UserRegisterRequest agreement,
                                                     HttpServletResponse response) throws IOException {
 
         log.info("onboarding 처리");
-        
+
         userService.registerFromOAuth(registerToken, agreement.registerAgreement());
-        
+
         log.info("onboarding 성공 registerToken={}", registerToken);
         response.sendRedirect("/dashboard");
 

@@ -19,16 +19,22 @@ public class OAuthUserAssembler implements UserAssembler {
     private final JwtTokenManagement jwtTokenManagement;
 
     @Override
-    public UserInfo assembleUserInfo(String registerToken, LocalDateTime time) {
-        log.info("User Register token: {}", registerToken);
+    public UserInfo assembleUserInfo(String registerToken, LocalDateTime registerTime) {
+        log.info("UserInfo 조립 시작");
 
         Map<String, String> registerTokenMap = jwtTokenManagement.parseToken(registerToken);
-       
-        return UserInfo.registerUserInfo(User.register(time)
-                , registerTokenMap.get("providerType")
+        User savedUser = User.register(registerTime);
+
+        UserInfo userInfo = UserInfo.registerUserInfo(
+                registerTokenMap.get("providerType")
                 , registerTokenMap.get("providerId")
                 , registerTokenMap.get("email")
                 , registerTokenMap.get("username")
         );
+
+        userInfo.linkUser(savedUser);
+        log.info("UserInfo 조립 완료 - user 링크 유무 : {}", savedUser.equals(userInfo.getUser()));
+
+        return userInfo;
     }
 }

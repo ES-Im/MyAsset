@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
  */
 public interface UserAssembler {
 
-    UserInfo assembleUserInfo(String registerToken, LocalDateTime time);
+    UserInfo assembleUserInfo(String registerToken, LocalDateTime registerTime);
 
 }

@@ -9,9 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
-
-import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.*;
@@ -45,8 +42,5 @@ public class Transactions extends BaseEntity {
     private Integer totalInstallCnt;
 
     private String memo;
-
-    @OneToMany(mappedBy = "transaction", cascade = {CascadeType.PERSIST, REMOVE})
-    private List<TransactionFile> transactionFiles;
 
 }

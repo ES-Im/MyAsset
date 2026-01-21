@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 @Embeddable
 public record Email(
-        @Column(nullable = true, unique = true)
+        @Column(unique = true)
         String email
 ) {
 

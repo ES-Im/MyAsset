@@ -12,17 +12,16 @@ import static java.util.Objects.*;
 @Entity
 @Table(name = "user_info")
 @Getter
-@ToString
+@ToString(exclude = {"user"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserInfo {
 
     @Id
-    @Column(name = "user_key")
     private String userKey;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_key")
+    @JoinColumn(name = "user_key", unique = true)
     private User user;
 
     private String providerId;
@@ -35,14 +34,16 @@ public class UserInfo {
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
 
-    public static UserInfo registerUserInfo(User user,
-                                            String providerType,
+    public void linkUser(User user) {
+        this.user = requireNonNull(user);
+    }
+
+    public static UserInfo registerUserInfo(String providerType,
                                             String providerId,
                                             String email,
                                             String username) {
         UserInfo userInfo = new UserInfo();
 
-        userInfo.userKey = user.getUserKey();
         userInfo.providerType = requireNonNull(ProviderType.from(providerType));
         userInfo.providerId = requireNonNull(providerId);
         userInfo.email = new Email(email);

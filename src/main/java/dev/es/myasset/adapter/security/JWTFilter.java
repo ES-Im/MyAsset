@@ -50,6 +50,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 || path.startsWith("/login")
                 || path.startsWith("/oauth2")
                 || path.startsWith("/onboarding")
+                || path.startsWith("/api/onboarding/success")
                 || path.startsWith("/public")
                 || path.startsWith("/api/re-issue");
     }

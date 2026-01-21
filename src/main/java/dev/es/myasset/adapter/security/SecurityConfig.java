@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/login/**", "/oauth2/**")
+                .securityMatcher("/login/**", "/oauth2/**", "/api/onboarding/**")
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(auth -> auth

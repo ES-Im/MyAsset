@@ -1,24 +1,19 @@
 package dev.es.myasset.domain.user;
 
-import dev.es.myasset.domain.category.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import static jakarta.persistence.CascadeType.PERSIST;
-import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.TemporalType.TIMESTAMP;
 import static java.util.Objects.*;
 import static org.springframework.util.Assert.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,10 +22,6 @@ public class User {
     @Id
     @Column(name="user_key")
     private String userKey;
-
-    @MapsId
-    @OneToOne(mappedBy = "user", cascade = PERSIST, orphanRemoval = true)
-    private UserInfo userInfo;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
@@ -46,10 +37,6 @@ public class User {
 
     @Temporal(value = TIMESTAMP)
     private LocalDateTime withdrawReqAt;
-
-    @OneToMany(mappedBy = "user", cascade = {REMOVE})
-    private List<Category> categories = new ArrayList<>();
-
 
     public static User register(LocalDateTime current) {
         User user = new User();
