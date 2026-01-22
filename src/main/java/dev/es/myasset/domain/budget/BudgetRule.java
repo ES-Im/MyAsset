@@ -8,33 +8,30 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "budget")
-public class Budget extends BaseEntity {
+@Table(name = "budget_rule")
+public class BudgetRule extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long budgetId;
+    @GeneratedValue(strategy = IDENTITY)
+    private Long bgtRuleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_key", nullable = false)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="user_key", nullable = true)
     private User user;
-
-    private Integer year;
-
-    private Integer month;
 
     @Enumerated(STRING)
     private ExpenseType expenseType;
 
-    private BigDecimal amt;
+    @Enumerated(STRING)
+    private ValueType valueType;
 
-    private BigDecimal monthlyIncome;
+    private Double bgtParam;
 
 }

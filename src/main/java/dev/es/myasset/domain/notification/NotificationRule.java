@@ -29,4 +29,6 @@ public class NotificationRule extends BaseEntity {
 
     private Boolean isActive;
 
+    private Boolean isHide;
+
 }

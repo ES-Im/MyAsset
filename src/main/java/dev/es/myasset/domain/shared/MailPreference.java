@@ -1,4 +1,4 @@
-package dev.es.myasset.domain.notification;
+package dev.es.myasset.domain.shared;
 
 import dev.es.myasset.domain.user.User;
 import jakarta.persistence.*;
@@ -6,28 +6,28 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
-import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "notification")
-public class Notification {
+@Table(name="mail_preference")
+public class MailPreference extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long notiId;
+    private Long mailPreferenceId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="user_key", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    private Boolean isRead;
+    @Enumerated(STRING)
+    private MailType mailType;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime sentAt;
+    private Boolean isAgree;
+
 
 }

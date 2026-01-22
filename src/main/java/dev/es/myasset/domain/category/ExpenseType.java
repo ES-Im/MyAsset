@@ -1,5 +1,5 @@
 package dev.es.myasset.domain.category;
 
 public enum ExpenseType {
-    FIXED, VARIABLE
+    FIXED, VARIABLE, INSTALLMENT_SAVINGS
 }

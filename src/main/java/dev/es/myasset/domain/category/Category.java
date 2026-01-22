@@ -21,14 +21,12 @@ public class Category extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_key", nullable = true)
-    private User user;  // null 시 cgy 타입 = default 타입
+    private User user;
 
-    private String cgyType; // default 타입 : 고정비/식비/교통비·차량/생활비/의료비/자기계발비/여가비
+    private String cgyName;
 
     @Enumerated(STRING)
     private ExpenseType expenseType;
-
-    private Boolean isDefault;
 
     private Boolean isActive;
 
