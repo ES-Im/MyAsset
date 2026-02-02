@@ -2,11 +2,15 @@ package dev.es.myasset.domain.transaction;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
+import static java.util.Objects.requireNonNull;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,5 +35,18 @@ public class TransactionFile {
 
     private Integer size;
 
+    @Builder
+    public TransactionFile(
+            Transactions transaction
+            , String sourceFileName
+            , EXT ext, Integer size) {
+
+        this.transaction = requireNonNull(transaction);
+        this.sourceFileName = requireNonNull(sourceFileName);
+        this.destinationFileName = UUID.randomUUID().toString();
+        this.ext = requireNonNull(ext);
+        this.size = requireNonNull(size);
+
+    }
 
 }

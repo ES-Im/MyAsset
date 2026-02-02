@@ -1,13 +1,12 @@
 package dev.es.myasset.domain.portfolio;
 
-import dev.es.myasset.domain.category.ExpenseType;
+import dev.es.myasset.domain.shared.ExpenseType;
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.Money;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -16,7 +15,10 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name="user_monthly_detail")
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"summary_id", "expense_type"}),
+        name="user_monthly_detail"
+)
 public class UserMonthlyDetail extends BaseEntity {
 
     @Id
@@ -30,7 +32,18 @@ public class UserMonthlyDetail extends BaseEntity {
     @Enumerated(STRING)
     private ExpenseType expenseType;
 
-    private BigDecimal avgSpent;
+    @Embedded
+    @AttributeOverride(
+            name="money"
+            , column = @Column(name = "avg_spent")
+    )
+    private Money avgSpent;
 
-    private BigDecimal totalSpent;
+    @Embedded
+    @AttributeOverride(
+            name="money"
+            , column = @Column(name = "total_spent")
+    )
+    private Money totalSpent;
+
 }

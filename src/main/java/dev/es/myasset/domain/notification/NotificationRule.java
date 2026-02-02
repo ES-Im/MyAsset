@@ -13,7 +13,10 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "notification_rule")
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_key", "notiType"})
+        , name = "notification_rule"
+)
 public class NotificationRule extends BaseEntity {
 
     @Id
@@ -27,8 +30,14 @@ public class NotificationRule extends BaseEntity {
     @Enumerated(STRING)
     private NotificationType notiType;
 
-    private Boolean isActive;
+    public static NotificationRule deactivate(User user, NotificationType notiType) {
+        NotificationRule notificationRule = new NotificationRule();
 
-    private Boolean isHide;
+        notificationRule.user = user;
+        notificationRule.notiType = notiType;
+
+        return notificationRule;
+    }
+
 
 }

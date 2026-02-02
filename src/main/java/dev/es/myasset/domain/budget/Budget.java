@@ -1,14 +1,16 @@
 package dev.es.myasset.domain.budget;
 
-import dev.es.myasset.domain.category.ExpenseType;
+import dev.es.myasset.domain.shared.ExpenseType;
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.Money;
+import dev.es.myasset.domain.shared.YearMthConverter;
 import dev.es.myasset.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import java.time.YearMonth;
 
 import static jakarta.persistence.EnumType.STRING;
 
@@ -26,15 +28,20 @@ public class Budget extends BaseEntity {
     @JoinColumn(name = "user_key", nullable = false)
     private User user;
 
-    private Integer year;
-
-    private Integer month;
+    @Convert(converter = YearMthConverter.class)
+    private YearMonth targetYearMonth;
 
     @Enumerated(STRING)
     private ExpenseType expenseType;
 
-    private BigDecimal amt;
+    @Embedded
+    @AttributeOverride(
+            name="money",
+            column = @Column(name="amt")
+    )
+    private Money amt;
 
-    private BigDecimal monthlyIncome;
+    @Embedded
+    private Money monthlyIncome;
 
 }

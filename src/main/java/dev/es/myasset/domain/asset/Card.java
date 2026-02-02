@@ -39,4 +39,6 @@ public class Card extends BaseEntity {
     @JoinColumn(name = "bank_acct_id")
     private BankAccount bankAccount;
 
+
+
 }

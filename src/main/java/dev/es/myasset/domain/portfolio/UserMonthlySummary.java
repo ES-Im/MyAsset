@@ -1,13 +1,15 @@
 package dev.es.myasset.domain.portfolio;
 
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.Money;
+import dev.es.myasset.domain.shared.YearMthConverter;
 import dev.es.myasset.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import java.time.YearMonth;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -15,7 +17,10 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name="user_monthly_summary")
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_key", "target_year_month"}),
+        name="user_monthly_summary"
+)
 public class UserMonthlySummary extends BaseEntity {
 
     @Id
@@ -26,16 +31,35 @@ public class UserMonthlySummary extends BaseEntity {
     @JoinColumn(name = "user_key", nullable = false)
     private User user;
 
-    private Integer year;
+    @Convert(converter = YearMthConverter.class)
+    private YearMonth targetYearMonth;
 
-    private Integer month;
+    @Embedded
+    @AttributeOverride(
+            name="money",
+            column = @Column(name="fixed_spent")
+    )
+    private Money fixedSpent;
 
-    private BigDecimal fixedSpent;
+    @Embedded
+    @AttributeOverride(
+            name="money",
+            column = @Column(name="variable_spent")
+    )
+    private Money variableSpent;
 
-    private BigDecimal variableSpent;
+    @Embedded
+    @AttributeOverride(
+            name="money",
+            column = @Column(name="avg_daily_variable_spent")
+    )
+    private Money avgDailyVariableSpent;
 
-    private BigDecimal avgDailyVariableSpent;
-
-    private BigDecimal totalSpent;
+    @Embedded
+    @AttributeOverride(
+            name="money",
+            column = @Column(name="total_spent")
+    )
+    private Money totalSpent;
 
 }

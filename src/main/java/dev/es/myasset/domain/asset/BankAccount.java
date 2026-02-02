@@ -1,15 +1,16 @@
 package dev.es.myasset.domain.asset;
 
+import dev.es.myasset.domain.shared.Money;
 import dev.es.myasset.domain.shared.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.*;
+import static java.util.Objects.requireNonNull;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,7 +31,18 @@ public class BankAccount extends BaseEntity {
 
     private String acctNum;
 
-    private BigDecimal balance;
+    @Embedded
+    @AttributeOverride(
+            name="money",
+            column = @Column(name="balance")
+    )
+    private Money balance;
 
-
+    @Builder
+    public BankAccount(Asset asset, CompanyCode bankCode, String acctNum, Money balance) {
+        this.asset = requireNonNull(asset);
+        this.bankCode = requireNonNull(bankCode);
+        this.acctNum = requireNonNull(acctNum);
+        this.balance = balance;
+    }
 }
