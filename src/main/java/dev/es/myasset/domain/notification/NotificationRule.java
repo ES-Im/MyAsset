@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
+import static java.util.Objects.requireNonNull;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,17 +25,19 @@ public class NotificationRule extends BaseEntity {
     private Long notiRuleId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="user_key", nullable = true)
-    private User user;
+    @JoinColumn(name="user_key", nullable = false)
+    private User user;  // default = 시스템 디폴트 설정
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private NotificationType notiType;
 
     public static NotificationRule deactivate(User user, NotificationType notiType) {
         NotificationRule notificationRule = new NotificationRule();
 
-        notificationRule.user = user;
-        notificationRule.notiType = notiType;
+        notificationRule.user = requireNonNull(user);
+        notificationRule.notiType = requireNonNull(notiType);
+
 
         return notificationRule;
     }

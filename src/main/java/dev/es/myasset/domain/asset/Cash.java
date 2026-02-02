@@ -30,11 +30,12 @@ public class Cash extends BaseEntity {
             name="money",
             column = @Column(name="balance")
     )
+    @Column(nullable = false)
     private Money balance;
 
     @Builder
     public Cash(Asset asset, Money balance) {
         this.asset = requireNonNull(asset);
-        this.balance = balance;
+        this.balance = requireNonNull(balance);
     }
 }

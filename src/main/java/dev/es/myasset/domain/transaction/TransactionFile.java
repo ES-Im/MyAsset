@@ -1,5 +1,6 @@
 package dev.es.myasset.domain.transaction;
 
+import dev.es.myasset.domain.shared.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,8 +16,11 @@ import static java.util.Objects.requireNonNull;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "transaction_file")
-public class TransactionFile {
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"destination_file_name", "tran_id"}),
+        name = "transaction_file"
+)
+public class TransactionFile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +30,17 @@ public class TransactionFile {
     @JoinColumn(name = "tran_id", nullable = false)
     private Transactions transaction;
 
+    @Column(nullable = false)
     private String sourceFileName;
 
+    @Column(nullable = false)
     private String destinationFileName;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private EXT ext;
 
+    @Column(nullable = false)
     private Integer size;
 
     @Builder

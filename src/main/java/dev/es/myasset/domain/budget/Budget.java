@@ -29,9 +29,11 @@ public class Budget extends BaseEntity {
     private User user;
 
     @Convert(converter = YearMthConverter.class)
+    @Column(nullable = false)
     private YearMonth targetYearMonth;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private ExpenseType expenseType;
 
     @Embedded
@@ -39,9 +41,16 @@ public class Budget extends BaseEntity {
             name="money",
             column = @Column(name="amt")
     )
+    @Column(nullable = false)
     private Money amt;
 
     @Embedded
-    private Money monthlyIncome;
+    @AttributeOverride(
+            name="money",
+            column = @Column(name="mth_income")
+
+    )
+    @Column(nullable = false)
+    private Money mthIncome;
 
 }

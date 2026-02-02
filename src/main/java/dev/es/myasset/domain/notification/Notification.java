@@ -1,5 +1,6 @@
 package dev.es.myasset.domain.notification;
 
+import dev.es.myasset.domain.shared.NonAuditingEntity;
 import dev.es.myasset.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,7 +16,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "notification")
-public class Notification {
+public class Notification extends NonAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -25,9 +26,10 @@ public class Notification {
     @JoinColumn(name="user_key", nullable = false)
     private User user;
 
+    @Column(nullable = false)
     private Boolean isRead;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private LocalDateTime sentAt;
 
 }

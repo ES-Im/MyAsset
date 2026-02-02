@@ -1,5 +1,6 @@
 package dev.es.myasset.domain.user;
 
+import dev.es.myasset.domain.shared.NonAuditingEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static jakarta.persistence.TemporalType.TIMESTAMP;
 import static java.util.Objects.*;
 import static org.springframework.util.Assert.*;
 
@@ -17,7 +17,7 @@ import static org.springframework.util.Assert.*;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends NonAuditingEntity {
 
     @Id
     @Column(name="user_key")
@@ -27,15 +27,14 @@ public class User {
     private UserStatus status;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole role;
 
-    @Temporal(value = TIMESTAMP)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Temporal(value = TIMESTAMP)
     private LocalDateTime lastLoginAt;
 
-    @Temporal(value = TIMESTAMP)
     private LocalDateTime withdrawReqAt;
 
     public static User register(LocalDateTime current) {
@@ -45,7 +44,6 @@ public class User {
         user.status = UserStatus.ACTIVE;
         user.role = UserRole.USER;
         user.createdAt = requireNonNull(current);
-        user.lastLoginAt = requireNonNull(current);
 
         return user;
     }

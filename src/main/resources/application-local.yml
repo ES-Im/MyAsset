@@ -7,3 +7,10 @@ spring:
         format_sql: true
         show_sql: true
         use_sql_comments: true
+
+    defer-datasource-initialization: true
+    generate-ddl: true
+
+  sql:
+    init:
+      mode: always

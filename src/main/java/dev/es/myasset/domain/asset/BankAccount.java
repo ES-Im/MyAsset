@@ -15,7 +15,10 @@ import static java.util.Objects.requireNonNull;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "bank_account")
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"bank_code", "acct_num"}),
+        name = "bank_account"
+)
 public class BankAccount extends BaseEntity {
 
     @Id
@@ -27,8 +30,10 @@ public class BankAccount extends BaseEntity {
     private Asset asset;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CompanyCode bankCode;
 
+    @Column(nullable = false)
     private String acctNum;
 
     @Embedded
@@ -36,6 +41,7 @@ public class BankAccount extends BaseEntity {
             name="money",
             column = @Column(name="balance")
     )
+    @Column(nullable = false)
     private Money balance;
 
     @Builder

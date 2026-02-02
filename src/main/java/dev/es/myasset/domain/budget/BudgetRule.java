@@ -33,11 +33,14 @@ public class BudgetRule extends BaseEntity {
     private User user;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private ExpenseType expenseType;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private ValueType valueType;    // default = 적금 20% / 고정비 50% / 변동비 30%
 
+    @Column(nullable = false)
     private BigDecimal bgtParam;    // valueType = [AMOUNT : 절대기준값 / RATIO : 월소득액의 bgtParam %]
 
 

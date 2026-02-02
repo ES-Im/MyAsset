@@ -1,6 +1,7 @@
 package dev.es.myasset.domain.user;
 
 import dev.es.myasset.domain.shared.Email;
+import dev.es.myasset.domain.shared.NonAuditingEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,11 +11,13 @@ import lombok.ToString;
 import static java.util.Objects.*;
 
 @Entity
-@Table(name = "user_info")
 @Getter
 @ToString(exclude = {"user"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserInfo {
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"provider_type", "provider_id"} ),
+        name = "user_info")
+public class UserInfo extends NonAuditingEntity {
 
     @Id
     private String userKey;
@@ -24,14 +27,18 @@ public class UserInfo {
     @JoinColumn(name = "user_key", unique = true)
     private User user;
 
+    @Column(nullable = false)
     private String providerId;
 
+    @Column(nullable = false)
     private String username;
 
     @Embedded
+    @Column(nullable = false)
     private Email email;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ProviderType providerType;
 
     public void linkUser(User user) {

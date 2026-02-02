@@ -21,12 +21,14 @@ public class MailPreference extends BaseEntity {
     private Long mailPreferenceId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private MailType mailType;
 
+    @Column(nullable = false)
     private Boolean isAgree;
 
 

@@ -16,7 +16,10 @@ import static java.util.Objects.requireNonNull;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name="stock_account")
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"acct_num", "broker_code"}),
+        name="stock_account"
+)
 public class StockAccount extends BaseEntity {
 
     @Id
@@ -27,7 +30,11 @@ public class StockAccount extends BaseEntity {
     @JoinColumn(name="asset_id", nullable = false)
     private Asset asset;
 
+    @Column(nullable = false)
+    private String acctNum;
+
     @Enumerated(STRING)
+    @Column(nullable = false)
     private CompanyCode brokerCode;
 
     @Embedded
@@ -35,11 +42,13 @@ public class StockAccount extends BaseEntity {
             name="money",
             column = @Column(name="balance")
     )
+    @Column(nullable = false)
     private Money balance;
 
     @Builder
-    public StockAccount(Asset asset, CompanyCode brokerCode, Money balance) {
+    public StockAccount(Asset asset, String acctNum, CompanyCode brokerCode, Money balance) {
         this.asset = requireNonNull(asset);
+        this.acctNum = requireNonNull(acctNum);
         this.brokerCode = requireNonNull(brokerCode);
         this.balance = balance;
     }

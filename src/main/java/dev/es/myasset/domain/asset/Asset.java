@@ -14,7 +14,7 @@ import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
 @Entity
-@NoArgsConstructor(access =  AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "asset")
 public class Asset extends BaseEntity {
@@ -28,6 +28,7 @@ public class Asset extends BaseEntity {
     private User user;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private AssetType assetType;
 
     private static Asset create(User user, AssetType assetType) {

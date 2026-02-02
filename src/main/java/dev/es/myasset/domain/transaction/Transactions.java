@@ -27,7 +27,7 @@ public class Transactions extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long tran_id;
+    private Long tranId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="asset_id", nullable = false)
@@ -38,6 +38,7 @@ public class Transactions extends BaseEntity {
     private Category category;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private FlowType flowType;
 
     @Embedded
@@ -45,6 +46,7 @@ public class Transactions extends BaseEntity {
             name="money",
             column = @Column(name="tran_amt")
     )
+    @Column(nullable = false)
     private Money tranAmt; // 거래 금액
 
     @Nullable

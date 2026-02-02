@@ -1,6 +1,7 @@
 package dev.es.myasset.domain.sync;
 
 import dev.es.myasset.domain.asset.Asset;
+import dev.es.myasset.domain.shared.NonAuditingEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,13 +12,15 @@ import java.time.LocalDateTime;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static jakarta.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "asset_sync")
-public class AssetSync {
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"relayProvider", "external_id"}),
+        name = "asset_sync"
+)
+public class AssetSync extends NonAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -27,21 +30,25 @@ public class AssetSync {
     @JoinColumn(name = "asset_id", nullable = false)
     private Asset asset;
 
-    private String external_id;
+    @Column(nullable = false)
+    private String externalId;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private SyncType syncAssetType;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private RelayProvider relayProvider;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private SyncStatus syncStatus;
 
-    @Temporal(value = TIMESTAMP)
+    @Column(nullable = false)
     private LocalDateTime reqAt;
 
-    @Temporal(value = TIMESTAMP)
+    @Column(nullable = false)
     private LocalDateTime completedAt;
 
 }

@@ -27,18 +27,19 @@ public class Card extends BaseEntity {
     private Asset asset;
 
     @Enumerated(value = STRING)
+    @Column(nullable = false)
     private CardCode cardCode;  // Mock("000") → 테스트용
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private CardType cardType;
 
+    @Column(nullable = false)
     private Integer billingDay;
 
     @Nullable
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "bank_acct_id")
     private BankAccount bankAccount;
-
-
 
 }

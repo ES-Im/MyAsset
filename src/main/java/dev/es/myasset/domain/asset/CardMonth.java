@@ -21,7 +21,7 @@ import static java.util.Objects.requireNonNull;
     uniqueConstraints  = {@UniqueConstraint(columnNames = {"card_id", "billing_mth"})},
     name = "card_mth"
 )
-public class CardMth extends BaseEntity {
+public class CardMonth extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -32,6 +32,7 @@ public class CardMth extends BaseEntity {
     private Card card;
 
     @Convert(converter = YearMthConverter.class)
+    @Column(nullable = false)
     private YearMonth billingMth;
 
     @Embedded
@@ -39,9 +40,10 @@ public class CardMth extends BaseEntity {
             name="money",
             column = @Column(name="mth_used_amt")
     )
+    @Column(nullable = false)
     private Money mthUsedAmt;
 
-    public CardMth(Card card, YearMonth billingMth, Money mthUsedAmt) {
+    public CardMonth(Card card, YearMonth billingMth, Money mthUsedAmt) {
         this.card = requireNonNull(card);
         this.billingMth = requireNonNull(billingMth);
         this.mthUsedAmt = requireNonNull(mthUsedAmt);

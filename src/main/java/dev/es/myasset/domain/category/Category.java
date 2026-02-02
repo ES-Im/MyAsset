@@ -23,17 +23,20 @@ public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cgv_id;
+    private Long cgyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_key", nullable = true)
-    private User user;
+    @JoinColumn(name = "user_key", nullable = false)
+    private User user;  // default = 시스템 디폴트 설정
 
+    @Column(nullable = false)
     private String cgyName;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private ExpenseType expenseType;
 
+    @Column(nullable = false)
     private Boolean isActive;
 
 
