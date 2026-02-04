@@ -4,12 +4,14 @@ import dev.es.myasset.domain.shared.BaseEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.EnumType.*;
 import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
+import static java.util.Objects.requireNonNull;
 
 
 @Entity
@@ -42,4 +44,12 @@ public class Card extends BaseEntity {
     @JoinColumn(name = "bank_acct_id")
     private BankAccount bankAccount;
 
+    @Builder
+    public Card(Asset asset, CardCode cardCode, CardType cardType, Integer billingDay, BankAccount bankAccount) {
+        this.asset = requireNonNull(asset);
+        this.cardCode = requireNonNull(cardCode);
+        this.cardType = requireNonNull(cardType);
+        this.billingDay = requireNonNull(billingDay);
+        this.bankAccount = bankAccount;
+    }
 }

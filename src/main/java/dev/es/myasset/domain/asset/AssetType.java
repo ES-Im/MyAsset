@@ -1,18 +1,27 @@
 package dev.es.myasset.domain.asset;
 
-import java.util.Arrays;
+import lombok.Getter;
 
+@Getter
 public enum AssetType {
 
-    CARD, STOCK_ACCOUNT, BANK_ACCOUNT, CASH;
+    CARD(true)
+    , STOCK_ACCOUNT(true)
+    , BANK_ACCOUNT(true)
+    , CASH(false);
+
+    private final boolean isSyncType;
+
+    AssetType(boolean isSyncType) {
+        this.isSyncType = isSyncType;
+    }
 
     public static boolean isSyncType(AssetType assetType) {
-        return Arrays.stream(AssetType.values())
-                .anyMatch(e -> e.name().equals(assetType.name()));
+        return assetType.isSyncType;
     }
 
     public static boolean isManualType(AssetType assetType) {
-        return assetType.equals(CASH);
+        return !assetType.isSyncType;
     }
 
 }

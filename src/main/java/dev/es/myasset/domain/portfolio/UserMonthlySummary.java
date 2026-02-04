@@ -37,28 +37,28 @@ public class UserMonthlySummary extends BaseEntity {
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="fixed_spent")
+            column = @Column(name="fixed_spent", nullable = false)
     )
     private Money fixedSpent;
 
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="variable_spent")
+            column = @Column(name="variable_spent", nullable = false)
     )
     private Money variableSpent;
 
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="avg_daily_variable_spent")
+            column = @Column(name="avg_daily_variable_spent", nullable = false)
     )
     private Money avgDailyVariableSpent;
 
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="total_spent")
+            column = @Column(name="total_spent", nullable = false)
     )
     private Money totalSpent;
 

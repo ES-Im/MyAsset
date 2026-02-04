@@ -30,6 +30,25 @@ public class Notification extends NonAuditingEntity {
     private Boolean isRead;
 
     @Column(nullable = false)
+    private Boolean isHide;
+
+    @Column(nullable = false)
     private LocalDateTime sentAt;
+
+    public static Notification create(User user, LocalDateTime sentTime) {
+        Notification notification = new Notification();
+
+        notification.user = user;
+        notification.isRead = false;
+        notification.isHide = false;
+
+        notification.sentAt = sentTime;
+
+        return notification;
+    }
+
+    public void markHide() {
+        this.isHide = true;
+    }
 
 }

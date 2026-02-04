@@ -59,8 +59,8 @@ public enum CompanyCode {
     , SK_SECURITIES("0266", "SK증권");
 
 
-    private String code;
-    private String name;
+    private final String code;
+    private final String name;
 
     CompanyCode(String code, String name) {
         this.code = code;

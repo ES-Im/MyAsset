@@ -44,9 +44,8 @@ public class Transactions extends BaseEntity {
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="tran_amt")
+            column = @Column(name="tran_amt", nullable = false)
     )
-    @Column(nullable = false)
     private Money tranAmt; // 거래 금액
 
     @Nullable

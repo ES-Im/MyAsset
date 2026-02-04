@@ -39,9 +39,8 @@ public class BankAccount extends BaseEntity {
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="balance")
+            column = @Column(name="balance", nullable = false)
     )
-    @Column(nullable = false)
     private Money balance;
 
     @Builder
@@ -49,6 +48,6 @@ public class BankAccount extends BaseEntity {
         this.asset = requireNonNull(asset);
         this.bankCode = requireNonNull(bankCode);
         this.acctNum = requireNonNull(acctNum);
-        this.balance = balance;
+        this.balance = requireNonNull(balance);
     }
 }

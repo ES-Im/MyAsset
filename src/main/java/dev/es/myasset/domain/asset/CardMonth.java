@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -38,23 +39,25 @@ public class CardMonth extends BaseEntity {
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="mth_used_amt")
+            column = @Column(name="mth_used_amt", nullable = false)
     )
-    @Column(nullable = false)
     private Money mthUsedAmt;
 
-    public CardMonth(Card card, YearMonth billingMth, Money mthUsedAmt) {
-        this.card = requireNonNull(card);
-        this.billingMth = requireNonNull(billingMth);
-        this.mthUsedAmt = requireNonNull(mthUsedAmt);
+    public static CardMonth createNewCardMonth(Card card, LocalDate now) {
+        requireNonNull(card);
+        requireNonNull(now);
+
+        CardMonth cardMonth = new CardMonth();
+
+        cardMonth.card = card;
+        cardMonth.billingMth = YearMonth.from(now);
+        cardMonth.mthUsedAmt = Money.zero();
+
+        return cardMonth;
     }
+
 
     public void addUsedMthAmt(Money money) {
         this.mthUsedAmt = this.mthUsedAmt.add(money);
-    }
-
-    public void resetNextMth(YearMonth billingMth) {
-        this.mthUsedAmt = this.mthUsedAmt.zero();
-        this.billingMth = requireNonNull(billingMth);
     }
 }

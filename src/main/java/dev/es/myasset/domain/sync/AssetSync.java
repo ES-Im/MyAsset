@@ -1,6 +1,7 @@
 package dev.es.myasset.domain.sync;
 
 import dev.es.myasset.domain.asset.Asset;
+import dev.es.myasset.domain.asset.AssetType;
 import dev.es.myasset.domain.shared.NonAuditingEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -35,7 +36,7 @@ public class AssetSync extends NonAuditingEntity {
 
     @Enumerated(STRING)
     @Column(nullable = false)
-    private SyncType syncAssetType;
+    private AssetType syncAssetType;
 
     @Enumerated(STRING)
     @Column(nullable = false)

@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
@@ -22,6 +23,7 @@ import static org.springframework.util.Assert.state;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "budget_rule")
+@ToString(exclude = {"user_key"})
 public class BudgetRule extends BaseEntity {
 
     @Id
@@ -43,10 +45,11 @@ public class BudgetRule extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal bgtParam;    // valueType = [AMOUNT : 절대기준값 / RATIO : 월소득액의 bgtParam %]
 
-
     public static BudgetRule createRule(
             User user, ExpenseType expenseType, ValueType valueType, BigDecimal bgtParam
     ) {
+        state(bgtParam.compareTo(BigDecimal.ZERO) > 0, "매개값은 음수가 될 수 없습니다.");
+
         BudgetRule budgetRule = new BudgetRule();
 
         budgetRule.user = requireNonNull(user);
@@ -54,15 +57,29 @@ public class BudgetRule extends BaseEntity {
         budgetRule.valueType = requireNonNull(valueType);
         budgetRule.bgtParam = requireNonNull(bgtParam);
 
-        state(bgtParam.compareTo(BigDecimal.ZERO) > 0, "매개값은 양수여야 합니다");
-
         return budgetRule;
     }
 
     public Money calculateBudgetLimit(Money monthlyIncome) {
-        if(this.valueType.equals(AMOUNT)) return new Money(this.bgtParam);
+        requireNonNull(monthlyIncome);
 
-        if(this.valueType.equals(RATIO)) return monthlyIncome.multiply(bgtParam);
+        if(this.valueType.equals(AMOUNT)) {
+            Money limit = new Money(this.bgtParam);
+
+            state(monthlyIncome.compareTo(limit) >= 0
+                    , "예산 설정 시, 월소득액을 초과할 수 없습니다.");
+
+            return limit;
+        }
+
+        if(this.valueType.equals(RATIO)) {
+
+            state(this.bgtParam.compareTo(BigDecimal.ONE) <= 0
+                    , "예산 설정 시, 비율은 1(100%)를 초과할 수 없습니다.");
+
+            return monthlyIncome.multiply(bgtParam);
+
+        }
 
         throw new IllegalStateException("지원하지 않는 예산 설정(BudgetRule - valueType");
     }

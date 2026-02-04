@@ -5,6 +5,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("local")
 @SpringBootTest
-public abstract  class IntegrationTestSupport {
+public abstract class IntegrationTestSupport {
 
 }

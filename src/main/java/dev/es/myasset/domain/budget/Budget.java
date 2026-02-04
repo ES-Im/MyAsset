@@ -39,18 +39,16 @@ public class Budget extends BaseEntity {
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="amt")
+            column = @Column(name="amt", nullable = false)
     )
-    @Column(nullable = false)
     private Money amt;
 
     @Embedded
     @AttributeOverride(
             name="money",
-            column = @Column(name="mth_income")
+            column = @Column(name="mth_income", nullable = false)
 
     )
-    @Column(nullable = false)
     private Money mthIncome;
 
 }

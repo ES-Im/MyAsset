@@ -1,5 +1,8 @@
 package dev.es.myasset.domain.user;
 
+import lombok.Getter;
+
+@Getter
 public enum ProviderType {
     KAKAO, GOOGLE, NAVER;
 

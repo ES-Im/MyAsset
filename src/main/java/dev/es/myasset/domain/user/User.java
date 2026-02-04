@@ -24,6 +24,7 @@ public class User extends NonAuditingEntity {
     private String userKey;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserStatus status;
 
     @Enumerated(EnumType.STRING)
@@ -44,6 +45,7 @@ public class User extends NonAuditingEntity {
         user.status = UserStatus.ACTIVE;
         user.role = UserRole.USER;
         user.createdAt = requireNonNull(current);
+        user.lastLoginAt = requireNonNull(current);
 
         return user;
     }

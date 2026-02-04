@@ -34,8 +34,8 @@ public enum CardCode {
     , AMEX("07A", "-")
     , JCB("04J", "-");
 
-    private String code;
-    private String name;
+    private final String code;
+    private final String name;
 
     CardCode(String code, String name) {
         this.code = code;

@@ -34,7 +34,7 @@ public class TransactionFile extends BaseEntity {
     private String sourceFileName;
 
     @Column(nullable = false)
-    private String destinationFileName;
+    private String destinationFileName; // UUID
 
     @Enumerated(STRING)
     @Column(nullable = false)

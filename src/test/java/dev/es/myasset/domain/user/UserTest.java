@@ -1,6 +1,5 @@
 package dev.es.myasset.domain.user;
 
-import dev.es.myasset.application.IntegrationTestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import static dev.es.myasset.domain.user.UserStatus.WITHDRAWN;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class UserTest extends IntegrationTestSupport {
+class UserTest {
 
     private User createUser() {
         return User.register(LocalDateTime.of(2026,1,1,6,0,0));

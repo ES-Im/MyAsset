@@ -1,5 +1,6 @@
 package dev.es.myasset.domain.sync;
 
+import dev.es.myasset.domain.asset.AssetType;
 import dev.es.myasset.domain.shared.NonAuditingEntity;
 import dev.es.myasset.domain.transaction.Transactions;
 import jakarta.persistence.*;
@@ -28,11 +29,11 @@ public class TransactionsSync extends NonAuditingEntity {
     private Transactions transactions;
 
     @Column(nullable = false)
-    private String external_id;
+    private String externalId;
 
     @Enumerated(STRING)
     @Column(nullable = false)
-    private SyncType syncAssetType;
+    private AssetType syncAssetType;
 
     @Enumerated(STRING)
     @Column(nullable = false)

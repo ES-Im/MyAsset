@@ -44,3 +44,10 @@ insert into notification_rule (
       ('default', 'STOCK_PRICE_DROP', '2020-01-01 00:00:00'),
       ('default', 'ABNORMAL_REPEATED_TRANSACTION', '2020-01-01 00:00:00'),
       ('default', 'ABNORMAL_EXPENSE', '2020-01-01 00:00:00');
+
+insert into budget_rule(
+    user_key, expense_type, value_type, value_type
+) values
+      (null, 'FIXED', RATIO,0.5),
+      (null, 'VARIABLE', RATIO,0.3),
+      (null, 'INSTALLMENT_SAVINGS', RATIO,0.2);

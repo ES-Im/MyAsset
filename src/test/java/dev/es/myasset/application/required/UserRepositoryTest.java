@@ -10,8 +10,6 @@
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //
-//import static dev.es.myasset.domain.UserFixture.*;
-//import static dev.es.myasset.domain.UserFixture.createUserInfoRegisterRequest;
 //import static org.assertj.core.api.Assertions.assertThat;
 //
 //@Transactional

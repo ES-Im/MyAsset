@@ -34,7 +34,7 @@ public record Money(
         return new Money(money.subtract(amount.money));
     }
 
-    public Money zero() {
+    public static Money zero() {
         return new Money(BigDecimal.ZERO);
     }
 
@@ -46,4 +46,7 @@ public record Money(
         return this.money.compareTo(other) > 0;
     }
 
+    public int compareTo(Money comparedMoney) {
+        return this.money.compareTo(comparedMoney.money);
+    }
 }
