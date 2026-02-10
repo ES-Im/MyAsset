@@ -7,6 +7,6 @@ public enum EXT {
 
     public static Boolean isAvailableExt(String ext) {
         return Arrays.stream(EXT.values())
-                .anyMatch(e -> e.name().equals(ext));
+                .anyMatch(e -> e.name().equals(ext.toUpperCase()));
     }
 }

@@ -7,7 +7,6 @@ import dev.es.myasset.domain.shared.Money;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -53,21 +52,10 @@ public class Transactions extends BaseEntity {
     private PayStatus payStatus;    // 거래 상태
 
     @Nullable
-    private Integer totalInstallCnt;    // null = 카드 아님 or 일시불
+    private Integer totalInstallCnt;    // 0 = 카드 아님 or 일시불
 
     @Nullable
     private String memo;
-
-    @Builder
-    protected Transactions(Asset asset, Category category, FlowType flowType, PayStatus payStatus, Money tranAmt, Integer totalInstallCnt, String memo) {
-        this.asset = requireNonNull(asset);
-        this.category = category;
-        this.flowType = requireNonNull(flowType);
-        this.payStatus = payStatus;
-        this.tranAmt = requireNonNull(tranAmt);
-        this.totalInstallCnt = totalInstallCnt;
-        this.memo = memo;
-    }
 
     public static Transactions createCardTransaction (
             Asset asset, Category category
@@ -75,12 +63,16 @@ public class Transactions extends BaseEntity {
     ) {
         state(asset.getAssetType().equals(CARD), "타입에 맞지 않는 타입 : CARD 거래내역이 아닙니다");
 
-        return Transactions.builder()
-                    .asset(asset).category(category)
-                    .payStatus(payStatus).flowType(OUTFLOW)
-                    .tranAmt(tranAmt).totalInstallCnt(totalInstallCnt)
-                    .memo(null)
-                    .build();
+        Transactions transactions = new Transactions();
+
+        transactions.asset = requireNonNull(asset);
+        transactions.category = category;
+        transactions.flowType = OUTFLOW;
+        transactions.payStatus = requireNonNull(payStatus);
+        transactions.tranAmt = requireNonNull(tranAmt);
+        transactions.totalInstallCnt = (totalInstallCnt == null)? 0 : totalInstallCnt;
+
+        return transactions;
     }
 
     public static Transactions createNonCardTransaction (
@@ -89,12 +81,15 @@ public class Transactions extends BaseEntity {
     ) {
         state(!asset.getAssetType().equals(CARD), "타입에 맞지 않는 타입 : CARD 거래내역입니다");
 
-        return Transactions.builder()
-                    .asset(asset).category(category)
-                    .flowType(flowType).tranAmt(tranAmt)
-                    .payStatus(null).totalInstallCnt(null)
-                    .memo(null)
-                    .build();
+        Transactions transactions = new Transactions();
+
+        transactions.asset = requireNonNull(asset);
+        transactions.category = category;
+        transactions.flowType = flowType;
+        transactions.tranAmt = requireNonNull(tranAmt);
+        transactions.totalInstallCnt = 0;
+
+        return transactions;
     }
 
     public void addMemo(String memo) {

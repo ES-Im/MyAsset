@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static org.springframework.util.Assert.state;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,7 +36,7 @@ public class Notification extends NonAuditingEntity {
     @Column(nullable = false)
     private LocalDateTime sentAt;
 
-    public static Notification create(User user, LocalDateTime sentTime) {
+    public static Notification createNotification(User user, LocalDateTime sentTime) {
         Notification notification = new Notification();
 
         notification.user = user;
@@ -48,6 +49,8 @@ public class Notification extends NonAuditingEntity {
     }
 
     public void markHide() {
+        state(!this.isHide, "이미 숨김처리된 알림입니다.");
+
         this.isHide = true;
     }
 

@@ -32,12 +32,20 @@ public class NotificationRule extends BaseEntity {
     @Column(nullable = false)
     private NotificationType notiType;
 
-    public static NotificationRule deactivate(User user, NotificationType notiType) {
+    // 유저가 객체 생성 시 : 알림 비활성화 설정
+    public static NotificationRule createUserBlockRule(User user, NotificationType notiType) {
         NotificationRule notificationRule = new NotificationRule();
 
         notificationRule.user = requireNonNull(user);
         notificationRule.notiType = requireNonNull(notiType);
 
+        return notificationRule;
+    }
+
+    // 관리자가 객체 생성 시 : 디폴트 알림 설정
+    public static NotificationRule createDefaultRule(NotificationType notiType) {
+        NotificationRule notificationRule = new NotificationRule();
+        notificationRule.notiType = requireNonNull(notiType);
 
         return notificationRule;
     }

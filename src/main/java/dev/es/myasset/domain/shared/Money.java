@@ -15,15 +15,15 @@ public record Money(
     }
 
     public Money add(Money amount) {
-        if(amount == null || money.compareTo(BigDecimal.ZERO) <= 0) {
+        if(amount == null || amount.compareTo(Money.zero()) == 0) {
             throw new IllegalArgumentException("입금액은 0보다 커야 합니다.");
         }
 
         return new Money(money.add(amount.money));
     }
 
-    public Money withdraw(Money amount) {
-        if(amount == null || amount.money.compareTo(BigDecimal.ZERO) <= 0) {
+    public Money subtract(Money amount) {
+        if(amount == null || amount.compareTo(Money.zero()) == 0) {
             throw new IllegalArgumentException("출금액은 0보다 커야 합니다.");
         }
 
@@ -40,10 +40,6 @@ public record Money(
 
     public Money multiply(BigDecimal param) {
         return new Money(money.multiply(param));
-    }
-
-    public boolean isGreaterThan(BigDecimal other) {
-        return this.money.compareTo(other) > 0;
     }
 
     public int compareTo(Money comparedMoney) {
