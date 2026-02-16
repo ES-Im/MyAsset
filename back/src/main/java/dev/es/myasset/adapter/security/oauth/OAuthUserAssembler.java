@@ -33,7 +33,7 @@ public class OAuthUserAssembler implements UserAssembler {
         );
 
         userInfo.linkUser(savedUser);
-        log.info("UserInfo 조립 완료 - user 링크 유무 : {}", savedUser.equals(userInfo.getUser()));
+        log.info("UserInfo 조립 완료 - user entity 링크 유무 : {}", savedUser.equals(userInfo.getUser()));
 
         return userInfo;
     }

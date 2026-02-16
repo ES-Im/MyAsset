@@ -20,6 +20,7 @@ public class UserRestController {
     private final UserService userService;
     private final JwtTokenManagement jwtTokenManagement;
 
+//    @PostMapping(/)
 
 
     @PostMapping("/onboarding/success")
@@ -37,7 +38,7 @@ public class UserRestController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/re-issue")
+    @PostMapping("/reissue")
     public ResponseEntity<Object> issueToken(@CookieValue(required = false) String refreshToken,
                                              HttpServletResponse response) {
         jwtTokenManagement.reIssueToken(refreshToken, response);

@@ -46,8 +46,8 @@ insert into notification_rule (
       ('default', 'ABNORMAL_EXPENSE', '2020-01-01 00:00:00');
 
 insert into budget_rule(
-    user_key, expense_type, value_type, value_type
+    user_key, expense_type, value_type, bgt_Param, created_at
 ) values
-      (null, 'FIXED', RATIO,0.5),
-      (null, 'VARIABLE', RATIO,0.3),
-      (null, 'INSTALLMENT_SAVINGS', RATIO,0.2);
+      (null, 'FIXED', 'RATIO',0.5, '2020-01-01 00:00:00'),
+      (null, 'VARIABLE', 'RATIO',0.3, '2020-01-01 00:00:00'),
+      (null, 'INSTALLMENT_SAVINGS', 'RATIO',0.2, '2020-01-01 00:00:00');
