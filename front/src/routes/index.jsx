@@ -4,7 +4,11 @@ import MainLayout from '@/layouts/MainLayout';
 
 // Dashboards
 const Dashboard = lazy(() => import('@/views/dashboards/dashboard'));
-// const Dashboard2 = lazy(() => import('@/views/dashboards/dashboard2'));
+
+// Auth
+const AuthSignIn = lazy(() => import('@/views/auth/sign-in'));
+const AuthDeleteAccount = lazy(() => import('@/views/auth/delete-account'));
+
 
 // Landing
 // const Landing = lazy(() => import('@/views/landing'));
@@ -76,25 +80,6 @@ const Dashboard = lazy(() => import('@/views/dashboards/dashboard'));
 // const TreeView = lazy(() => import('@/views/miscellaneous/tree-view'));
 // const Tour = lazy(() => import('@/views/miscellaneous/tour'));
 
-// Auth
-const Auth1SignIn = lazy(() => import('@/views/auth/sign-in'));
-// const Auth1SignUp = lazy(() => import('@/views/auth/auth-1/sign-up'));
-// const Auth1ResetPassword = lazy(() => import('@/views/auth/auth-1/reset-password'));
-// const Auth1NewPassword = lazy(() => import('@/views/auth/auth-1/new-password'));
-// const Auth1TwoFactor = lazy(() => import('@/views/auth/auth-1/two-factor'));
-// const Auth1LockScreen = lazy(() => import('@/views/auth/auth-1/lock-screen'));
-// const Auth1SuccessMail = lazy(() => import('@/views/auth/auth-1/success-mail'));
-// const Auth1LoginPin = lazy(() => import('@/views/auth/auth-1/login-pin'));
-// const Auth1DeleteAccount = lazy(() => import('@/views/auth/auth-1/delete-account'));
-// const Auth2SignIn = lazy(() => import('@/views/auth/auth-2/sign-in'));
-// const Auth2SignUp = lazy(() => import('@/views/auth/auth-2/sign-up'));
-// const Auth2ResetPassword = lazy(() => import('@/views/auth/auth-2/reset-password'));
-// const Auth2NewPassword = lazy(() => import('@/views/auth/auth-2/new-password'));
-// const Auth2TwoFactor = lazy(() => import('@/views/auth/auth-2/two-factor'));
-// const Auth2LockScreen = lazy(() => import('@/views/auth/auth-2/lock-screen'));
-// const Auth2SuccessMail = lazy(() => import('@/views/auth/auth-2/success-mail'));
-// const Auth2LoginPin = lazy(() => import('@/views/auth/auth-2/login-pin'));
-// const Auth2DeleteAccount = lazy(() => import('@/views/auth/auth-2/delete-account'));
 
 // Error
 // const Error400 = lazy(() => import('@/views/error/400'));
@@ -224,61 +209,12 @@ const Auth1SignIn = lazy(() => import('@/views/auth/sign-in'));
 
 const authRoutes = [
 {
-  path: '/auth-1/sign-in',
-  element: <Auth1SignIn />
+  path: '/auth/sign-in',
+  element: <AuthSignIn />
+}, {
+  path: '/auth/delete-account',
+  element: <AuthDeleteAccount />
 }
-// , {
-//   path: '/auth-1/sign-up',
-//   element: <Auth1SignUp />
-// }, {
-//   path: '/auth-1/reset-password',
-//   element: <Auth1ResetPassword />
-// }, {
-//   path: '/auth-1/new-password',
-//   element: <Auth1NewPassword />
-// }, {
-//   path: '/auth-1/two-factor',
-//   element: <Auth1TwoFactor />
-// }, {
-//   path: '/auth-1/lock-screen',
-//   element: <Auth1LockScreen />
-// }, {
-//   path: '/auth-1/success-mail',
-//   element: <Auth1SuccessMail />
-// }, {
-//   path: '/auth-1/login-pin',
-//   element: <Auth1LoginPin />
-// }, {
-//   path: '/auth-1/delete-account',
-//   element: <Auth1DeleteAccount />
-// }, {
-//   path: '/auth-2/sign-in',
-//   element: <Auth2SignIn />
-// }, {
-//   path: '/auth-2/sign-up',
-//   element: <Auth2SignUp />
-// }, {
-//   path: '/auth-2/reset-password',
-//   element: <Auth2ResetPassword />
-// }, {
-//   path: '/auth-2/new-password',
-//   element: <Auth2NewPassword />
-// }, {
-//   path: '/auth-2/two-factor',
-//   element: <Auth2TwoFactor />
-// }, {
-//   path: '/auth-2/lock-screen',
-//   element: <Auth2LockScreen />
-// }, {
-//   path: '/auth-2/success-mail',
-//   element: <Auth2SuccessMail />
-// }, {
-//   path: '/auth-2/login-pin',
-//   element: <Auth2LoginPin />
-// }, {
-//   path: '/auth-2/delete-account',
-//   element: <Auth2DeleteAccount />
-// }
 ];
 const errorRoutes = [
 // {

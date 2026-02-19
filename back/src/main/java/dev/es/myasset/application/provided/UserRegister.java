@@ -1,9 +1,13 @@
 package dev.es.myasset.application.provided;
 
-import dev.es.myasset.domain.user.User;
+import dev.es.myasset.domain.user.UserInfo;
 
-// registerToken을 받고, 회원가입에 동의한 회원 등록 인터페이스
+import java.util.Map;
+
+/*
+ * 신규유저 정보를 받아 회원등록하는 인터페이스
+ */
 public interface UserRegister {
 
-    User registerFromOAuth(String registerToken, boolean agreement);
+    UserInfo registerFromOAuth(Object providedUserInfo);
 }

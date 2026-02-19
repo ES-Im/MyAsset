@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Slf4j
-@Transactional
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserRegister {
@@ -24,20 +24,16 @@ public class UserService implements UserRegister {
     private final UserInfoRepository userInfoRepository;
 
     @Override
-    public User registerFromOAuth(String registerToken, boolean agreement) {
+    @Transactional
+    public UserInfo registerFromOAuth(Object providedUserInfo) {
         LocalDateTime now = LocalDateTime.now();
 
-        if(!agreement){
-            log.info("회원등록이 실패하였습니다 - 가입미동의");
-            throw new AgreementRequiredException();
-        }
-
-        UserInfo userInfo = userAssembler.assembleUserInfo(registerToken, now);
+        UserInfo userInfo = userAssembler.assembleUserInfo(providedUserInfo, now);
         userInfoRepository.save(userInfo);
 
         log.info("회원등록이 성공하였습니다.");
 
-        return userInfo.getUser();
+        return userInfo;
     }
 
 }

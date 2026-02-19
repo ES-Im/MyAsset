@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    @GetMapping("/onboarding")
-    public String onboarding() {
-        return "asset/onboarding";
-    }
-
     @GetMapping("/base")
     public String base() {
         return "asset/base";

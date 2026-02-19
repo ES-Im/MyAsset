@@ -43,7 +43,7 @@ public class User extends NonAuditingEntity {
 
         user.userKey = UUID.randomUUID().toString();
         user.status = UserStatus.ACTIVE;
-        user.role = UserRole.USER;
+        user.role = UserRole.ROLE_USER;
         user.createdAt = requireNonNull(current);
         user.lastLoginAt = requireNonNull(current);
 

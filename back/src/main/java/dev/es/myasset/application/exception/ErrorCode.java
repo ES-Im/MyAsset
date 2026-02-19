@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
     // Auth Error Code
-    EXPIRED_REGISTER_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_001", "Register token이 만료되었습니다."),
-    INVALID_REGISTER_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_002", "Register token이 유효하지 않습니다."),
+    UNAUTHENTICATED_CONTEXT(HttpStatus.UNAUTHORIZED, "AUTH_001", "인증 정보가 없습니다"),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_002", "token이 유효하지 않습니다."),
     MISSING_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_003", "인증 정보가 없습니다"),
-    UNAUTHENTICATED_CONTEXT(HttpStatus.UNAUTHORIZED, "AUTH_004", "인증 정보가 없습니다"),
-    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_005", "Refresh token이 만료되었습니다."),
-    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_006", "Refresh token이 유효하지 않습니다"),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_004", "Token이 만료되었습니다"),
+    EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_005", "Access token이 만료되었습니다."),
+    INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_006", "Access token이 유효하지 않습니다."),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_007", "Refresh token이 만료되었습니다."),
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_008", "Refresh token이 유효하지 않습니다"),
 
     // User Error Code
     AGREEMENT_REQUIRED_EXCEPTION(HttpStatus.BAD_REQUEST, "USER_001", "회원 가입을 위해 동의가 필요합니다"),

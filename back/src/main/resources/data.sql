@@ -2,11 +2,17 @@ insert into users (
     user_key, status,
     role, created_at,
     last_login_at, withdraw_req_at
-) values (
+) values
+ (
      'default', 'ACTIVE',
-     'USER', '2000-01-01 00:00:00',
+     'ROLE_USER', '2000-01-01 00:00:00',
+     '2000-01-01 00:00:00', null
+ ), (
+     'admin', 'ACTIVE',
+     'ROLE_ADMIN', '2000-01-01 00:00:00',
      '2000-01-01 00:00:00', null
  );
+
 
 insert into user_info(
     user_key, provider_id,

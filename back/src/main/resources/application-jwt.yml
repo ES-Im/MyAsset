@@ -8,8 +8,6 @@ spring:
       base: ${JWT_REDIRECT_BASE}
       onboarding: ${JWT_REDIRECT_ONBOARDING}
 
-    register-token:
-      expiration-time: ${JWT_REGISTER_TOKEN_EXPIRATION_TIME}
     access-token:
       expiration-time: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME}
     refresh-token:

@@ -54,6 +54,7 @@ const MenuItemWithChildren = ({
       </Collapse>
     </li>;
 };
+
 const MenuItem = ({
   item
 }) => {
@@ -80,6 +81,7 @@ const MenuItem = ({
       </Link>
     </li>;
 };
+
 const AppMenu = () => {
   const [openMenuKey, setOpenMenuKey] = useState(null);
   const scrollToActiveLink = () => {

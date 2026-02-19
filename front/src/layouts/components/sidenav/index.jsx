@@ -51,7 +51,6 @@ const Sidenav = () => {
       </button>
 
       <SimpleBar id="sidenav" className="scrollbar">
-        {/*{sidenav.user && <UserProfile />}*/}
         <AppMenu />
       </SimpleBar>
     </div>;

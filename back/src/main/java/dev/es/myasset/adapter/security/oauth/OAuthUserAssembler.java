@@ -1,6 +1,7 @@
 package dev.es.myasset.adapter.security.oauth;
 
-import dev.es.myasset.adapter.security.auth.JwtTokenManagement;
+import dev.es.myasset.adapter.security.edited.AuthService;
+import dev.es.myasset.application.required.OAuth2UserInfo;
 import dev.es.myasset.application.required.UserAssembler;
 import dev.es.myasset.domain.user.User;
 import dev.es.myasset.domain.user.UserInfo;
@@ -16,20 +17,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OAuthUserAssembler implements UserAssembler {
 
-    private final JwtTokenManagement jwtTokenManagement;
+    private final AuthService authService;
 
     @Override
-    public UserInfo assembleUserInfo(String registerToken, LocalDateTime registerTime) {
+    public UserInfo assembleUserInfo(Object provided, LocalDateTime registerTime) {
         log.info("UserInfo 조립 시작");
 
-        Map<String, String> registerTokenMap = jwtTokenManagement.parseToken(registerToken);
         User savedUser = User.register(registerTime);
+        OAuth2UserInfo providedInfo = (OAuth2UserInfo) provided;
 
         UserInfo userInfo = UserInfo.registerUserInfo(
-                registerTokenMap.get("providerType")
-                , registerTokenMap.get("providerId")
-                , registerTokenMap.get("email")
-                , registerTokenMap.get("username")
+                providedInfo.getProviderType(),
+                providedInfo.getProviderId(),
+                providedInfo.getEmail(),
+                providedInfo.getUsername()
         );
 
         userInfo.linkUser(savedUser);

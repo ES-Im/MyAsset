@@ -31,7 +31,7 @@ class UserTest {
 
         // then
         assertThat(hongUser.getStatus()).isEqualTo(ACTIVE);
-        assertThat(hongUser.getRole()).isEqualTo(UserRole.USER);
+        assertThat(hongUser.getRole()).isEqualTo(UserRole.ROLE_USER);
     }
 
     @Test

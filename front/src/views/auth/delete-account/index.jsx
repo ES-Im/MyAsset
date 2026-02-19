@@ -1,6 +1,6 @@
 import deleteIcon from '@/assets/images/user-shield.png';
 import AppLogo from '@/components/AppLogo.jsx';
-import { currentYear } from '@/helpers/index.js';
+import {appName, currentYear} from '@/helpers/index.js';
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
 const Index = () => {
@@ -36,18 +36,20 @@ const Index = () => {
 
               <h4 className="fw-bold text-center mb-3">Account Deactivated</h4>
               <p className="text-muted text-center mb-4">
-                Your account is currently inactive. Reactivate now to regain access to all features and opportunities.
+                  <p>현재 계정이 비활성화되어 있습니다.</p>
+                  <div>MyAsset 서비스를 이용하시려면</div>
+                  <div>계정을 다시 활성화해 주세요.</div>
               </p>
 
               <div className="d-grid">
                 <Button type="button" variant="primary" className="fw-semibold py-2">
-                  Reactivate Now
+                  다시 활성화 하기
                 </Button>
               </div>
             </Card>
 
             <p className="text-center text-muted mt-4 mb-0">
-              © {currentYear} UBold — by <span className="fw-semibold">Coderthemes</span>
+              © {currentYear} {appName}
             </p>
           </Col>
         </Row>
