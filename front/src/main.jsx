@@ -24,10 +24,16 @@ import 'simplebar-react/dist/simplebar.min.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import App from './App';
 import AppWrapper from "./components/AppWrapper";
-createRoot(document.getElementById('root')).render(<StrictMode>
-        <BrowserRouter>
-            <AppWrapper>
-                <App />
-            </AppWrapper>
-        </BrowserRouter>
+import {Provider} from "react-redux";
+import { store } from '@/store/store.js';
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <Provider store={store}>
+            <BrowserRouter>
+                <AppWrapper>
+                    <App />
+                </AppWrapper>
+            </BrowserRouter>
+        </Provider>
     </StrictMode>);

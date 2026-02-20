@@ -1,5 +1,6 @@
 package dev.es.myasset.adapter.security.oauth.handler;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import dev.es.myasset.adapter.security.token.JwtCookieManager;
 import dev.es.myasset.adapter.security.token.JwtTokenUtil;
 import dev.es.myasset.adapter.security.redis.RedisManager;
@@ -8,17 +9,24 @@ import dev.es.myasset.adapter.security.oauth.provider.KakaoOAuthUserInfo;
 import dev.es.myasset.adapter.security.oauth.provider.NaverOAuthUserInfo;
 import dev.es.myasset.application.UserService;
 import dev.es.myasset.application.dto.OAuthSignupDto;
+import dev.es.myasset.application.exception.user.DuplicatedEmailException;
+import dev.es.myasset.application.provided.UserRegister;
 import dev.es.myasset.application.required.OAuth2UserInfo;
 import dev.es.myasset.application.required.UserInfoRepository;
 import dev.es.myasset.domain.user.UserInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -42,10 +50,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private final RedisManager redisManager;
     private final UserInfoRepository userInfoRepository;
     private final JwtCookieManager jwtCookieManager;
-    private final UserService userService;
+    private final UserRegister userRegister;
 
     @Override
-    @Transactional
     public void onAuthenticationSuccess(
             HttpServletRequest request, HttpServletResponse response, Authentication authentication
     ) throws IOException {
@@ -69,10 +76,23 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         UserInfo userInfo = userInfoRepository
                 .findByProviderId(oAuth2UserInfo.getProviderId())
-                .orElseGet(() -> {
-                        log.info("신규유저 - 회원등록");
-                        return userService.assembleUserInfo(oAuthSignupDto, LocalDateTime.now());
-                });
+                .orElse(null);
+
+        if(userInfo == null) {
+            log.info("신규유저 - 회원등록");
+
+            try {
+                userInfo = userRegister.assembleUserInfo(oAuthSignupDto, LocalDateTime.now());
+            } catch (DataIntegrityViolationException e) {
+                log.info("중복 이메일, UserInfo 등록 실패");
+                getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + "/auth/sign-in?error=duplicate");
+                return;
+            } catch (Exception e) {
+                log.error("system 예외 - 예외처리 보강필요", e);
+                getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + "/auth/sign-in?error=system");
+                return;
+            }
+        }
 
         String userKey = userInfo.getUserKey();
 

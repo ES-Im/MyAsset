@@ -2,9 +2,9 @@ import AppLogo from '@/components/AppLogo.jsx';
 import {appName, currentYear} from '@/helpers/index.js';
 import { Link } from "react-router";
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import KakaoLogin from "@/components/auth/KakaoLogin.jsx";
-import GoogleLogin from "@/components/auth/GoogleLogin.jsx";
-import NaverLogin from "@/components/auth/NaverLogin.jsx";
+import KakaoLogin from "@/components/auth/loginByProvider/KakaoLogin.jsx";
+import GoogleLogin from "@/components/auth/loginByProvider/GoogleLogin.jsx";
+import NaverLogin from "@/components/auth/loginByProvider/NaverLogin.jsx";
 
 const Index = () => {
   return <div className="auth-box overflow-hidden align-items-center d-flex" style={{

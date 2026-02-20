@@ -21,10 +21,5 @@ public class UserRestController {
 //    @GetMapping("/kakao")
 
 
-    @PostMapping("/reissue")
-    public ResponseEntity<Object> issueToken(@CookieValue(required = false) String refreshToken,
-                                             HttpServletResponse response) {
-        tokenIssuer.reIssueToken(refreshToken, response);
-        return ResponseEntity.ok().build();
-    }
+
 }

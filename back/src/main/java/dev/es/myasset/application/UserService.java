@@ -1,13 +1,16 @@
 package dev.es.myasset.application;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import dev.es.myasset.application.dto.OAuthSignupDto;
 import dev.es.myasset.application.provided.UserRegister;
 import dev.es.myasset.application.required.UserInfoRepository;
 import dev.es.myasset.domain.user.User;
 import dev.es.myasset.domain.user.UserInfo;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,7 +20,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class UserService implements UserRegister {
 
-    private final UserRegister userRegister;
     private final UserInfoRepository userInfoRepository;
 
     @Transactional
@@ -36,6 +38,7 @@ public class UserService implements UserRegister {
 
         userInfo.linkUser(savedUser);
         userInfoRepository.save(userInfo);
+
         log.info("UserService:UserInfo DB 등록 완료 - user&userInfo 링크 유무 : {}", savedUser.equals(userInfo.getUser()));
 
         return userInfo;

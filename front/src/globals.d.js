@@ -1,3 +1,3 @@
-declare module 'pdfmake'
-declare module '@yaireo/tagify/react'
-declare module 'apextree'
+// declare module 'pdfmake'
+// declare module '@yaireo/tagify/react'
+// declare module 'apextree'

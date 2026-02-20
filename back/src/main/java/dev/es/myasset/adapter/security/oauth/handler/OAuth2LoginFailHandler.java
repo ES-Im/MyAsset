@@ -24,7 +24,7 @@ public class OAuth2LoginFailHandler extends SimpleUrlAuthenticationFailureHandle
             HttpServletRequest request, HttpServletResponse response, AuthenticationException exception
     ) throws IOException {
 
-        log.error("LOGIN FAILED : {}", exception.getClass().getSimpleName());
+        log.error("LOGIN FAILED : {} : {}", exception.getClass().getSimpleName(), exception.getMessage());
 
         getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL+"/auth/sign-in?error=true");
     }
