@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.security.edited;
+package dev.es.myasset.adapter.security.auth;
 
 import dev.es.myasset.domain.user.User;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,5 +1,6 @@
-package dev.es.myasset.adapter.security.edited;
+package dev.es.myasset.adapter.security.token;
 
+import dev.es.myasset.adapter.security.redis.RedisManager;
 import dev.es.myasset.application.exception.oauth.ExpiredRefreshTokenException;
 import dev.es.myasset.application.exception.oauth.InvalidRefreshTokenException;
 import dev.es.myasset.application.required.UserRepository;
@@ -7,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /*
  * Auth관련 유스케이스 관리
@@ -15,9 +16,9 @@ import org.springframework.stereotype.Service;
  */
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
-public class AuthService {
+public class TokenIssuer {
 
     private final JwtTokenUtil jwtTokenUtil;
     private final JwtCookieManager jwtCookieManager;

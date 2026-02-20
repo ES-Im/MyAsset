@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.security.edited;
+package dev.es.myasset.adapter.security.token;
 
 
 import dev.es.myasset.application.exception.oauth.ExpiredTokenException;

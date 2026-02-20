@@ -1,10 +1,11 @@
-package dev.es.myasset.adapter.security.edited;
+package dev.es.myasset.adapter.security.auth;
 
 
-import dev.es.myasset.adapter.security.handler.OAuth2LoginFailHandler;
-import dev.es.myasset.adapter.security.handler.OAuth2LoginSuccessHandler;
-import dev.es.myasset.application.exception.CustomAuthenticationEntryPoint;
+import dev.es.myasset.adapter.security.oauth.handler.OAuth2LoginFailHandler;
+import dev.es.myasset.adapter.security.oauth.handler.OAuth2LoginSuccessHandler;
+import dev.es.myasset.adapter.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,9 +23,8 @@ public class SecurityConfig {
 
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailHandler oAuth2LoginFailHandler;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Value("${app.frontend.base-url}") private String BASE_FRONT_URL;
 
     @Bean
     public SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity http) throws Exception {
@@ -58,7 +58,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin(BASE_FRONT_URL);
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);

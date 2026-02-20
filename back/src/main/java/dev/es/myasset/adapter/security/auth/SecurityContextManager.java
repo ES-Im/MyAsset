@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.security.edited;
+package dev.es.myasset.adapter.security.auth;
 
 import dev.es.myasset.application.exception.oauth.UnauthenticatedContextException;
 import dev.es.myasset.application.required.AuthenticatedUser;

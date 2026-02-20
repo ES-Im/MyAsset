@@ -1,6 +1,6 @@
 package dev.es.myasset.adapter.webapi;
 
-import dev.es.myasset.adapter.security.edited.AuthService;
+import dev.es.myasset.adapter.security.token.TokenIssuer;
 import dev.es.myasset.application.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserRestController {
 
     private final UserService userService;
-    private final AuthService authService;
+    private final TokenIssuer tokenIssuer;
 
 
 //    @GetMapping("/kakao")
@@ -24,7 +24,7 @@ public class UserRestController {
     @PostMapping("/reissue")
     public ResponseEntity<Object> issueToken(@CookieValue(required = false) String refreshToken,
                                              HttpServletResponse response) {
-        authService.reIssueToken(refreshToken, response);
+        tokenIssuer.reIssueToken(refreshToken, response);
         return ResponseEntity.ok().build();
     }
 }

@@ -1,6 +1,7 @@
-package dev.es.myasset.adapter.security.edited;
+package dev.es.myasset.adapter.security.redis;
 
 
+import dev.es.myasset.adapter.security.token.ExpirationTimeProperties;
 import dev.es.myasset.application.exception.oauth.InvalidRefreshTokenException;
 import dev.es.myasset.application.exception.redis.FailSaveRedisException;
 import lombok.RequiredArgsConstructor;

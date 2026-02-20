@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.security.edited;
+package dev.es.myasset.adapter.security.token;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,6 @@ public class ExpirationTimeProperties {
     public long refreshTokenExpirationMillis() {
         return this.refreshTokenExpirationTime.toMillis();
     }
-
 
     public int refreshCookieExpirationSeconds() {
         return (int) (this.refreshTokenExpirationMillis()) / 1000;

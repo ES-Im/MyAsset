@@ -1,4 +1,4 @@
-package dev.es.myasset.adapter.security.oauth;
+package dev.es.myasset.adapter.security.oauth.provider;
 
 import dev.es.myasset.application.required.OAuth2UserInfo;
 

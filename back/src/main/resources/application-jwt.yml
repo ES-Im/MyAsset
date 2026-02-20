@@ -5,8 +5,8 @@ spring:
     secret: ${JWT_SECRET}
 
     redirect:
-      base: ${JWT_REDIRECT_BASE}
-      onboarding: ${JWT_REDIRECT_ONBOARDING}
+      base: ${JWT_FRONT_REDIRECT_BASE}
+      landing-path: ${JWT_FRONT_CALLBACK_PATH}
 
     access-token:
       expiration-time: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME}
