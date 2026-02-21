@@ -3,6 +3,7 @@ package dev.es.myasset.adapter.security.redis;
 
 import dev.es.myasset.adapter.security.token.ExpirationTimeProperties;
 import dev.es.myasset.application.exception.oauth.InvalidRefreshTokenException;
+import dev.es.myasset.application.exception.redis.FailDeleteRedisException;
 import dev.es.myasset.application.exception.redis.FailSaveRedisException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +45,17 @@ public class RedisManager {
         if (stored == null) throw new InvalidRefreshTokenException();
         if (!stored.equals(previousRefreshToken)) throw new InvalidRefreshTokenException();
 
+    }
+
+    public void deleteRefreshToken(String userKey) {
+        try {
+            redisTemplate.delete(
+                    addPrefixForRefreshToken(userKey)
+            );
+            log.info("redis 토큰 삭제 완료");
+        } catch (Exception e) {
+            log.error("redis 토큰 삭제 실패");
+            throw new FailDeleteRedisException();
+        }
     }
 }

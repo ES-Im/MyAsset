@@ -7,7 +7,7 @@ import axios from 'axios';
 import { setUserFromToken } from "@/store/userSlice.js";
 import { setAccessToken } from "@/store/authSlice.js";
 
-const CALLBACK_PATH =  import.meta.env.VITE_SERVER_BASE_URL + import.meta.env.VITE_REFRESH_TOKEN_PATH;
+const CALLBACK_PATH =  import.meta.env.VITE_SERVER_BASE_URL + import.meta.env.VITE_ISSUE_TOKEN_PATH;
 
 export default function AuthCallback() {
     const navigate = useNavigate();

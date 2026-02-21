@@ -11,14 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /*
- * Auth관련 유스케이스 관리
+ * Auth Token관련
  * 로그인, 로그아웃, 토큰 재발행
  */
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TokenIssuer {
+public class TokenService {
 
     private final JwtTokenUtil jwtTokenUtil;
     private final JwtCookieManager jwtCookieManager;
@@ -46,6 +46,15 @@ public class TokenIssuer {
         redisManager.saveRefreshToken(userKey, newRefreshToken);
 
         return newAccessToken;
+    }
+
+    public void clearToken(String refreshToken, HttpServletResponse response) {
+        jwtCookieManager.removeRefreshCookie(response);
+
+        String userKey = jwtTokenUtil.getSubject(refreshToken);
+
+        if(userKey == null) return;
+        redisManager.deleteRefreshToken(userKey);
     }
 
 }

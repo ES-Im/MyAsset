@@ -1,11 +1,9 @@
 package dev.es.myasset.adapter.webapi;
 
-import dev.es.myasset.adapter.security.token.TokenIssuer;
+import dev.es.myasset.adapter.security.token.TokenService;
 import dev.es.myasset.application.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserRestController {
 
     private final UserService userService;
-    private final TokenIssuer tokenIssuer;
+    private final TokenService tokenService;
 
 
 //    @GetMapping("/kakao")

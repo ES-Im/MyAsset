@@ -21,7 +21,8 @@ public enum ErrorCode {
 
     // Redis Error Code
     FAIL_SAVE_REDIS(HttpStatus.INTERNAL_SERVER_ERROR, "REDIS_001", "Redis 저장에 실패했습니다"),
-    FAIL_CONNECTION_REDIS(HttpStatus.INTERNAL_SERVER_ERROR, "REDIS_002", "Redis 연결에 실패했습니다");
+    FAIL_CONNECTION_REDIS(HttpStatus.INTERNAL_SERVER_ERROR, "REDIS_002", "Redis 연결에 실패했습니다"),
+    FAIL_DELETE_REDIS(HttpStatus.INTERNAL_SERVER_ERROR, "REDIS_003", "Redis 삭제에 실패했습니다");
 
 
     private final HttpStatus httpStatus;

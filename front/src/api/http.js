@@ -4,7 +4,7 @@ import {clearAccessToken, setAccessToken} from "@/store/authSlice.js";
 import {logout} from "@/store/userSlice.js";
 
 const SERVER_BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
-const REISSUE_TOKEN_URL = import.meta.env.VITE_REFRESH_TOKEN_PATH;
+const REISSUE_TOKEN_URL = import.meta.env.VITE_ISSUE_TOKEN_PATH;
 
 export const http = axios.create({
     baseURL: SERVER_BASE_URL,
@@ -47,7 +47,9 @@ http.interceptors.response.use((res) => res, async (err) => {
 
    const errorCode = err.response.status;
    const lopeRefreshCall = originalRequest?.url?.includes(REISSUE_TOKEN_URL);
+
    const unrelatedAuth = !((errorCode === 401 || errorCode === 403) && !lopeRefreshCall);
+
    const duplicatedRequest = originalRequest._retry;
    if(unrelatedAuth || duplicatedRequest) return Promise.reject(err);
 
@@ -70,6 +72,7 @@ http.interceptors.response.use((res) => res, async (err) => {
    isRefreshing = true;
 
    try {
+
        const res = await axios.post(
            SERVER_BASE_URL + REISSUE_TOKEN_URL,
            {},
@@ -85,17 +88,22 @@ http.interceptors.response.use((res) => res, async (err) => {
        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
        return http(originalRequest);
+
    } catch (refreshErr) {
+
        processQueue(refreshErr, null);
 
        store.dispatch(clearAccessToken());
        store.dispatch(logout());
 
-       window.location.href = "/auth/sign-in";
-       return Promise.reject(refreshErr);
+       const promiseReject = Promise.reject(refreshErr);
+       setTimeout(() => {
+            window.location.href = "/auth/sign-in";
+       }, 0)
+
+       return promiseReject
    } finally {
        isRefreshing = false;
    }
 
 });
-

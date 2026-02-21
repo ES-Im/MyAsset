@@ -9,6 +9,7 @@ const Dashboard = lazy(() => import('@/views/dashboards/dashboard'));
 const AuthSignIn = lazy(() => import('@/views/auth/sign-in'));
 const AuthDeleteAccount = lazy(() => import('@/views/auth/delete-account'));
 const AuthCallback = lazy(() => import('@/components/auth/AuthCallback'));
+const Logout = lazy (() => import('@/components/auth/Logout'));
 // Landing
 // const Landing = lazy(() => import('@/views/landing'));
 
@@ -33,7 +34,10 @@ const authRoutes = [
 }, {
     path: '/auth/callback',
     element: <AuthCallback />
-}
+}, {
+    path: '/auth/logout',
+    element: <Logout />
+},
 ];
 const errorRoutes = [
 // {

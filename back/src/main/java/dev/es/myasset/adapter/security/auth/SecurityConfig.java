@@ -36,7 +36,8 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/refresh", "/oauth2/**", "/api/demo/**"
+                                "/api/auth/refresh", "/api/auth/logout",
+                                "/oauth2/**", "/api/demo/**"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/user/**").hasRole("USER")
@@ -62,6 +63,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin(BASE_FRONT_URL);
+//        config.addAllowedOrigin("http://localhost:4173");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
