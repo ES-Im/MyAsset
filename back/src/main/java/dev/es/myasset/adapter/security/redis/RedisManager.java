@@ -41,7 +41,7 @@ public class RedisManager {
 
     public void validateRefreshToken(String userKey, String previousRefreshToken) {
 
-        String stored = redisTemplate.opsForValue().get(userKey);
+        String stored = redisTemplate.opsForValue().get("RT|" + userKey);
         if (stored == null) throw new InvalidRefreshTokenException();
         if (!stored.equals(previousRefreshToken)) throw new InvalidRefreshTokenException();
 

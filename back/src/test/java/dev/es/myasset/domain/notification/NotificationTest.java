@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestFactory;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
-import static dev.es.myasset.domain.common.UserFixture.createUser;
+import static dev.es.myasset.domain.user.UserFixture.createUser;
 import static dev.es.myasset.domain.notification.Notification.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;

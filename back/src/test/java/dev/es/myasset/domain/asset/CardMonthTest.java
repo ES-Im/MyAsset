@@ -8,12 +8,12 @@ import java.time.LocalDate;
 import static dev.es.myasset.domain.asset.AssetType.*;
 import static dev.es.myasset.domain.asset.CardCode.TEST_CARD;
 import static dev.es.myasset.domain.asset.CardMonth.createNewCardMonth;
-import static dev.es.myasset.domain.common.UserFixture.createUser;
+import static dev.es.myasset.domain.user.UserFixture.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CardMonthTest {
 
-    private static LocalDate billingDay = LocalDate.of(2020, 1, 1);
+    private final static LocalDate billingDay = LocalDate.of(2020, 1, 1);
 
     private Card createCard() {
 

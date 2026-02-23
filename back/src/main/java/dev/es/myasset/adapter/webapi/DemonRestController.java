@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/demo")
 @RequiredArgsConstructor
-public class UserRestController {
-
+public class DemonRestController {
 
     @GetMapping("/")
-    public String userDashBoard() {
-        return "user";
+    public String DemonDashBoard() {
+        return "demo";
     }
 }

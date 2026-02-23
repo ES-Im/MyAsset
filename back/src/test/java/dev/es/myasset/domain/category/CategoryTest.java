@@ -12,7 +12,7 @@ import java.util.List;
 
 import static dev.es.myasset.domain.category.Category.createCustomCategory;
 import static dev.es.myasset.domain.category.Category.createDefaultCategory;
-import static dev.es.myasset.domain.common.UserFixture.createUser;
+import static dev.es.myasset.domain.user.UserFixture.createUser;
 import static org.assertj.core.api.Assertions.*;
 
 class CategoryTest {

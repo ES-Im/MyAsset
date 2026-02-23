@@ -25,10 +25,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    // thymeleaf
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
@@ -58,7 +54,7 @@ dependencies {
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
-    // test
+    // test (h2)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 

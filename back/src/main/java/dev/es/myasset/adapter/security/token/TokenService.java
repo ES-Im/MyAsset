@@ -1,8 +1,8 @@
 package dev.es.myasset.adapter.security.token;
 
 import dev.es.myasset.adapter.security.redis.RedisManager;
-import dev.es.myasset.application.exception.oauth.ExpiredRefreshTokenException;
-import dev.es.myasset.application.exception.oauth.InvalidRefreshTokenException;
+import dev.es.myasset.application.exception.oauth.*;
+import dev.es.myasset.application.exception.redis.GlobalRedisException;
 import dev.es.myasset.application.required.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -51,10 +51,21 @@ public class TokenService {
     public void clearToken(String refreshToken, HttpServletResponse response) {
         jwtCookieManager.removeRefreshCookie(response);
 
-        String userKey = jwtTokenUtil.getSubject(refreshToken);
+        String userKey;
 
-        if(userKey == null) return;
-        redisManager.deleteRefreshToken(userKey);
+        try {
+            userKey = jwtTokenUtil.getSubject(refreshToken);
+        } catch (GlobalAuthException e) {
+            return;
+        }
+
+        if(userKey == null || userKey.isBlank()) return;
+
+        try {
+            redisManager.deleteRefreshToken(userKey);   // to-do redis에 남아있는 RT| 부분도 expiration TTL 걸어서 자동 정리되게끔 설정.
+        } catch (GlobalRedisException e) {
+            return;
+        }
     }
 
 }

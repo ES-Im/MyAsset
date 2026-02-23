@@ -50,6 +50,21 @@ public class User extends NonAuditingEntity {
         return user;
     }
 
+    // Mock 객체 생성용 메서드
+    static User registerForTest(
+            String userKey, UserStatus status, UserRole role, LocalDateTime createdAt, LocalDateTime lastLoginAt
+    ) {
+        User user = new User();
+
+        user.userKey = userKey;
+        user.status = status;
+        user.role = role;
+        user.createdAt = createdAt;
+        user.lastLoginAt = lastLoginAt;
+
+        return user;
+    }
+
 
     public void requestWithdraw(LocalDateTime current) {
         state(isActive(), "Status is not active");
@@ -101,5 +116,6 @@ public class User extends NonAuditingEntity {
         state(baseDate != null, "비교 날짜가 Null 입니다.");
         state(baseDate.isBefore(current.minusDays(dateDiff)), "경과 기간 조건이 맞지 않습니다");
     }
+
 }
 

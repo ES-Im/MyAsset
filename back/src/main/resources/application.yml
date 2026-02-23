@@ -10,8 +10,8 @@ spring:
   application:
     name: MyAsset
 
-  profiles:
-    active: local # local / prod
+#  profiles:
+#    active: local # local / prod
 
   config:
     import:

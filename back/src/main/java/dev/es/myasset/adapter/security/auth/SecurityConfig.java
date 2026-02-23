@@ -40,7 +40,7 @@ public class SecurityConfig {
                                 "/oauth2/**", "/api/demo/**"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/user/**").hasRole("USER")
+                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().denyAll()
                 )
 

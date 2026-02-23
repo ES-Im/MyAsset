@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static dev.es.myasset.domain.asset.Asset.*;
 import static dev.es.myasset.domain.asset.AssetType.*;
-import static dev.es.myasset.domain.common.UserFixture.createUser;
+import static dev.es.myasset.domain.user.UserFixture.createUser;
 import static org.assertj.core.api.Assertions.*;
 
 public class AssetTest {
