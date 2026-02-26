@@ -18,13 +18,12 @@ export default function AuthCallback() {
             try {
                 const res = await axios.post(CALLBACK_PATH, null, { withCredentials: true });
                 const accessToken = res.data.accessToken;
-
                 dispatch(setAccessToken(accessToken));
                 dispatch(setUserFromToken(accessToken));
 
                 navigate("/dashboard", { replace: true });
             } catch (e) {
-                navigate("/auth/sign-in?error=true", { replace: true });
+                navigate(`/auth/sign-in?error=true`, { replace: true });
             }
         };
 

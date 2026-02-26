@@ -72,6 +72,20 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+    public String generateActivateToken(String userKey) {
+        long currentTimeMillis = System.currentTimeMillis();
+        Date issuedAt = new Date(currentTimeMillis);
+        Date expiredAt = new Date(currentTimeMillis + expirationTimeProperties.activateTokenExpirationMillis());
+
+        return Jwts.builder()
+                .claim("tokenType", "ACTIVATE")
+                .setSubject(userKey)
+                .setIssuedAt(issuedAt)
+                .setExpiration(expiredAt)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public void validateToken(String token) {
         parseToken(token);
     }

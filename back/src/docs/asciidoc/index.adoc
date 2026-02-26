@@ -1,0 +1,18 @@
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+
+= MyAsset REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: My_ASSET REST API
+:sectnums:
+:toclevels: 3
+:sectlinks:
+
+[[AUTH-API]]
+== AUTH API
+
+include::api/auth/index.adoc[]

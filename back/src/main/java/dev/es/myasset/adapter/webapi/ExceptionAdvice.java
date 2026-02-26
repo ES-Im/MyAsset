@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAdvice {
 
     @ExceptionHandler({GlobalApplicationException.class, GlobalSecurityException.class})
-    public ResponseEntity<ErrorResponse> handleGlobal(Exception e) {
-        ErrorCode ec = ((ErrorCodeCarrier) e).getErrorCode();
+    public ResponseEntity<ErrorResponse> handleGlobal(ErrorCodeCarrier e) {
+        ErrorCode ec = e.getErrorCode();
 
         log.error("[Global 예외] code={}, message={}", ec.name(), ec.getMessage());
 
+        log.info(ec.toString());
+
         return ResponseEntity.status(ec.getHttpStatus())
                 .body(ErrorResponse.from(ec));
+
     }
 
 }

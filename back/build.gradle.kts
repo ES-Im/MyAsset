@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.5.8"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.github.spotbugs") version "6.4.8"
+    id("org.asciidoctor.jvm.convert") version "4.0.5"
 }
 
 group = "dev.es"
@@ -17,6 +18,10 @@ java {
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+    create("asciidoctorExt")
 }
 
 dependencies {
@@ -57,10 +62,43 @@ dependencies {
     // test (h2)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    add("asciidoctorExt", "org.springframework.restdocs:spring-restdocs-asciidoctor")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+
 
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
 
+// snippets(코드 조각)의 Dir(디렉토리)를 전역변수로 선언
+val snippetsDir by extra { file("build/generated-snippets") }
+
+tasks {
+
+    test {
+        useJUnitPlatform()
+        outputs.dir(snippetsDir) // 테스트가 끝난 결과물(문서 파일)을 이 snippet 디렉토리로 넣도록 지정
+    }
+
+    asciidoctor {
+
+        dependsOn(test)         // 테스트가 성공한 결과물을 받아서, 아스키독터라는 태스크에서 문서를 만든다.
+        inputs.dir(snippetsDir)
+        configurations("asciidoctorExt")
+
+        sources {
+            include("**/index.adoc")
+        }
+
+        baseDirFollowsSourceFile()
+
+    }
+
+    bootJar {
+        dependsOn(asciidoctor)
+        from("${asciidoctor.get().outputDir}") {
+            into("static/docs")
+        }
+    }
+
+
+}

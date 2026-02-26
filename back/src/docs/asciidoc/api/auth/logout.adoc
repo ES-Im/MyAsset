@@ -1,0 +1,22 @@
+[tabs%nosync]
+====
+Request::
++
+--
+_HTTP request_
+include::{snippets}/logout/http-request.adoc[]
+
+_Request Cookies_
+include::{snippets}/logout/request-cookies.adoc[]
+--
+Response (200)::
++
+--
+_HTTP response_
+include::{snippets}/logout/http-response.adoc[]
+
+_Response body_
+include::{snippets}/logout/response-body.adoc[]
+
+--
+====

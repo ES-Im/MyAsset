@@ -19,6 +19,9 @@ public class ExpirationTimeProperties {
     @Value("${JWT_REFRESH_TOKEN_EXPIRATION_TIME}")
     private Duration refreshTokenExpirationTime;
 
+    @Value("${JWT_ACTIVATE_TOKEN_EXPIRATION_TIME}")
+    private Duration activateTokenExpirationTime;
+
     public long accessTokenExpirationMillis() {
         return this.accessTokenExpirationTime.toMillis();
     }
@@ -27,7 +30,17 @@ public class ExpirationTimeProperties {
         return this.refreshTokenExpirationTime.toMillis();
     }
 
+    public long activateTokenExpirationMillis() { return this.activateTokenExpirationTime.toMillis(); }
+
     public int refreshCookieExpirationSeconds() {
         return (int) (this.refreshTokenExpirationMillis()) / 1000;
     }
+
+    public int activateCookieExpirationSeconds() {
+        return (int) (this.activateTokenExpirationMillis()) / 1000;
+    }
+
+
+
+    public int accessTokenExpirationSeconds() { return (int) (this.activateTokenExpirationMillis()) / 1000; }
 }

@@ -2,8 +2,35 @@ import deleteIcon from '@/assets/images/user-shield.png';
 import AppLogo from '@/components/AppLogo.jsx';
 import {appName, currentYear} from '@/helpers/index.js';
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import {http} from "@/api/http.js";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const Index = () => {
+
+    const navigate = useNavigate();
+    const [error, setError] = useState("");
+
+    const handleActivateUser = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await http.post(import.meta.env.VITE_REACTIVATE_PATH);
+            const msg = res.data;
+
+            if (msg === "success") {
+                navigate("/dashboard", { replace: true });
+                alert("계정 활성화가 완료되었습니다, 다시 로그인해주세요.");
+                return;
+            }
+
+            setError(msg);
+        } catch (err) {
+            setError("요청 실패");
+        }
+    };
+
+
   return <div className="auth-box overflow-hidden align-items-center d-flex">
       <Container>
         <Row className="justify-content-center">
@@ -42,10 +69,11 @@ const Index = () => {
               </p>
 
               <div className="d-grid">
-                <Button type="button" variant="primary" className="fw-semibold py-2">
+                <Button type="button" variant="primary" className="fw-semibold py-2" onClick={handleActivateUser}>
                   다시 활성화 하기
                 </Button>
               </div>
+            <div>{error}</div>
             </Card>
 
             <p className="text-center text-muted mt-4 mb-0">

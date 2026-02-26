@@ -6,7 +6,7 @@ import dev.es.myasset.application.exception.ErrorCode;
 public class InvalidRefreshTokenException extends GlobalAuthException {
 
     public InvalidRefreshTokenException() {
-        super(ErrorCode.INVALID_TOKEN);
+        super(ErrorCode.INVALID_REFRESH_TOKEN);
     }
 
 }

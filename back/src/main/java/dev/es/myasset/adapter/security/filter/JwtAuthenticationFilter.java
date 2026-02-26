@@ -103,7 +103,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private final List<String> EXCLUDE_URL = Arrays.asList(
-            "/api/auth/logout", "/api/auth/refresh"
+            "/api/auth/logout", "/api/auth/refresh", "/api/auth/activateUser"
     );
 
 

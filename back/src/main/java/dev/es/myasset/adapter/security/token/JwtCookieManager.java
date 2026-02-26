@@ -38,4 +38,23 @@ public class JwtCookieManager {
         log.info("refresh cookie 삭제 성공");
     }
 
+    public void setActivateCookie(String activateToken, HttpServletResponse response) {
+        Cookie cookie = new Cookie("activateToken", activateToken);
+
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(expirationTimeProperties.activateCookieExpirationSeconds());
+        cookie.setSecure(false);    // to-do : HTTPS 변경시 true로 변경
+
+        response.addCookie(cookie);
+    }
+
+    public void removeActivateCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("activateToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
 }

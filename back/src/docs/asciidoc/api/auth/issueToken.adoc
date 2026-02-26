@@ -1,0 +1,42 @@
+==== Success
+[tabs%nosync]
+====
+Request::
++
+--
+_HTTP request_
+include::{snippets}/reIssue/http-request.adoc[]
+
+_Request Cookies_
+include::{snippets}/reIssue/request-cookies.adoc[]
+--
+
+Response (200)::
++
+--
+_HTTP response_
+include::{snippets}/reIssue/http-response.adoc[]
+
+_Response body_
+include::{snippets}/reIssue/response-body.adoc[]
+
+_Response cookies_
+include::{snippets}/reIssue/response-cookies.adoc[]
+--
+====
+
+==== Error
+[tabs%nosync]
+====
+INVALID_REFRESH_TOKEN(401)::
++
+--
+
+_Example response_
+include::{snippets}/reIssue-invalid-refresh/response-body.adoc[]
+
+_Response fields_
+include::{snippets}/reIssue-invalid-refresh/response-fields.adoc[]
+
+--
+====

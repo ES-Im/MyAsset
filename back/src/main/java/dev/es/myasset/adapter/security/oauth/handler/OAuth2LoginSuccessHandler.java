@@ -1,32 +1,29 @@
 package dev.es.myasset.adapter.security.oauth.handler;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import dev.es.myasset.adapter.security.token.JwtCookieManager;
 import dev.es.myasset.adapter.security.token.JwtTokenUtil;
 import dev.es.myasset.adapter.security.redis.RedisManager;
 import dev.es.myasset.adapter.security.oauth.provider.GoogleOAuthUserInfo;
 import dev.es.myasset.adapter.security.oauth.provider.KakaoOAuthUserInfo;
 import dev.es.myasset.adapter.security.oauth.provider.NaverOAuthUserInfo;
-import dev.es.myasset.application.UserService;
+import dev.es.myasset.adapter.security.token.TokenService;
 import dev.es.myasset.application.dto.OAuthSignupDto;
-import dev.es.myasset.application.exception.user.DuplicatedEmailException;
+import dev.es.myasset.application.exception.oauth.InActivatedAccount;
+import dev.es.myasset.application.exception.user.NonExistAccount;
 import dev.es.myasset.application.provided.UserRegister;
 import dev.es.myasset.application.required.OAuth2UserInfo;
 import dev.es.myasset.application.required.UserInfoRepository;
+import dev.es.myasset.application.required.UserRepository;
 import dev.es.myasset.domain.user.UserInfo;
+import dev.es.myasset.domain.user.UserStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -34,12 +31,17 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import static dev.es.myasset.domain.user.UserStatus.ACTIVE;
+import static dev.es.myasset.domain.user.UserStatus.WITHDRAWN;
+
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final UserRepository userRepository;
+    private final TokenService tokenService;
     @Value("${app.frontend.base-url}")
     private String BASE_FRONT_URL;
 
@@ -58,6 +60,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     ) throws IOException {
 
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
+
+        Object principal = authentication.getPrincipal();
+        log.info("principal class={}", principal.getClass().getName());
 
         String provider = token.getAuthorizedClientRegistrationId();
         Map<String, Object> attributes = token.getPrincipal().getAttributes();
@@ -78,7 +83,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 .findByProviderId(oAuth2UserInfo.getProviderId())
                 .orElse(null);
 
-        if(userInfo == null) {
+        if (userInfo == null) {
             log.info("신규유저 - 회원등록");
 
             try {
@@ -87,11 +92,32 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 log.info("중복 이메일, UserInfo 등록 실패");
                 getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + "/auth/sign-in?error=duplicate");
                 return;
-            } catch (Exception e) {
-                log.error("system 예외 - 예외처리 보강필요", e);
-                getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + "/auth/sign-in?error=system");
+            }
+        }
+
+        UserStatus userStatus = null;
+
+        try {
+            userStatus = userRepository.findUserStatusByUserKey(userInfo.getUserKey())
+                    .orElseThrow(() -> new NonExistAccount());
+
+            if (!userStatus.equals(ACTIVE)) throw new InActivatedAccount();
+
+
+        } catch (InActivatedAccount e) {
+            log.error("inactivate 예외", e);
+
+            if(userStatus.equals(WITHDRAWN)) {
+                getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + "/auth/sign-in?error=withdrawn-user");
                 return;
             }
+
+            // 유효시간이 짧은 activate Token을 만들어서 전달
+            String activateToken = jwtTokenUtil.generateActivateToken(userInfo.getUserKey());
+            jwtCookieManager.setActivateCookie(activateToken, response);
+
+            getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + "/auth/inactivate-account");
+            return;
         }
 
         String userKey = userInfo.getUserKey();
@@ -100,7 +126,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         jwtCookieManager.setRefreshCookie(refreshToken, response);
         redisManager.saveRefreshToken(userKey, refreshToken);
         
-        // to-do : 프론트에서 accessToken받는 백엔드 호출 필요 -> back : /api/refresh 이용하면 될듯 - accesstoken이 리다이렉트에 의해 전달되지 않아 요청을 따로 콜백해야함
         getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + LANDING_PATH);
     }
 }

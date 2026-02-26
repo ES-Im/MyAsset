@@ -18,7 +18,8 @@ public enum ErrorCode {
     // User Error Code
     AGREEMENT_REQUIRED_EXCEPTION(HttpStatus.BAD_REQUEST, "USER_001", "회원 가입을 위해 동의가 필요합니다"),
     DUPLICATED_EMAIL_EXCEPTION(HttpStatus.BAD_REQUEST, "USER_002", "이미 등록된 이메일입니다."),
-    INACTIVATED_ACCOUNT(HttpStatus.FORBIDDEN, "UESER_003", "휴먼/탈퇴처리된 계정입니다"),
+    INACTIVATED_ACCOUNT(HttpStatus.FORBIDDEN, "USER_003", "휴먼/탈퇴처리된 계정입니다"),
+    NON_EXIST_ACCOUNT(HttpStatus.BAD_REQUEST, "USER_004", "회원정보를 찾을 수 없습니다"),
 
 
     // Redis Error Code

@@ -7,9 +7,10 @@ const Dashboard = lazy(() => import('@/views/dashboards/dashboard'));
 
 // Auth
 const AuthSignIn = lazy(() => import('@/views/auth/sign-in'));
-const AuthDeleteAccount = lazy(() => import('@/views/auth/delete-account'));
 const AuthCallback = lazy(() => import('@/components/auth/AuthCallback'));
 const Logout = lazy (() => import('@/components/auth/Logout'));
+const InActivateAccount = lazy(() => import('@/views/auth/inactivated-account'));
+
 // Landing
 // const Landing = lazy(() => import('@/views/landing'));
 
@@ -29,35 +30,20 @@ const authRoutes = [
     path: '/auth/sign-in',
     element: <AuthSignIn />
 }, {
-    path: '/auth/delete-account',
-    element: <AuthDeleteAccount />
-}, {
     path: '/auth/callback',
     element: <AuthCallback />
 }, {
     path: '/auth/logout',
     element: <Logout />
-},
+}, {
+    path: `/auth/inactivate-account`,
+    element: <InActivateAccount />
+}
 ];
 const errorRoutes = [
 // {
 //   path: '/error/400',
 //   element: <Error400 />
-// }, {
-//   path: '/error/401',
-//   element: <Error401 />
-// }, {
-//   path: '/error/403',
-//   element: <Error403 />
-// }, {
-//   path: '/error/404',
-//   element: <Error404 />
-// }, {
-//   path: '/error/408',
-//   element: <Error408 />
-// }, {
-//   path: '/error/500',
-//   element: <Error500 />
 // }
 ];
 

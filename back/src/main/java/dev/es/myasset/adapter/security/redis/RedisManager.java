@@ -50,7 +50,7 @@ public class RedisManager {
     public void deleteRefreshToken(String userKey) {
         try {
             redisTemplate.delete(
-                    addPrefixForRefreshToken(userKey)
+                addPrefixForRefreshToken(userKey)
             );
             log.info("redis 토큰 삭제 완료");
         } catch (Exception e) {

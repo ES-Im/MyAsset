@@ -38,6 +38,7 @@ public abstract class SecurityTestSupport {
     @Autowired protected UserRepository userRepository;
     @Autowired protected JwtTokenUtil jwtTokenUtil;
 
+
     @Value("${spring.jwt.secret}") String secret;
     SecretKey secretKey;
     @BeforeEach

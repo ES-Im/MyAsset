@@ -16,8 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class RefreshTokenTest extends SecurityTestSupport {
 
-    @Autowired RedisManager redisManager;
-    @Autowired RedisTemplate<Object, Object> redisTemplate;
+
+    @Autowired protected RedisManager redisManager;
+    @Autowired protected RedisTemplate<Object, Object> redisTemplate;
 
     @Test
     @DisplayName("/api/auth/logout시 accessToken이 없어도 HttpStatus.OK 결과, refreshToken관련 redis와 cookie가 정리된다.")

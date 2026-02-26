@@ -1,7 +1,10 @@
 package dev.es.myasset.application.required;
 
 import dev.es.myasset.domain.user.User;
+import dev.es.myasset.domain.user.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -11,5 +14,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByUserKey(String UserKey);
+
+    @Query("select u.status from User u where u.userKey = :userKey")
+    Optional<UserStatus> findUserStatusByUserKey(@Param("userKey")String userKey);
 
 }

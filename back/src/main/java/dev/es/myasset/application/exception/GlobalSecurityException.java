@@ -8,9 +8,14 @@ public class GlobalSecurityException extends AuthenticationException implements 
 
     private final ErrorCode errorCode;
 
-    public GlobalSecurityException(ErrorCode errorCode) {
+    protected GlobalSecurityException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
+    }
+
+    @Override
+    public ErrorCode getErrorCode() {
+        return this.errorCode;
     }
 
 }

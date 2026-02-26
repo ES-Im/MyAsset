@@ -1,16 +1,15 @@
 package dev.es.myasset.application;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import dev.es.myasset.application.dto.OAuthSignupDto;
+import dev.es.myasset.application.exception.user.NonExistAccount;
 import dev.es.myasset.application.provided.UserRegister;
 import dev.es.myasset.application.required.UserInfoRepository;
+import dev.es.myasset.application.required.UserRepository;
 import dev.es.myasset.domain.user.User;
 import dev.es.myasset.domain.user.UserInfo;
 import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,6 +20,7 @@ import java.time.LocalDateTime;
 public class UserService implements UserRegister {
 
     private final UserInfoRepository userInfoRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     @Override
@@ -44,4 +44,15 @@ public class UserService implements UserRegister {
         return userInfo;
     }
 
+    public void activateUser(String userKey, LocalDateTime requestTime) {
+        User user = userRepository.findByUserKey(userKey).orElseThrow(() -> new NonExistAccount());
+
+        try {
+            user.requestActive(requestTime);
+
+            userRepository.save(user);
+        }catch (IllegalArgumentException e) {
+            throw e;
+        }
+    }
 }

@@ -23,7 +23,7 @@ import static org.springframework.util.Assert.state;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "budget_rule")
-@ToString(exclude = {"user_key"})
+@ToString(exclude = {"user"})
 public class BudgetRule extends BaseEntity {
 
     @Id
