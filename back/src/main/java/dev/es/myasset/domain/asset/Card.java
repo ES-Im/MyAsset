@@ -1,12 +1,15 @@
 package dev.es.myasset.domain.asset;
 
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.NonAuditingEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.EnumType.*;
 import static jakarta.persistence.FetchType.*;
@@ -18,7 +21,7 @@ import static java.util.Objects.requireNonNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "card")
-public class Card extends BaseEntity {
+public class Card extends NonAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -44,12 +47,20 @@ public class Card extends BaseEntity {
     @JoinColumn(name = "bank_acct_id")
     private BankAccount bankAccount;
 
+    private LocalDateTime lastSyncedAt;
+
     @Builder
-    public Card(Asset asset, CardCode cardCode, CardType cardType, Integer billingDay, BankAccount bankAccount) {
+    public Card(Asset asset,
+                CardCode cardCode,
+                CardType cardType,
+                Integer billingDay,
+                BankAccount bankAccount,
+                LocalDateTime lastSyncedAt) {
         this.asset = requireNonNull(asset);
         this.cardCode = requireNonNull(cardCode);
         this.cardType = requireNonNull(cardType);
         this.billingDay = requireNonNull(billingDay);
         this.bankAccount = bankAccount;
+        this.lastSyncedAt = lastSyncedAt;
     }
 }

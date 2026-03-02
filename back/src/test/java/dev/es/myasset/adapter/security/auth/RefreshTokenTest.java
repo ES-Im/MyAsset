@@ -27,7 +27,7 @@ public class RefreshTokenTest extends SecurityTestSupport {
 
         mockMvc.perform(post("/api/auth/logout")
                 .cookie(new Cookie("refreshToken", refreshToken + "odd"))
-        ).andExpect(status().isOk()).andExpect(content().string("로그아웃 성공")
+        ).andExpect(status().isOk()).andExpect(content().string("success")
         ).andExpect(cookie().maxAge("refreshToken", 0)
         );
 

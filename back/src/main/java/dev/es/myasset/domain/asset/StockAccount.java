@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
@@ -45,11 +47,14 @@ public class StockAccount extends BaseEntity {
     @Column(nullable = false)
     private Money balance;
 
+    private LocalDateTime lastSyncedAt;
+
     @Builder
-    public StockAccount(Asset asset, String acctNum, CompanyCode brokerCode, Money balance) {
+    public StockAccount(Asset asset, String acctNum, CompanyCode brokerCode, Money balance, LocalDateTime lastSyncedAt) {
         this.asset = requireNonNull(asset);
         this.acctNum = requireNonNull(acctNum);
         this.brokerCode = requireNonNull(brokerCode);
         this.balance = requireNonNull(balance);
+        this.lastSyncedAt = lastSyncedAt;
     }
 }

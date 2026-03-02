@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.*;
 import static java.util.Objects.requireNonNull;
@@ -43,11 +45,14 @@ public class BankAccount extends BaseEntity {
     )
     private Money balance;
 
+    private LocalDateTime lastSyncedAt;
+
     @Builder
-    public BankAccount(Asset asset, CompanyCode bankCode, String acctNum, Money balance) {
+    public BankAccount(Asset asset, CompanyCode bankCode, String acctNum, Money balance, LocalDateTime lastSyncedAt) {
         this.asset = requireNonNull(asset);
         this.bankCode = requireNonNull(bankCode);
         this.acctNum = requireNonNull(acctNum);
         this.balance = requireNonNull(balance);
+        this.lastSyncedAt = requireNonNull(lastSyncedAt);
     }
 }
