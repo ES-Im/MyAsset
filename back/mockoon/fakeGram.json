@@ -1,0 +1,309 @@
+{
+  "uuid": "2bb719b1-f62f-4653-ae40-46c36e26477c",
+  "lastMigration": 33,
+  "name": "FakeGram",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3010,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "84ee4002-f324-425f-918d-a3837cb957c4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/mydata/token",
+      "responses": [
+        {
+          "uuid": "9e5592df-d944-4ef7-8253-6272856e5141",
+          "body": "[\n  {{#repeat 5}}\n    {\n      \"code\": \"A0000\",\n      \"message\": \"Success\",\n      \"token_type\": \"Bearer\",\n      \"access_token\": \"access_token\",\n      \"user_seq_no\": \"U{{faker 'string.numeric' 9}}\",\n      \"bank\": [\n        \n        {{#repeat 10}}\n          { \"fintech_use_num\": \"9{{faker 'string.numeric' 23}}\" }{{#unless @last}},{{/unless}}\n        {{/repeat}}\n      ]\n    }\n  {{#unless @last}},{{/unless}}\n  {{/repeat}}\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f4bad3a2-4363-47f0-969d-10288a1d55f5",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/mydata/accountinfo/list",
+      "responses": [
+        {
+          "uuid": "3dfa553b-0e1c-4ee2-8c83-ba61058961f1",
+          "body": "{\r\n  \"code\": \"A0000\",\r\n  \"message\": \"OK\",\r\n  \"accounts\": [\r\n    {\r\n      \"bank_code_std\": \"011\",\r\n      \"account_num\": \"0001234567890123\",\r\n      \"balance_amt\": \"10000000\",\r\n      \"product_name\": \"NH1934우대통장\",\r\n      \"account_type\": \"1\"\r\n    }\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e787e19a-eae2-4731-adf5-28babcb66b95",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/mydata/account/transaction_list/fin_num",
+      "responses": [
+        {
+          "uuid": "bf5f98ab-ae41-4574-aafe-39834a25f93f",
+          "body": "{\r\n  \"code\": \"A0000\",\r\n  \"message\": \"Success\",\r\n  \"api_tran_id\": \"AA{{faker 'string.alphanumeric' 18}}\",\r\n  \"res_list\": [\r\n    {{setVar 'fromIso' (queryParamRaw 'from_date' '2025-01-01')}}\r\n    {{setVar 'toIso' (queryParamRaw 'to_date' '2025-01-31')}}\r\n    {\r\n      \"tran_date\": \"{{concat (date (getVar 'fromIso') (getVar 'fromIso') 'yyyyMM') '10'}}\",\r\n      \"tran_time\": \"{{padStart (faker 'number.int' min=0 max=23) 2 '0'}}{{padStart (faker 'number.int' min=0 max=59) 2 '0'}}{{padStart (faker 'number.int' min=0 max=59) 2 '0'}}\",\r\n      \"tran_type\": \"이체\",\r\n      \"inout_type\": \"입금\",\r\n      \"printed_content\": \"{{oneOf (array\r\n        '적금/자동이체'\r\n        '적금/추가입금'\r\n      )}}\",\r\n      \"tran_amt\": \"300000\"\r\n\r\n    {{#repeat (faker 'number.int' min=0 max=1) comma=false}},\r\n    {\r\n      \"tran_date\": \"{{date (getVar 'fromIso') (getVar 'toIso') 'yyyyMMdd'}}\",\r\n      \"tran_time\": \"{{padStart (faker 'number.int' min=0 max=23) 2 '0'}}{{padStart (faker 'number.int' min=0 max=59) 2 '0'}}{{padStart (faker 'number.int' min=0 max=59) 2 '0'}}\",\r\n      \"tran_type\": \"이체\",\r\n      \"inout_type\": \"입금\",\r\n      \"printed_content\": \"{{oneOf (array\r\n        '적금/추가입금'\r\n      )}}\",\r\n      \"tran_amt\": \"{{multiply (faker 'number.int' min=10 max=50) 10000}}\"\r\n    }\r\n    {{/repeat}}\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "from_date",
+              "value": "^\\d{4}-\\d{2}-\\d{2}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "query",
+              "modifier": "to_date",
+              "value": "^\\d{4}-\\d{2}-\\d{2}$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a2e617f6-2065-4fb3-970f-0af98310f7b9",
+          "body": "{\r\n  \"code\": \"A0000\",\r\n  \"message\": \"Success\",\r\n  \"api_tran_id\": \"AA{{faker 'string.alphanumeric' 18}}\",\r\n  \"res_list\": [\r\n    {{setVar 'fromIso' (queryParamRaw 'from_date' '2025-01-01')}}\r\n    {{setVar 'toIso' (queryParamRaw 'to_date' '2025-01-31')}}\r\n\r\n    {\r\n      \"tran_date\": \"{{concat (slice (getVar 'fromIso') 0 4) (slice (getVar 'fromIso') 5 7) '05'}}\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n\r\n    {{#repeat (faker 'number.int' min=20 max=100) comma=false}}\r\n    {\r\n      \"tran_date\": \"{{date (getVar 'fromIso') (getVar 'toIso') 'yyyyMMdd'}}\",\r\n      \"tran_time\": \"{{faker 'string.numeric' 6}}\",\r\n      \"inout_type\": \"출금\",\r\n      \"tran_type\": \"현금\",\r\n      \"printed_content\": \"{{oneOf (array\r\n        '식비/점심' '식비/저녁' '식비/배달' '식비/점심' '식비/저녁' '식비/배달' '식비/점심'\r\n        '카페/커피' '카페/커피' '카페/디저트'\r\n        '교통/지하철' '교통/지하철' '교통/버스' '교통/택시'\r\n        '쇼핑/쿠팡' '쇼핑/생활용품' '쇼핑/의류'\r\n        '공과금/전기' '공과금/가스' '공과금/수도'\r\n        '통신/휴대폰요금' '구독/OTT'\r\n        '의료/약국'\r\n        '문화/영화'\r\n        '보험/실손'\r\n        '기타/선물'\r\n      )}}\",\r\n      \"tran_amt\": \"{{faker 'number.int' min=5000 max=250000}}\"\r\n    }{{#unless @last}},{{/unless}}\r\n    {{/repeat}}\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": " (copy)",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "from_date",
+              "value": "^\\d{4}-\\d{2}-\\d{2}$",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "query",
+              "modifier": "to_date",
+              "value": "^\\d{4}-\\d{2}-\\d{2}$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "782834df-65ae-4534-9cb3-9926bee9bdc7",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/mydata/cards",
+      "responses": [
+        {
+          "uuid": "d2d8be32-e48e-4804-8648-6ddc017923d1",
+          "body": "{\r\n  \"code\": \"A0000\",\r\n  \"message\": \"Success\",\r\n  \"card_list\": [\r\n    {{#repeat (faker 'number.int' min=3 max=8) comma=false}}\r\n    {\r\n      \"card_id\": \"{{faker 'string.alphanumeric' 24}}\",\r\n      \"card_num_masked\": \"{{faker 'string.numeric' 6}}******{{faker 'string.numeric' 4}}\",\r\n      \"card_name\": \"{{oneOf (array\r\n        '신한 딥드림'\r\n        'KB국민 탄탄대로'\r\n        '현대 M'\r\n        '삼성 taptap O'\r\n        '롯데 LIKIT'\r\n        '우리 NU'\r\n        '하나 1Q'\r\n        'NH 올바른'\r\n      )}}\"\r\n    }{{#unless @last}},{{/unless}}\r\n    {{/repeat}}\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "bbe290f0-6de5-429f-954d-3334fde2de0b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/mydata/cards/bills/detail",
+      "responses": [
+        {
+          "uuid": "b0266a08-1f41-4563-a3a0-6a0fa30db958",
+          "body": "{\r\n  \"code\": \"A0000\",\r\n  \"message\": \"Success\",\r\n  \"api_tran_id\": \"AA{{faker 'string.alphanumeric' 18}}\",\r\n  \"bill_list\": [\r\n    {{setVar 'cm' (queryParamRaw 'charge_month' '202501')}}\r\n    {{setVar 'cardId' (queryParamRaw 'card_id' '-')}}\r\n    {{setVar 'settleDay' '01'}}\r\n\r\n    {{#repeat (faker 'number.int' min=2 max=10) comma=false}}\r\n    {\r\n      \"card_id\": \"YNsM7D8WwpgMsz1CBCWGmrH3\",\r\n      \"paid_date\": \"{{concat (getVar 'cm') (padStart (faker 'number.int' min=1 max=28) 2 '0')}}\",\r\n      \"paid_time\": \"{{padStart (faker 'number.int' min=0 max=23) 2 '0'}}{{padStart (faker 'number.int' min=0 max=59) 2 '0'}}{{padStart (faker 'number.int' min=15 max=59) 2 '0'}}\",\r\n      \"paid_amt\": \"{{#if (eq (faker 'number.int' min=1 max=100) 1)}}-{{multiply (faker 'number.int' min=5 max=3000) 1000}}{{else}}{{multiply (faker 'number.int' min=5 max=300) 1000}}{{/if}}\",\r\n      \"settlement_day\": \"{{getVar 'settleDay'}}\",\r\n      \"merchant_name\": \"{{oneOf (array\r\n        '쿠팡' '네이버' '스타벅스' '배달의민족' 'GS25' '이마트' '올리브영' '다이소'\r\n        'SSG닷컴' '무신사' '교보문고' '메가커피' '투썸플레이스' 'CGV'\r\n      )}}\",\r\n      \"product_type\": \"{{oneOf (array '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '01' '02' '03')}}\"\r\n    }{{#unless @last}},{{/unless}}\r\n    {{/repeat}}\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "charge_month",
+              "value": "^(19|20)\\d{2}(0[1-9]|1[0-2])$",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "84ee4002-f324-425f-918d-a3837cb957c4"
+    },
+    {
+      "type": "route",
+      "uuid": "f4bad3a2-4363-47f0-969d-10288a1d55f5"
+    },
+    {
+      "type": "route",
+      "uuid": "e787e19a-eae2-4731-adf5-28babcb66b95"
+    },
+    {
+      "type": "route",
+      "uuid": "782834df-65ae-4534-9cb3-9926bee9bdc7"
+    },
+    {
+      "type": "route",
+      "uuid": "bbe290f0-6de5-429f-954d-3334fde2de0b"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "ec03dd28-e631-4d5f-aae0-8360e9144558",
+      "id": "m3qk",
+      "name": "New data",
+      "documentation": "",
+      "value": "\r\n{\r\n  \"code\": \"A0000\",\r\n  \"message\": \"Success\",\r\n  \"api_tran_id\": \"AA{{faker 'string.alphanumeric' 18}}\",\r\n  \"res_list\": [\r\n    {\r\n      \"tran_date\": \"20250105\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250205\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250305\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250405\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250505\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250605\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250705\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250805\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20250905\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20251005\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20251105\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20251205\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260105\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260205\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260305\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260405\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260505\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260605\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260705\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260805\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20260905\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20261005\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20261105\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {\r\n      \"tran_date\": \"20261205\",\r\n      \"tran_time\": \"091530\",\r\n      \"inout_type\": \"입금\",\r\n      \"tran_type\": \"급여\",\r\n      \"printed_content\": \"급여/월급여\",\r\n      \"tran_amt\": \"5000000\"\r\n    },\r\n    {{setVar 'fromIso' (queryParamRaw 'from_date' '2025-01-01')}}\r\n    {{setVar 'toIso' (queryParamRaw 'to_date' '2025-01-31')}}\r\n\r\n    {{#repeat (faker 'number.int' min=1000 max=1500) comma=false}}\r\n    {\r\n      \"tran_date\": \"{{date (getVar 'fromIso') (getVar 'toIso') 'yyyyMMdd'}}\",\r\n      \"tran_time\": \"{{faker 'string.numeric' 6}}\",\r\n      \"inout_type\": \"출금\",\r\n      \"tran_type\": \"현금\",\r\n      \"printed_content\": \"{{oneOf (array\r\n        '식비/점심' '식비/저녁' '식비/배달' '식비/점심' '식비/저녁' '식비/배달' '식비/점심'\r\n        '카페/커피' '카페/커피' '카페/디저트'\r\n        '교통/지하철' '교통/지하철' '교통/버스' '교통/택시'\r\n        '쇼핑/쿠팡' '쇼핑/생활용품' '쇼핑/의류'\r\n        '공과금/전기' '공과금/가스' '공과금/수도'\r\n        '통신/휴대폰요금' '구독/OTT'\r\n        '의료/약국'\r\n        '문화/영화'\r\n        '보험/실손'\r\n        '기타/선물'\r\n      )}}\",\r\n      \"tran_amt\": \"{{faker 'number.int' min=5000 max=250000}}\"\r\n    }{{#unless @last}},{{/unless}}\r\n    {{/repeat}}\r\n  ]\r\n}"
+    }
+  ],
+  "callbacks": []
+}
