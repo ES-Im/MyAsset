@@ -1,6 +1,7 @@
-import { Link } from "react-router";
+import {Link} from "react-router";
 import logoDark from '@/assets/images/logo-black.png';
 import logo from '@/assets/images/logo.png';
+
 const AppLogo = ({
   height
 }) => {

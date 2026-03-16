@@ -7,9 +7,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.EnumType.*;
-import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
@@ -18,10 +17,6 @@ import static org.springframework.util.Assert.state;
 @Getter
 @Table(name = "asset")
 public class Asset extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long assetId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_key", nullable = false)
@@ -41,13 +36,13 @@ public class Asset extends BaseEntity {
     }
 
     public static Asset syncAsset(User user, AssetType assetType) {
-        state(AssetType.isSyncType(assetType), "동기화 대상 자산종류가 아닙니다 : " + assetType);
+        state(AssetType.supportSync(assetType), "동기화 대상 자산종류가 아닙니다 : " + assetType);
 
         return create(user, assetType);
     }
 
     public static Asset createAsset(User user, AssetType assetType) {
-        state(AssetType.isManualType(assetType), "수동등록 대상 자산종류가 아닙니다 : " + assetType);
+        state(AssetType.unSupportSync(assetType), "수동등록 대상 자산종류가 아닙니다 : " + assetType);
 
         return create(user, assetType);
     }

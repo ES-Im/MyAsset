@@ -3,11 +3,11 @@ package dev.es.myasset.domain.category;
 import dev.es.myasset.domain.shared.BaseEntity;
 import dev.es.myasset.domain.shared.ExpenseType;
 import dev.es.myasset.domain.user.User;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.Nullable;
 
 import static jakarta.persistence.EnumType.STRING;
 import static java.util.Objects.requireNonNull;
@@ -21,11 +21,6 @@ import static org.springframework.util.Assert.state;
     name = "category"
 )
 public class Category extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cgyId;
-
     @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_key", nullable = true)

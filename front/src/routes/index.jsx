@@ -1,5 +1,5 @@
-import { lazy } from 'react';
-import { Navigate } from 'react-router';
+import {lazy} from 'react';
+import {Navigate} from 'react-router';
 import MainLayout from '@/layouts/MainLayout';
 
 // Dashboards

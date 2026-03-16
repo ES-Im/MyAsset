@@ -1,13 +1,24 @@
-import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row } from 'react-bootstrap';
-import { LuBell } from 'react-icons/lu';
-import { TbAlertCircle, TbAlertTriangle, TbBell, TbCalendarEvent, TbCheck, TbCloudUpload, TbEditCircle, TbRocket, TbServerBolt, TbXboxXFilled } from 'react-icons/tb';
+import {Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row} from 'react-bootstrap';
+import {LuBell} from 'react-icons/lu';
+import {
+    TbAlertCircle,
+    TbAlertTriangle,
+    TbBell,
+    TbCalendarEvent,
+    TbCheck,
+    TbCloudUpload,
+    TbEditCircle,
+    TbRocket,
+    TbServerBolt,
+    TbXboxXFilled
+} from 'react-icons/tb';
 import user1 from '@/assets/images/logo.png';
 import user2 from '@/assets/images/logo.png';
 import user4 from '@/assets/images/logo.png';
 import user5 from '@/assets/images/logo.png';
 import user6 from '@/assets/images/logo.png';
 import SimpleBar from "simplebar-react";
-import { Link } from "react-router";
+import {Link} from "react-router";
 
 const messages = [{
   id: 'message-1',

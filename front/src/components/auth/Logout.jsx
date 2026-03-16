@@ -1,8 +1,8 @@
-import { logout } from '@/store/userSlice'
-import { useDispatch }  from "react-redux";
+import {logout} from '@/store/userSlice'
+import {useDispatch} from "react-redux";
 import {useEffect} from "react";
-import {Navigate, useNavigate} from "react-router-dom";
-import { http } from "@/api/http"
+import {useNavigate} from "react-router-dom";
+import {http} from "@/api/http"
 
 const LOGOUT_URL = import.meta.env.VITE_LOGOUT_PATH;
 

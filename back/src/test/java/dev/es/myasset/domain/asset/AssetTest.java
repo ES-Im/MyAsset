@@ -9,10 +9,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static dev.es.myasset.domain.asset.Asset.*;
+import static dev.es.myasset.domain.asset.Asset.createAsset;
+import static dev.es.myasset.domain.asset.Asset.syncAsset;
 import static dev.es.myasset.domain.asset.AssetType.*;
 import static dev.es.myasset.domain.user.UserFixture.createUser;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AssetTest {
 

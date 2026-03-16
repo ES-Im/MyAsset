@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useLayoutContext } from '@/context/useLayoutContext';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'react-bootstrap';
-import { LuMonitorCog, LuMoon, LuSun } from 'react-icons/lu';
-import { toPascalCase } from '@/helpers/casing';
+import {useEffect, useState} from 'react';
+import {useLayoutContext} from '@/context/useLayoutContext';
+import {Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'react-bootstrap';
+import {LuMonitorCog, LuMoon, LuSun} from 'react-icons/lu';
+import {toPascalCase} from '@/helpers/casing';
 import clsx from 'clsx';
+
 const ThemeToggler = () => {
   const {
     theme,

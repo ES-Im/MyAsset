@@ -1,5 +1,6 @@
-import { LuMaximize, LuMinimize } from 'react-icons/lu';
-import { useState } from 'react';
+import {LuMaximize, LuMinimize} from 'react-icons/lu';
+import {useState} from 'react';
+
 const FullscreenToggle = () => {
   const [fullScreenOn, setFullScreenOn] = useState(false);
   const toggleFullScreen = () => {

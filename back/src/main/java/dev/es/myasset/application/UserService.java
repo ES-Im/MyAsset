@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Slf4j
 @Service
@@ -24,7 +24,7 @@ public class UserService implements UserRegister {
 
     @Transactional
     @Override
-    public UserInfo assembleUserInfo(OAuthSignupDto providedUserInfo, LocalDateTime registerTime) {
+    public UserInfo assembleUserInfo(OAuthSignupDto providedUserInfo, Instant registerTime) {
         log.info("UserInfo 조립 시작");
 
         User savedUser = User.register(registerTime);
@@ -44,7 +44,7 @@ public class UserService implements UserRegister {
         return userInfo;
     }
 
-    public void activateUser(String userKey, LocalDateTime requestTime) {
+    public void activateUser(String userKey, Instant requestTime) {
         User user = userRepository.findByUserKey(userKey).orElseThrow(() -> new NonExistAccount());
 
         try {

@@ -4,17 +4,16 @@ import dev.es.myasset.domain.asset.Asset;
 import dev.es.myasset.domain.category.Category;
 import dev.es.myasset.domain.shared.BaseEntity;
 import dev.es.myasset.domain.shared.Money;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.Nullable;
 
 import static dev.es.myasset.domain.asset.AssetType.CARD;
 import static dev.es.myasset.domain.transaction.FlowType.OUTFLOW;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.*;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
@@ -23,10 +22,6 @@ import static org.springframework.util.Assert.state;
 @Getter
 @Table(name = "transactions")
 public class Transactions extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long tranId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="asset_id", nullable = false)

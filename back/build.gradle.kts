@@ -1,9 +1,14 @@
+import net.ltgt.gradle.errorprone.CheckSeverity
+import net.ltgt.gradle.errorprone.errorprone
+
 plugins {
     java
     id("org.springframework.boot") version "3.5.8"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.github.spotbugs") version "6.4.8"
     id("org.asciidoctor.jvm.convert") version "4.0.5"
+    id("net.ltgt.errorprone") version "5.1.0"
+    id("net.ltgt.nullaway") version "3.0.0"
 }
 
 group = "dev.es"
@@ -48,7 +53,7 @@ dependencies {
 
     // json web token (jwt)
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     // JPA
@@ -68,9 +73,23 @@ dependencies {
     add("asciidoctorExt", "org.springframework.restdocs:spring-restdocs-asciidoctor")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
+    // NullMarked
+    implementation("org.jspecify:jspecify:1.0.0")
+    errorprone("com.google.errorprone:error_prone_core:2.48.0")
+    errorprone("com.uber.nullaway:nullaway:0.13.1")
 
 }
 
+nullaway {
+    onlyNullMarked.set(true)
+}
+
+
+tasks.withType<JavaCompile>().configureEach {
+    options.errorprone {
+        check("NullAway", CheckSeverity.ERROR)
+    }
+}
 
 // snippets(코드 조각)의 Dir(디렉토리)를 전역변수로 선언
 val snippetsDir by extra { file("build/generated-snippets") }

@@ -1,37 +1,5 @@
-import { TbApps, TbBasket, TbBellRinging, TbCalendar, TbComponents, TbCreditCard, TbFolder, TbHeadset, TbLayoutDashboard, TbLock, TbLogout2, TbMessageDots, TbSettings2, TbUserCircle, TbUserHexagon, TbUsers } from 'react-icons/tb';
-import {
-    LuCalendar,
-    LuChartNoAxesCombined,
-    LuCircleGauge,
-    LuDessert,
-    LuEarth,
-    LuEyeOff,
-    LuFileInput,
-    LuFingerprint,
-    LuFireExtinguisher,
-    LuFolderOpenDot,
-    LuHandshake,
-    LuHousePlug,
-    LuInbox,
-    LuKey,
-    LuLifeBuoy,
-    LuListTree,
-    LuMapPinned,
-    LuMessageSquareDot,
-    LuNotebookText,
-    LuPanelRightClose,
-    LuPanelTop,
-    LuPencilRuler,
-    LuProportions,
-    LuReceiptText,
-    LuRss,
-    LuShieldAlert,
-    LuShieldBan,
-    LuShoppingBag,
-    LuSparkles,
-    LuTable,
-    LuUsers
-} from 'react-icons/lu';
+import {TbLogout2, TbUserCircle} from 'react-icons/tb';
+import {LuCircleGauge, LuFingerprint, LuFireExtinguisher} from 'react-icons/lu';
 
 export const userDropdownItems = [{
   label: 'Welcome back!',

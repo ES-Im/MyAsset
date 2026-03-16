@@ -6,11 +6,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-import static java.util.Objects.*;
-import static org.springframework.util.Assert.*;
+import static java.util.Objects.requireNonNull;
+import static org.springframework.util.Assert.state;
 
 @Entity
 @Table(name = "users")
@@ -19,7 +21,6 @@ import static org.springframework.util.Assert.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends NonAuditingEntity {
 
-    @Id
     @Column(name="user_key")
     private String userKey;
 
@@ -32,13 +33,13 @@ public class User extends NonAuditingEntity {
     private UserRole role;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
-    private LocalDateTime lastLoginAt;
+    private Instant lastLoginAt;
 
-    private LocalDateTime withdrawReqAt;
+    private Instant withdrawReqAt;
 
-    public static User register(LocalDateTime current) {
+    public static User register(Instant current) {
         User user = new User();
 
         user.userKey = UUID.randomUUID().toString();
@@ -52,7 +53,7 @@ public class User extends NonAuditingEntity {
 
     // Mock 객체 생성용 메서드
     static User registerForTest(
-            String userKey, UserStatus status, UserRole role, LocalDateTime createdAt, LocalDateTime lastLoginAt
+            String userKey, UserStatus status, UserRole role, Instant createdAt, Instant lastLoginAt
     ) {
         User user = new User();
 
@@ -66,14 +67,14 @@ public class User extends NonAuditingEntity {
     }
 
 
-    public void requestWithdraw(LocalDateTime current) {
+    public void requestWithdraw(Instant current) {
         state(isActive(), "Status is not active");
 
         this.status = UserStatus.WITHDRAW_PENDING;
         this.withdrawReqAt = requireNonNull(current);
     }
 
-    public void requestActive(LocalDateTime current) {
+    public void requestActive(Instant current) {
         state(status == UserStatus.DORMANT || status == UserStatus.WITHDRAW_PENDING,
                 "Status is not Dormant or Withdraw Pending");
 
@@ -83,21 +84,21 @@ public class User extends NonAuditingEntity {
     }
 
     // to-do : Domain Service scheduling
-    public void markDormant(LocalDateTime current) {
+    public void markDormant(Instant current) {
         checkProperty(UserStatus.ACTIVE, this.lastLoginAt, requireNonNull(current), 365);
 
         this.status = UserStatus.DORMANT;
     }
 
     // to-do : Domain Service scheduling
-    public void markWithdraw(LocalDateTime current) {
+    public void markWithdraw(Instant current) {
         checkProperty(UserStatus.WITHDRAW_PENDING, this.withdrawReqAt, requireNonNull(current), 30);
 
         this.status = UserStatus.WITHDRAWN;
     }
 
     //to-do : Domain Service scheduling
-    public boolean checkDeleteProperty(LocalDateTime current) {
+    public boolean checkDeleteProperty(Instant current) {
         checkProperty(UserStatus.WITHDRAWN, this.withdrawReqAt, requireNonNull(current), 90);
         return true;
     }
@@ -108,13 +109,13 @@ public class User extends NonAuditingEntity {
 
     // check condition for change status (time && status)
     private void checkProperty(UserStatus status
-                    , LocalDateTime baseDate
-                    , LocalDateTime current
+                    , Instant baseDate
+                    , Instant current
                     , long dateDiff) {
         state(this.status == status, "status 변환 조건이 맞지 않습니다. 현재 상태값 = " + this.status);
 
         state(baseDate != null, "비교 날짜가 Null 입니다.");
-        state(baseDate.isBefore(current.minusDays(dateDiff)), "경과 기간 조건이 맞지 않습니다");
+        state(baseDate.isBefore(current.minus(dateDiff, ChronoUnit.DAYS)), "경과 기간 조건이 맞지 않습니다");
     }
 
 }

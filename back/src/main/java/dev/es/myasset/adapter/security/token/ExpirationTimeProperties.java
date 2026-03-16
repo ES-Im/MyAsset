@@ -33,14 +33,14 @@ public class ExpirationTimeProperties {
     public long activateTokenExpirationMillis() { return this.activateTokenExpirationTime.toMillis(); }
 
     public int refreshCookieExpirationSeconds() {
-        return (int) (this.refreshTokenExpirationMillis()) / 1000;
+        return (int) this.refreshTokenExpirationMillis() / 1000;
     }
 
     public int activateCookieExpirationSeconds() {
-        return (int) (this.activateTokenExpirationMillis()) / 1000;
+        return (int) this.activateTokenExpirationMillis() / 1000;
     }
 
 
 
-    public int accessTokenExpirationSeconds() { return (int) (this.activateTokenExpirationMillis()) / 1000; }
+    public int accessTokenExpirationSeconds() { return (int) this.activateTokenExpirationMillis() / 1000; }
 }

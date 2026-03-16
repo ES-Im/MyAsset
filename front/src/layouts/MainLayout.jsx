@@ -1,7 +1,7 @@
 import Loader from '@/components/Loader';
-import { useLayoutContext } from '@/context/useLayoutContext';
-import { Fragment, useEffect, useState } from 'react';
-import { Outlet } from "react-router";
+import {useLayoutContext} from '@/context/useLayoutContext';
+import {Fragment, useEffect, useState} from 'react';
+import {Outlet} from "react-router";
 import Sidenav from "@/layouts/components/sidenav/index.jsx";
 import Topbar from "@/layouts/components/topbar/index.jsx";
 import Footer from "@/layouts/components/footer/index.jsx";

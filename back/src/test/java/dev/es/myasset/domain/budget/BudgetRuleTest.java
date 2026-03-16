@@ -14,9 +14,10 @@ import java.util.stream.Stream;
 import static dev.es.myasset.domain.budget.BudgetRule.createRule;
 import static dev.es.myasset.domain.budget.ValueType.AMOUNT;
 import static dev.es.myasset.domain.budget.ValueType.RATIO;
-import static dev.es.myasset.domain.user.UserFixture.createUser;
 import static dev.es.myasset.domain.shared.ExpenseType.FIXED;
-import static org.assertj.core.api.Assertions.*;
+import static dev.es.myasset.domain.user.UserFixture.createUser;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BudgetRuleTest {
 

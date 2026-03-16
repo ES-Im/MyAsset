@@ -9,10 +9,10 @@ import org.junit.jupiter.api.TestFactory;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
+import static dev.es.myasset.domain.notification.Notification.createNotification;
 import static dev.es.myasset.domain.user.UserFixture.createUser;
-import static dev.es.myasset.domain.notification.Notification.*;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class NotificationTest {
 

@@ -1,16 +1,16 @@
 package dev.es.myasset.domain.user;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class UserFixture {
 
     public static User createUser() {
-        return User.register(LocalDateTime.of(2026,1,1,6,0,0));
+        return User.register(Instant.parse("2026-01-01T00:00:00+09:00"));
     }
 
     public static User createUserWithChange(String userKey, UserStatus status, UserRole role) {
 
-        LocalDateTime time = LocalDateTime.of(2026, 01, 01, 00, 00, 00);
+        Instant time = Instant.parse("2026-01-01T09:00:00+09:00");
 
         return User.registerForTest(
                 userKey, status, role, time, time

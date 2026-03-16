@@ -1,14 +1,15 @@
-import { useLayoutContext } from '@/context/useLayoutContext';
+import {useLayoutContext} from '@/context/useLayoutContext';
 // import MessageDropdown from '@/layouts/components/topbar/components/MessageDropdown';
 import ThemeToggler from '@/layouts/components/topbar/components/ThemeToggler';
-import { Link } from "react-router";
-import { Container, FormControl } from 'react-bootstrap';
-import { TbMenu4 } from 'react-icons/tb';
+import {Link} from "react-router";
+import {Container} from 'react-bootstrap';
+import {TbMenu4} from 'react-icons/tb';
 import logoDark from '@/assets/images/logo-black.png';
 import logoSm from '@/assets/images/logo-sm.png';
 import logo from '@/assets/images/logo.png';
 import FullscreenToggle from '@/layouts/components/topbar/components/FullscreenToggle';
 import UserProfile from "@/layouts/components/topbar/components/UserProfile.jsx";
+
 const Topbar = () => {
   const {
     sidenav,

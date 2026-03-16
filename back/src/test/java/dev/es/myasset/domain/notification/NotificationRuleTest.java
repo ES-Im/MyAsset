@@ -3,7 +3,7 @@ package dev.es.myasset.domain.notification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static dev.es.myasset.domain.notification.NotificationRule.*;
+import static dev.es.myasset.domain.notification.NotificationRule.createDefaultRule;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class NotificationRuleTest {

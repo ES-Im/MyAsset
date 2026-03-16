@@ -7,11 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static dev.es.myasset.domain.user.UserRole.*;
-import static dev.es.myasset.domain.user.UserStatus.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static dev.es.myasset.domain.user.UserRole.ROLE_ADMIN;
+import static dev.es.myasset.domain.user.UserRole.ROLE_USER;
+import static dev.es.myasset.domain.user.UserStatus.ACTIVE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AccessTokenTest extends SecurityTestSupport {
 

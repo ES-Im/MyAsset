@@ -1,10 +1,11 @@
-import { useLayoutContext } from '@/context/useLayoutContext';
-import { scrollToElement } from '@/helpers/layout';
-import { menuItems } from '@/layouts/components/data';
-import { Link, useLocation } from "react-router";
-import { useEffect, useState } from 'react';
-import { Collapse } from 'react-bootstrap';
-import { TbChevronDown } from 'react-icons/tb';
+import {useLayoutContext} from '@/context/useLayoutContext';
+import {scrollToElement} from '@/helpers/layout';
+import {menuItems} from '@/layouts/components/data';
+import {Link, useLocation} from "react-router";
+import {useEffect, useState} from 'react';
+import {Collapse} from 'react-bootstrap';
+import {TbChevronDown} from 'react-icons/tb';
+
 const MenuItemWithChildren = ({
   item,
   openMenuKey,

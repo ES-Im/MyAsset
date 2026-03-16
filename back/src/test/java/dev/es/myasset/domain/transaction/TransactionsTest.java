@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import java.math.BigDecimal;
 
-import static dev.es.myasset.domain.asset.AssetType.*;
+import static dev.es.myasset.domain.asset.AssetType.CARD;
 import static dev.es.myasset.domain.category.Category.createCustomCategory;
 import static dev.es.myasset.domain.common.AssetFixture.getAsset;
-import static dev.es.myasset.domain.user.UserFixture.createUser;
 import static dev.es.myasset.domain.transaction.FlowType.OUTFLOW;
-import static dev.es.myasset.domain.transaction.PayStatus.*;
+import static dev.es.myasset.domain.transaction.PayStatus.APPROVED;
 import static dev.es.myasset.domain.transaction.Transactions.createCardTransaction;
 import static dev.es.myasset.domain.transaction.Transactions.createNonCardTransaction;
+import static dev.es.myasset.domain.user.UserFixture.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

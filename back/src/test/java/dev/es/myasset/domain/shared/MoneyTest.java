@@ -45,7 +45,7 @@ class MoneyTest {
     @DisplayName("Money 객체 생성 성공 테스트")
     void createMoney_success(BigDecimal value, String description) {
         // when then
-        assertThat(new Money(value));
+        assertThat(new Money(value)).isNotNull();
     }
 
     private static Stream<Arguments> validAddMoneyParameters() {

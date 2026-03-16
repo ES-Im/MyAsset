@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import java.time.YearMonth;
 
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,10 +21,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
         name="user_monthly_summary"
 )
 public class UserMonthlySummary extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long summaryId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_key", nullable = false)

@@ -1,4 +1,5 @@
-import { Spinner } from 'react-bootstrap';
+import {Spinner} from 'react-bootstrap';
+
 const Loader = ({
   height = '100%',
   width = '100%',

@@ -2,7 +2,10 @@ package dev.es.myasset.adapter.security.token;
 
 import dev.es.myasset.adapter.security.redis.RedisManager;
 import dev.es.myasset.application.UserService;
-import dev.es.myasset.application.exception.oauth.*;
+import dev.es.myasset.application.exception.oauth.ExpiredRefreshTokenException;
+import dev.es.myasset.application.exception.oauth.InvalidRefreshTokenException;
+import dev.es.myasset.application.exception.oauth.InvalidTokenException;
+import dev.es.myasset.application.exception.oauth.MissingTokenException;
 import dev.es.myasset.application.required.UserRepository;
 import dev.es.myasset.domain.user.User;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 
 /*
@@ -68,7 +71,7 @@ public class TokenService {
         }
     }
 
-    public boolean activateUserByToken(String activateToken, LocalDateTime requestTime, HttpServletResponse response) {
+    public boolean activateUserByToken(String activateToken, Instant requestTime, HttpServletResponse response) {
 
         jwtCookieManager.removeActivateCookie(response);
 

@@ -1,7 +1,7 @@
 package dev.es.myasset.domain.budget;
 
-import dev.es.myasset.domain.shared.ExpenseType;
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.ExpenseType;
 import dev.es.myasset.domain.shared.Money;
 import dev.es.myasset.domain.shared.YearMthConverter;
 import dev.es.myasset.domain.user.User;
@@ -19,10 +19,6 @@ import static jakarta.persistence.EnumType.STRING;
 @Getter
 @Table(name = "budget")
 public class Budget extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long budgetId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_key", nullable = false)

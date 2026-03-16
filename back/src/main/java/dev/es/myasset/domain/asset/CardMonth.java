@@ -1,18 +1,18 @@
 package dev.es.myasset.domain.asset;
 
-import dev.es.myasset.domain.shared.Money;
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.Money;
 import dev.es.myasset.domain.shared.YearMthConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.YearMonth;
+import java.time.ZoneId;
 
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.util.Objects.requireNonNull;
 
 @Entity
@@ -23,10 +23,6 @@ import static java.util.Objects.requireNonNull;
     name = "card_mth"
 )
 public class CardMonth extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long cardMthId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="card_id", nullable = false)
@@ -43,14 +39,14 @@ public class CardMonth extends BaseEntity {
     )
     private Money mthUsedAmt;
 
-    public static CardMonth createNewCardMonth(Card card, LocalDate now) {
+    public static CardMonth createNewCardMonth(Card card, Instant now) {
         requireNonNull(card);
         requireNonNull(now);
 
         CardMonth cardMonth = new CardMonth();
 
         cardMonth.card = card;
-        cardMonth.billingMth = YearMonth.from(now);
+        cardMonth.billingMth = YearMonth.from(now.atZone(ZoneId.of("Asia/Seoul")));
         cardMonth.mthUsedAmt = Money.zero();
 
         return cardMonth;

@@ -1,7 +1,7 @@
 import deleteIcon from '@/assets/images/user-shield.png';
 import AppLogo from '@/components/AppLogo.jsx';
 import {appName, currentYear} from '@/helpers/index.js';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import {Button, Card, Col, Container, Row} from 'react-bootstrap';
 import {http} from "@/api/http.js";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";

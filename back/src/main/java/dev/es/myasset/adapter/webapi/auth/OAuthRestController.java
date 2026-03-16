@@ -5,9 +5,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Slf4j
 @RestController
@@ -36,7 +39,8 @@ public class OAuthRestController {
     @PostMapping("/activateUser")
     public ResponseEntity<?> activateUser(@CookieValue(name="activateToken", required = true) String activateToken,
                                           HttpServletResponse response) {
-        boolean result = tokenService.activateUserByToken(activateToken, LocalDateTime.now(), response);
+
+        boolean result = tokenService.activateUserByToken(activateToken, Instant.now(), response);
         log.info("계정활성화 중");
         if(result) {
             log.info("성공");

@@ -1,19 +1,17 @@
 package dev.es.myasset.domain.asset;
 
-import dev.es.myasset.domain.shared.BaseEntity;
 import dev.es.myasset.domain.shared.NonAuditingEntity;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.YearMonth;
 
-import static jakarta.persistence.EnumType.*;
-import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static java.util.Objects.requireNonNull;
 
 
@@ -23,9 +21,9 @@ import static java.util.Objects.requireNonNull;
 @Table(name = "card")
 public class Card extends NonAuditingEntity {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long cardId;
+    private String cardNumMasked;   // 마스킹된 카드번호
+
+    private String cardName;    // 카드 상품명
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "asset_id", nullable = false)
@@ -47,7 +45,9 @@ public class Card extends NonAuditingEntity {
     @JoinColumn(name = "bank_acct_id")
     private BankAccount bankAccount;
 
-    private LocalDateTime lastSyncedAt;
+    private YearMonth lastSyncedChargeYearMonth;
+
+    private Long lastSyncedSettlementSeqNo; // 주) 카드청구기본정보조회 응답 메시지 상의 청구년월 및 결제순번
 
     @Builder
     public Card(Asset asset,
@@ -55,12 +55,12 @@ public class Card extends NonAuditingEntity {
                 CardType cardType,
                 Integer billingDay,
                 BankAccount bankAccount,
-                LocalDateTime lastSyncedAt) {
+                Long lastSyncedSettlementSeqNo) {
         this.asset = requireNonNull(asset);
         this.cardCode = requireNonNull(cardCode);
         this.cardType = requireNonNull(cardType);
         this.billingDay = requireNonNull(billingDay);
         this.bankAccount = bankAccount;
-        this.lastSyncedAt = lastSyncedAt;
+        this.lastSyncedSettlementSeqNo = lastSyncedSettlementSeqNo;
     }
 }

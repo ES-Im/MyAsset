@@ -1,7 +1,8 @@
-import { createContext, use, useState } from 'react';
-import { ToastBody, ToastHeader } from 'react-bootstrap';
+import {createContext, use, useState} from 'react';
+import {ToastBody, ToastHeader} from 'react-bootstrap';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
+
 const NotificationContext = createContext(undefined);
 function Toastr({
   show,

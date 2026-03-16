@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -139,7 +139,7 @@ public class OAuthRestControllerDocsTest extends RestDocsSupport {
     void success_activateUser() throws Exception {
         String activateToken = "dummy token";
 
-        Mockito.when(tokenService.activateUserByToken(anyString(), any(LocalDateTime.class), any(HttpServletResponse.class))
+        Mockito.when(tokenService.activateUserByToken(anyString(), any(Instant.class), any(HttpServletResponse.class))
         ).thenReturn(true);
 
         mockMvc.perform(post("/api/auth/activateUser")
@@ -166,7 +166,7 @@ public class OAuthRestControllerDocsTest extends RestDocsSupport {
     void fail1_activateUser() throws Exception {
         String activateToken = "dummy token";
 
-        Mockito.when(tokenService.activateUserByToken(anyString(), any(LocalDateTime.class), any(HttpServletResponse.class))
+        Mockito.when(tokenService.activateUserByToken(anyString(), any(Instant.class), any(HttpServletResponse.class))
         ).thenReturn(false);
 
         mockMvc.perform(post("/api/auth/activateUser")

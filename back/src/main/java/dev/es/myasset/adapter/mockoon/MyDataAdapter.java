@@ -20,7 +20,7 @@ public class MyDataAdapter implements MyDataPort {
     }
 
     @Override
-    public String ping() {
+    public String getToken() {
         return restClient.get()
                 .uri("/users")
                 .retrieve()

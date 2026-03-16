@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,45 +44,43 @@ public class JwtTokenUtil {
     public String generateAccessToken(String userKey,
                                       String role) {
 
-        long currentTimeMillis = System.currentTimeMillis();
-        Date issuedAt = new Date(currentTimeMillis);
-        Date expiredAt = new Date(currentTimeMillis + expirationTimeProperties.accessTokenExpirationMillis());
+        Instant issuedAt = Instant.now();
+        Instant expiredAt = issuedAt.plusMillis(expirationTimeProperties.accessTokenExpirationMillis());
 
         return Jwts.builder()
                 .claim("tokenType", "ACCESS")
                 .setSubject(userKey)
                 .claim("role", role)
-                .setIssuedAt(issuedAt)
-                .setExpiration(expiredAt)
+                .setIssuedAt(Date.from(issuedAt))
+                .setExpiration(Date.from(expiredAt))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public String generateRefreshToken(String userKey) {
 
-        long currentTimeMillis = System.currentTimeMillis();
-        Date issuedAt = new Date(currentTimeMillis);
-        Date expiredAt = new Date(currentTimeMillis + expirationTimeProperties.refreshTokenExpirationMillis());
+        Instant issuedAt = Instant.now();
+        Instant expiredAt = issuedAt.plusMillis(expirationTimeProperties.refreshTokenExpirationMillis());
 
         return Jwts.builder()
                 .claim("tokenType", "REFRESH")
                 .setSubject(userKey)
-                .setIssuedAt(issuedAt)
-                .setExpiration(expiredAt)
+                .setIssuedAt(Date.from(issuedAt))
+                .setExpiration(Date.from(expiredAt))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public String generateActivateToken(String userKey) {
-        long currentTimeMillis = System.currentTimeMillis();
-        Date issuedAt = new Date(currentTimeMillis);
-        Date expiredAt = new Date(currentTimeMillis + expirationTimeProperties.activateTokenExpirationMillis());
+
+        Instant issuedAt = Instant.now();
+        Instant expiredAt = issuedAt.plusMillis(expirationTimeProperties.activateTokenExpirationMillis());
 
         return Jwts.builder()
                 .claim("tokenType", "ACTIVATE")
                 .setSubject(userKey)
-                .setIssuedAt(issuedAt)
-                .setExpiration(expiredAt)
+                .setIssuedAt(Date.from(issuedAt))
+                .setExpiration(Date.from(expiredAt))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }

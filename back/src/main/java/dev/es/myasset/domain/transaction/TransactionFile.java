@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -23,10 +24,6 @@ import static org.springframework.util.Assert.state;
 public class TransactionFile extends BaseEntity {
 
     private static final long MAX_FILE_SIZE = 10;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fileId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tran_id", nullable = false)
@@ -56,7 +53,7 @@ public class TransactionFile extends BaseEntity {
         tranFile.transaction = requireNonNull(transaction);
         tranFile.sourceFileName = splitName[0];
         tranFile.destinationFileName = UUID.randomUUID().toString();
-        tranFile.ext = EXT.valueOf(splitName[1].toUpperCase());
+        tranFile.ext = EXT.valueOf(splitName[1].toUpperCase(Locale.ROOT));
         tranFile.size = (int) size;
 
         return tranFile;

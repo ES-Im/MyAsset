@@ -1,12 +1,11 @@
 package dev.es.myasset.adapter.security.oauth.handler;
 
-import dev.es.myasset.adapter.security.token.JwtCookieManager;
-import dev.es.myasset.adapter.security.token.JwtTokenUtil;
-import dev.es.myasset.adapter.security.redis.RedisManager;
 import dev.es.myasset.adapter.security.oauth.provider.GoogleOAuthUserInfo;
 import dev.es.myasset.adapter.security.oauth.provider.KakaoOAuthUserInfo;
 import dev.es.myasset.adapter.security.oauth.provider.NaverOAuthUserInfo;
-import dev.es.myasset.adapter.security.token.TokenService;
+import dev.es.myasset.adapter.security.redis.RedisManager;
+import dev.es.myasset.adapter.security.token.JwtCookieManager;
+import dev.es.myasset.adapter.security.token.JwtTokenUtil;
 import dev.es.myasset.application.dto.OAuthSignupDto;
 import dev.es.myasset.application.exception.oauth.InActivatedAccount;
 import dev.es.myasset.application.exception.user.NonExistAccount;
@@ -28,7 +27,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Map;
 
 import static dev.es.myasset.domain.user.UserStatus.ACTIVE;
@@ -41,7 +40,6 @@ import static dev.es.myasset.domain.user.UserStatus.WITHDRAWN;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
-    private final TokenService tokenService;
     @Value("${app.frontend.base-url}")
     private String BASE_FRONT_URL;
 
@@ -87,7 +85,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             log.info("신규유저 - 회원등록");
 
             try {
-                userInfo = userRegister.assembleUserInfo(oAuthSignupDto, LocalDateTime.now());
+                userInfo = userRegister.assembleUserInfo(oAuthSignupDto, Instant.now());
             } catch (DataIntegrityViolationException e) {
                 log.info("중복 이메일, UserInfo 등록 실패");
                 getRedirectStrategy().sendRedirect(request, response, BASE_FRONT_URL + "/auth/sign-in?error=duplicate");

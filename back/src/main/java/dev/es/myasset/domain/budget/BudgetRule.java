@@ -1,7 +1,7 @@
 package dev.es.myasset.domain.budget;
 
-import dev.es.myasset.domain.shared.ExpenseType;
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.ExpenseType;
 import dev.es.myasset.domain.shared.Money;
 import dev.es.myasset.domain.user.User;
 import jakarta.persistence.*;
@@ -12,10 +12,10 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 
-import static dev.es.myasset.domain.budget.ValueType.*;
+import static dev.es.myasset.domain.budget.ValueType.AMOUNT;
+import static dev.es.myasset.domain.budget.ValueType.RATIO;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
@@ -25,10 +25,6 @@ import static org.springframework.util.Assert.state;
 @Table(name = "budget_rule")
 @ToString(exclude = {"user"})
 public class BudgetRule extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long bgtRuleId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_key", nullable = true)

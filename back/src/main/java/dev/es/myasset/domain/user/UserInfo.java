@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 @Entity
 @Getter
@@ -19,7 +19,6 @@ import static java.util.Objects.*;
         name = "user_info")
 public class UserInfo extends NonAuditingEntity {
 
-    @Id
     private String userKey;
 
     @MapsId

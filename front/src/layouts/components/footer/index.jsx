@@ -1,5 +1,6 @@
-import { appName, author, currentYear } from '@/helpers';
-import { Col, Container, Row } from 'react-bootstrap';
+import {appName, author, currentYear} from '@/helpers';
+import {Col, Container, Row} from 'react-bootstrap';
+
 const Footer = () => {
   return <footer className="footer">
       <Container fluid>

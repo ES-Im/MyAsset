@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from 'react-redux';
 
 import axios from 'axios';
 
-import { setUserFromToken } from "@/store/userSlice.js";
-import { setAccessToken } from "@/store/authSlice.js";
+import {setUserFromToken} from "@/store/userSlice.js";
+import {setAccessToken} from "@/store/authSlice.js";
 
 const CALLBACK_PATH =  import.meta.env.VITE_SERVER_BASE_URL + import.meta.env.VITE_ISSUE_TOKEN_PATH;
 

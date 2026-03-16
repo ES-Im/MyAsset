@@ -1,7 +1,7 @@
 package dev.es.myasset.application.provided;
 
 import dev.es.myasset.application.required.UserRepository;
-import dev.es.myasset.domain.user.*;
+import dev.es.myasset.domain.user.User;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;

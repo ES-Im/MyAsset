@@ -1,5 +1,6 @@
-import { LayoutProvider } from '@/context/useLayoutContext';
-import { NotificationProvider } from '@/context/useNotificationContext';
+import {LayoutProvider} from '@/context/useLayoutContext';
+import {NotificationProvider} from '@/context/useNotificationContext';
+
 const AppWrapper = ({
   children
 }) => {

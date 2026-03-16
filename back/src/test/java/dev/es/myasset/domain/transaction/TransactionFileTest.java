@@ -8,10 +8,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.regex.Pattern;
 
 import static dev.es.myasset.domain.common.TransactionsFixture.cardTransaction;
-import static dev.es.myasset.domain.transaction.EXT.*;
+import static dev.es.myasset.domain.transaction.EXT.PNG;
 import static dev.es.myasset.domain.transaction.TransactionFile.createTransactionFile;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TransactionFileTest {
 

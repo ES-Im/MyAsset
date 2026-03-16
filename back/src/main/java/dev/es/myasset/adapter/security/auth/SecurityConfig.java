@@ -1,9 +1,9 @@
 package dev.es.myasset.adapter.security.auth;
 
 
+import dev.es.myasset.adapter.security.filter.JwtAuthenticationFilter;
 import dev.es.myasset.adapter.security.oauth.handler.OAuth2LoginFailHandler;
 import dev.es.myasset.adapter.security.oauth.handler.OAuth2LoginSuccessHandler;
-import dev.es.myasset.adapter.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/**", "/oauth2/**")
+                .securityMatcher("/api/**", "/oauth2/**", "/login/oauth2/**")
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)

@@ -1,7 +1,7 @@
 package dev.es.myasset.domain.asset;
 
-import dev.es.myasset.domain.shared.Money;
 import dev.es.myasset.domain.shared.BaseEntity;
+import dev.es.myasset.domain.shared.Money;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.EnumType.STRING;
-import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.FetchType.LAZY;
 import static java.util.Objects.requireNonNull;
 
 @Entity
@@ -23,10 +22,6 @@ import static java.util.Objects.requireNonNull;
         name="stock_account"
 )
 public class StockAccount extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long stockAcctId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="asset_id", nullable = false)

@@ -1,12 +1,12 @@
 import logoDark from '@/assets/images/logo-black.png';
 import logoSm from '@/assets/images/logo-sm.png';
 import logo from '@/assets/images/logo.png';
-import { useLayoutContext } from '@/context/useLayoutContext';
+import {useLayoutContext} from '@/context/useLayoutContext';
 import AppMenu from '@/layouts/components/sidenav/components/AppMenu';
-import UserProfile from '@/layouts/components/sidenav/components/UserProfile';
-import { Link } from "react-router";
-import { TbMenu4, TbX } from 'react-icons/tb';
+import {Link} from "react-router";
+import {TbMenu4, TbX} from 'react-icons/tb';
 import SimpleBar from "simplebar-react";
+
 const Sidenav = () => {
   const {
     sidenav,

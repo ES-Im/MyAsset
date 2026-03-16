@@ -17,7 +17,7 @@ public class MyDataApi {
 
     @GetMapping("/users")
     public String ping() {
-        return myDataPort.ping();
+        return myDataPort.getToken();
     }
 
 

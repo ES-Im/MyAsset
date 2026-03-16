@@ -13,7 +13,7 @@ class EmailTest {
     @ValueSource(strings = {"abc@gmail.com", "0@naver.com", "sadjldklasddjald28@kakao.com"})
     @DisplayName("이메일 형식이 맞아야 등록이 된다.")
     void validateEmail_success(String value) {
-        assertThat(new Email(value));
+        assertThat(new Email(value)).isNotNull();
     }
 
     @ParameterizedTest(name = "{index} ==> ''{0}''")

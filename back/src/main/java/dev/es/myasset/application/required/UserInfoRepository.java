@@ -1,14 +1,14 @@
 package dev.es.myasset.application.required;
 
 import dev.es.myasset.domain.user.UserInfo;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
 
 /*
  * 회원 개인정보 정책과 관련하여 Null 처리를 위한 인터페이스 (batch/정책 처리에서 이용)
  */
-public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
+public interface UserInfoRepository extends Repository<UserInfo, Long> {
 
     UserInfo save(UserInfo userInfo);
 

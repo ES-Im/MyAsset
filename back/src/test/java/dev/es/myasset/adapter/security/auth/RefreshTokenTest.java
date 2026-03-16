@@ -31,7 +31,7 @@ public class RefreshTokenTest extends SecurityTestSupport {
         ).andExpect(cookie().maxAge("refreshToken", 0)
         );
 
-        assertThat(!existRefreshToken("user"));
+        assertThat(!existRefreshToken("user")).isTrue();
     }
 
     @Test
@@ -48,7 +48,7 @@ public class RefreshTokenTest extends SecurityTestSupport {
         ).andExpect(cookie().exists("refreshToken")
         );
 
-        assertThat(existRefreshToken("user"));
+        assertThat(existRefreshToken("user")).isTrue();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class RefreshTokenTest extends SecurityTestSupport {
         ).andExpect(status().isUnauthorized()
         ).andExpect(cookie().doesNotExist("refreshToken"));
 
-        assertThat(existRefreshToken("expiredUser"));
+        assertThat(existRefreshToken("expiredUser")).isTrue();
     }
 
     @Test
@@ -79,7 +79,7 @@ public class RefreshTokenTest extends SecurityTestSupport {
         ).andExpect(status().isUnauthorized()
         ).andExpect(cookie().doesNotExist("refreshToken"));
 
-        assertThat(existRefreshToken("expiredUser"));
+        assertThat(existRefreshToken("expiredUser")).isTrue();
     }
 
     @Test
@@ -94,7 +94,7 @@ public class RefreshTokenTest extends SecurityTestSupport {
         ).andExpect(status().isUnauthorized()
         ).andExpect(cookie().doesNotExist("refreshToken"));
 
-        assertThat(existRefreshToken("expiredUser"));
+        assertThat(existRefreshToken("expiredUser")).isTrue();
     }
 
     private boolean existRefreshToken(String refreshToken) {

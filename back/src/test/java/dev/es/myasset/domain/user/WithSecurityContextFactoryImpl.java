@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Component
 public class WithSecurityContextFactoryImpl implements WithSecurityContextFactory<WithMockCustomUser> {
@@ -22,8 +22,8 @@ public class WithSecurityContextFactoryImpl implements WithSecurityContextFactor
                 annotation.userKey(),
                 annotation.userStatus(),
                 annotation.role(),
-                LocalDateTime.parse(annotation.createdAt()),
-                LocalDateTime.parse(annotation.lastLoginAt())
+                Instant.parse(annotation.createdAt()),
+                Instant.parse(annotation.lastLoginAt())
         );
 
         CustomUserDetails customUserDetails = new CustomUserDetails(user);

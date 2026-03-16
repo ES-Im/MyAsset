@@ -24,9 +24,9 @@ class AssetTypeTest {
     @MethodSource("syncTypes")
     @DisplayName("자산 타입이 동기화 대상인지 체크한다.")
     @ParameterizedTest(name = "{index} ==>: ''{0}'' 일때 동기화 가능여부는 ''{1}''이다.")
-    void isSyncTypeTest(AssetType assetType, boolean expect) {
+    void supportSyncTest(AssetType assetType, boolean expect) {
 
-        assertThat(isSyncType(assetType)).isEqualTo(expect);
+        assertThat(supportSync(assetType)).isEqualTo(expect);
     }
 
     private static Stream<Arguments> manualTypes() {
@@ -41,7 +41,7 @@ class AssetTypeTest {
     @MethodSource("manualTypes")
     @DisplayName("자산 타입이 수기 등록 대상인지 체크한다.")
     @ParameterizedTest(name = "{index} ==> ''{0}''일 때 수기 등록 가능여부는 ''{1}''이다.")
-    void isManualTypeTest(AssetType assetType, boolean expect) {
-        assertThat(isManualType(assetType)).isEqualTo(expect);
+    void unSupportSyncTest(AssetType assetType, boolean expect) {
+        assertThat(unSupportSync(assetType)).isEqualTo(expect);
     }
 }

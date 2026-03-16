@@ -20,10 +20,6 @@ import static java.util.Objects.requireNonNull;
 )
 public class NotificationRule extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long notiRuleId;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_key", nullable = false)
     private User user;  // default = 시스템 디폴트 설정

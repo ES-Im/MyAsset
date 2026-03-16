@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Embeddable
 public record Money(
         BigDecimal money
-) {
+) implements Comparable<Money> {
     public Money {
         if(money == null || money.compareTo(BigDecimal.ZERO) < 0) {
            throw new IllegalArgumentException("금액은 음수가 될 수 없습니다.");
@@ -42,7 +42,8 @@ public record Money(
         return new Money(money.multiply(param));
     }
 
-    public int compareTo(Money comparedMoney) {
-        return this.money.compareTo(comparedMoney.money);
+    @Override
+    public int compareTo(Money o) {
+        return this.money.compareTo(o.money);
     }
 }

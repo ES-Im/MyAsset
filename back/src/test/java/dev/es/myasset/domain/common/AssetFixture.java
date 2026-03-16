@@ -7,7 +7,7 @@ import dev.es.myasset.domain.user.User;
 public class AssetFixture {
 
     public static Asset getAsset(AssetType types, User user) {
-        if(types.isSyncType()) {
+        if(types.supportSync(types)) {
             return Asset.syncAsset(user, types);
         }
 

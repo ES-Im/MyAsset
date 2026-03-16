@@ -16,11 +16,11 @@ public enum AssetType {
         this.isSyncType = isSyncType;
     }
 
-    public static boolean isSyncType(AssetType assetType) {
+    public static boolean supportSync(AssetType assetType) {
         return assetType.isSyncType;
     }
 
-    public static boolean isManualType(AssetType assetType) {
+    public static boolean unSupportSync(AssetType assetType) {
         return !assetType.isSyncType;
     }
 

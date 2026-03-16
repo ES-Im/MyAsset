@@ -1,4 +1,4 @@
-@NonNullApi
+@NullMarked
 package dev.es.myasset.domain;
 
-import org.springframework.lang.NonNullApi;
+import org.jspecify.annotations.NullMarked;

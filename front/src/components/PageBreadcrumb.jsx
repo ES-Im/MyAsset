@@ -1,7 +1,8 @@
-import { Link } from "react-router";
-import { BreadcrumbItem } from 'react-bootstrap';
-import { TbChevronRight } from 'react-icons/tb';
+import {Link} from "react-router";
+import {BreadcrumbItem} from 'react-bootstrap';
+import {TbChevronRight} from 'react-icons/tb';
 import PageMetaData from "@/components/PageMetaData";
+
 const PageBreadcrumb = ({
   title,
   subtitle

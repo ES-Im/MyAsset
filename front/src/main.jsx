@@ -9,23 +9,23 @@ import 'flatpickr/dist/flatpickr.min.css';
 import 'jsvectormap/dist/css/jsvectormap.min.css';
 import 'ladda/dist/ladda.min.css';
 import 'leaflet/dist/leaflet.css';
-import { StrictMode } from 'react';
+import {StrictMode} from 'react';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.min.css';
 import 'react-day-picker/style.css';
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-quill-new/dist/quill.bubble.css';
 import 'react-quill-new/dist/quill.core.css';
 import 'react-quill-new/dist/quill.snow.css';
-import { BrowserRouter } from "react-router";
+import {BrowserRouter} from "react-router";
 import 'simplebar-react/dist/simplebar.min.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import App from './App';
 import AppWrapper from "./components/AppWrapper";
 import {Provider} from "react-redux";
-import { store } from '@/store/store.js';
+import {store} from '@/store/store.js';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>

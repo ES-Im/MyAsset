@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.springframework.util.Assert.state;
 
 @Entity
@@ -18,10 +17,6 @@ import static org.springframework.util.Assert.state;
 @Getter
 @Table(name = "notification")
 public class Notification extends NonAuditingEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long notiId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_key", nullable = false)

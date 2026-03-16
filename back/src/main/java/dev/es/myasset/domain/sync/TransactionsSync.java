@@ -8,21 +8,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "transactions_sync")
 public class TransactionsSync extends NonAuditingEntity {
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long tranSyncId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tran_id", nullable = false)
@@ -44,8 +39,8 @@ public class TransactionsSync extends NonAuditingEntity {
     private SyncStatus syncStatus;
 
     @Column(nullable = false)
-    private LocalDateTime reqAt;
+    private Instant reqAt;
 
     @Column(nullable = false)
-    private LocalDateTime completedAt;
+    private Instant completedAt;
 }

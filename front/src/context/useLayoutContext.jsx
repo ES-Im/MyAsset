@@ -1,7 +1,8 @@
-import { createContext, use, useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
-import { debounce } from '@/helpers/debounce';
-import { toggleAttribute } from '@/helpers/layout';
+import {createContext, use, useCallback, useEffect, useMemo, useState} from 'react';
+import {useLocalStorage} from 'usehooks-ts';
+import {debounce} from '@/helpers/debounce';
+import {toggleAttribute} from '@/helpers/layout';
+
 const INIT_STATE = {
   skin: 'default',
   theme: 'light',
